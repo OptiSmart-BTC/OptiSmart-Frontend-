@@ -10,6 +10,7 @@ function Welcome() {
         <Navbar />
         <div className='Welcome'>
           <h1 className='text1'>Bienvenido a BTC OPTI</h1>
+          <h2>OPTI 2.0</h2>
         </div>
     </Grid>
     </>
