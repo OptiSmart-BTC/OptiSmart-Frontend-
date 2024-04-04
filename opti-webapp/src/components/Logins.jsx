@@ -11,7 +11,7 @@ function Logins() {
 
     // Verifica las credenciales hardcodeadas
     if (username === 'BTC1' && password === 'BTC-OPTI') {
-      navigate('/bienvenida'); // Redirige a la página de Bienvenida
+      navigate('/Welcome'); // Redirige a la página de Bienvenida
     } else {
       alert('Usuario o contraseña incorrectos');
     }
