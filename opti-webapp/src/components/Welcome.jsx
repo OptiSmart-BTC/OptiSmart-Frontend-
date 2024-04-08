@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar.jsx';
-import './../styles/welcome.css'; // Make sure to create a corresponding CSS file
+import './../styles/welcome.css'; 
 import Grid from '@mui/material/Unstable_Grid2';
 
 function Welcome() {

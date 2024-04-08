@@ -1,0 +1,149 @@
+/* Estilos del contenedor principal */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  height: 100vh;
+  position: relative;
+  background-color: #f5f3f0; 
+}
+
+/* Estilos del fondo azul en el lado derecho */
+.login-background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 45%; 
+  background: url('/images/LogIn.jpg') no-repeat center center;
+  background-size: cover;
+  z-index: 1;
+}
+
+/* Estilos para el formulario de inicio de sesión */
+.login-form {
+  position: absolute;
+  left: 1%; 
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95); 
+  border-radius: 50px; 
+  padding: 100px; 
+  width: 40%; 
+  height: auto; 
+  min-height: 500px; 
+  max-width: 600px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden; 
+}
+
+/* Estilos para los campos de entrada, botones, etc */
+.input-field {
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px; 
+}
+
+.input-icon {
+  position: absolute;
+  left: 20px; 
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  z-index: 3;
+}
+
+.input-field input {
+  width: 100%;
+  padding: 20px 20px 20px 50px; 
+  border-radius: 30px; 
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box; 
+}
+
+/* Estilos para el botón de inicio de sesión */
+.login-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 30px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px; 
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para el checkbox de recordar usuario */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  width: 100%; 
+  padding-left: 0; 
+  margin-left: -20px; 
+  margin-bottom: 20px; 
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 10px; 
+}
+
+/* Estilos para el botón de inicio de sesión */
+.login-button {
+  margin-top: 80px;
+}
+
+/* Estilo para recuperar contraseña */
+.recover {
+  position: absolute; 
+  right: 100px; 
+  bottom: 100px; 
+  margin-bottom: 0; 
+}
+
+.recover a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.recover a:hover {
+  text-decoration: underline;
+}
+
+/* Estilo para el título del formulario */
+h2 {
+  color: #333;
+  margin-bottom: 30px; 
+}
+
+/*Logo BTC*/
+.logo-btc {
+  width: 650px; 
+  position: absolute;
+  top: 160px; 
+  right: 25px; 
+  z-index: 3; 
+}
+
+/* Estilo de texto */
+.welcome-text {
+  position: absolute;
+  top: 450px; 
+  right: 2.5%;
+  color: white; 
+  font-size: 3.5rem;
+  z-index: 2;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  
+}
+
