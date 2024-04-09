@@ -5,7 +5,8 @@
   justify-content: center; 
   height: 100vh;
   position: relative;
-  background-color: #f5f3f0; 
+  background-color: #f5f3f0;
+  background-color: #DFDFDF;
 }
 
 /* Estilos del fondo azul en el lado derecho */
@@ -23,12 +24,12 @@
 /* Estilos para el formulario de inicio de sesión */
 .login-form {
   position: absolute;
-  left: 1%; 
+  left: 6vw; 
   z-index: 2;
-  background: rgba(255, 255, 255, 0.95); 
-  border-radius: 50px; 
-  padding: 100px; 
-  width: 40%; 
+  background: rgba(255, 255, 255, 0.98); 
+  border-radius: 30px; 
+  padding: 1vh 2vw 4vh; 
+  width: 50vw; 
   height: auto; 
   min-height: 500px; 
   max-width: 600px; 
@@ -66,11 +67,11 @@
 
 /* Estilos para el botón de inicio de sesión */
 .login-button {
-  width: 100%;
+  width: 30vw;
   padding: 15px;
   border: none;
   border-radius: 30px;
-  background-color: #007bff;
+  background-color: #0E64D2;
   color: white;
   font-size: 1rem;
   cursor: pointer;
@@ -99,7 +100,7 @@
 
 /* Estilos para el botón de inicio de sesión */
 .login-button {
-  margin-top: 80px;
+  margin-top: 10vh;
 }
 
 /* Estilo para recuperar contraseña */
@@ -122,28 +123,30 @@
 
 /* Estilo para el título del formulario */
 h2 {
-  color: #333;
   margin-bottom: 30px; 
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  font-size: 3rem;
 }
 
 /*Logo BTC*/
 .logo-btc {
-  width: 650px; 
+  width: 40vw; 
   position: absolute;
-  top: 160px; 
-  right: 25px; 
+  top: 27vh; 
+  right: 3vw; 
   z-index: 3; 
 }
 
 /* Estilo de texto */
 .welcome-text {
   position: absolute;
-  top: 450px; 
-  right: 2.5%;
+  top: 53vh; 
+  right: 6vw;
   color: white; 
-  font-size: 3.5rem;
+  font-size: 3vw;
   z-index: 2;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
   
 }
-

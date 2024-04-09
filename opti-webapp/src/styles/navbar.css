@@ -5,14 +5,13 @@
     flex-direction: column;
     flex: 1;
 
-    height: 100vh;
-    width: 23vw;
+    height: 101vh;
     background-color: #FFFFFF;
     color: black; 
     box-sizing: border-box;
     margin-left: 0;
 
-    box-shadow: 0 0 10px #727272; /* Add a shadow to the navbar */
+    box-shadow: 0 0 10px #727272;
   }
   
   .navbar-header h1 {
@@ -76,6 +75,11 @@
     padding: 15px 20px;
     background-color: #fdfdfd;
   }
+
+  .dropdown-item:hover {
+    background-color: #dcdcdc;
+    cursor: pointer;
+  }
   
   .navbar-footer {
     margin-top: auto;
@@ -103,7 +107,6 @@
   }
   
   .navbar-icon {
-    /* Remove the margin-right if using the gap property */
     width: 16px;
     height: 16px;
   }

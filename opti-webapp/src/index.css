@@ -1,10 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&family=Montserrat:wght@400;700&display=swap');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Manrope', 'Montserrat', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   height: 100vh;
   width: 100vw;
+  margin: 0;
+  padding: 0;
 
   color-scheme: light dark;
   color: #1a1a1a;
@@ -18,9 +22,9 @@
   overflow: hidden;
 }
 
-body {
+html, body {
   height: 100vh;
   width: 100vw;
-  min-width: 320px;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }

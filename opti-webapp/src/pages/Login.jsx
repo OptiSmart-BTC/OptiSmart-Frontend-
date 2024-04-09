@@ -1,17 +1,23 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiUser, FiLock } from 'react-icons/fi';
-import './Login.css';
+import { useAuth } from './../components/AuthContext';
+
+import './../styles/Login.css';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username === 'BTC1' && password === 'BTC-OPTI') {
-      navigate('/Welcome');
+      login();
+      navigate('/');
     } else {
       alert('Usuario o contraseña incorrectos');
     }

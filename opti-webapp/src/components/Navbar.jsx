@@ -1,15 +1,26 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import './../styles/navbar.css'; // Make sure to create a corresponding CSS file
 
 
-const NavbarItem = ({ label, children }) => {
+const NavbarItem = ({ label, children, path }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate(); 
   
     const toggleOpen = () => setIsOpen(!isOpen);
+
+    const handleNavigation = () => {
+      if (path) {
+          navigate(path);
+      }
+  };
   
     return (
       <>
-        <li className="navbar-item" onClick={toggleOpen}>
+        <li className="navbar-item" onClick={() => { toggleOpen(); handleNavigation(); }}>
           {label}
           {children && (
             <svg className={`arrow-icon ${isOpen ? 'open' : ''}`} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -22,6 +33,22 @@ const NavbarItem = ({ label, children }) => {
     );
 };
 
+const DropdownItem = ({ label, path }) => {
+  const navigate = useNavigate();
+
+  const handleDropdownNavigation = () => {
+      if (path) {
+          navigate(path);
+      }
+  };
+
+  return (
+      <li className="dropdown-item" onClick={handleDropdownNavigation}>
+          {label}
+      </li>
+  );
+};
+
 
 const Navbar = () => {
   return (
@@ -29,22 +56,24 @@ const Navbar = () => {
         <div className="navbar-header">
           <h1>BTC OPTI</h1>
         </div>
+        
         <ul className="navbar-menu">
-          <NavbarItem label="Home"/>
+          <NavbarItem label="Home" path="/"/>
           <NavbarItem label="Políticas de inventario">
             <ul className="navbar-dropdown">
-              <li className="dropdown-item">1. Información</li>
-              <li className="dropdown-item">2. Parámetros</li>
-              <li className="dropdown-item">3. Resultados</li>
+              <DropdownItem label="1. Información" path="/politicas-de-inventario/informacion"/>
+              <DropdownItem label="2. Parámetros" path="/politicas-de-inventario/parametros"/>
+              <DropdownItem label="3. Resultados" path="/politicas-de-inventario/resultados"/>
             </ul>
           </NavbarItem>
           <NavbarItem label="Plan de reposición">
             <ul className="navbar-dropdown">
-              <li className="dropdown-item">1. Archivos</li>
-              <li className="dropdown-item">2. Resultados</li>
+              <DropdownItem label="1. Archivos" path="/plan-de-reposicion/archivos"/>
+              <DropdownItem label="2. Resultados" path="/plan-de-reposicion/resultados"/>
             </ul>
           </NavbarItem>
         </ul>
+
         <div className="navbar-footer">
           <div className="navbar-documentacion">
             <svg className="navbar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -63,6 +92,7 @@ const Navbar = () => {
                 Perfil
           </div>
         </div>
+
     </nav>
   );
 };
