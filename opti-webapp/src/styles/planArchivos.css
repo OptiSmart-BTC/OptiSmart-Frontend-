@@ -1,4 +1,11 @@
 .planArchivos{
-    width: 77vw;
+    width: 73vw;
     margin: 0 auto;
-}  
+    margin-right: 2vw;
+}
+
+.titulo {
+    margin-top: 4vh;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}

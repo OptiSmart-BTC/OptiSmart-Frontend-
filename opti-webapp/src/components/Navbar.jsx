@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-import './../styles/navbar.css'; // Make sure to create a corresponding CSS file
+import './../styles/navbar.css';
+import e from 'cors';
 
 
-const NavbarItem = ({ label, children, path }) => {
+const NavbarItem = ({ label, children, path, className }) => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate(); 
   
@@ -16,11 +17,18 @@ const NavbarItem = ({ label, children, path }) => {
       if (path) {
           navigate(path);
       }
-  };
+    };
+
+    if(className === 'activeParent' && !isOpen) {
+      className = 'active';
+    } else if(className != 'active'){
+      className = '';
+    }
+
   
     return (
       <>
-        <li className="navbar-item" onClick={() => { toggleOpen(); handleNavigation(); }}>
+        <li className={`navbar-item ${className}`} onClick={() => { toggleOpen(); handleNavigation(); }}>
           {label}
           {children && (
             <svg className={`arrow-icon ${isOpen ? 'open' : ''}`} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,7 +41,7 @@ const NavbarItem = ({ label, children, path }) => {
     );
 };
 
-const DropdownItem = ({ label, path }) => {
+const DropdownItem = ({ label, path, className }) => {
   const navigate = useNavigate();
 
   const handleDropdownNavigation = () => {
@@ -43,7 +51,7 @@ const DropdownItem = ({ label, path }) => {
   };
 
   return (
-      <li className="dropdown-item" onClick={handleDropdownNavigation}>
+      <li className={`dropdown-item ${className}`} onClick={handleDropdownNavigation}>
           {label}
       </li>
   );
@@ -51,25 +59,37 @@ const DropdownItem = ({ label, path }) => {
 
 
 const Navbar = () => {
+  const location = useLocation();
+  
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
+  const isActiveParent = (path) => {
+    return location.pathname.includes(path);
+  }
+
+
   return (
     <nav className="navbar">
         <div className="navbar-header">
-          <h1>BTC OPTI</h1>
+          {/*<h1>BTC OPTI</h1>*/}
+          <img src="/images/Opti_Smart_Blanco.png" alt="BTC Opti" className='headerLogo'/>
         </div>
         
         <ul className="navbar-menu">
-          <NavbarItem label="Home" path="/"/>
-          <NavbarItem label="Políticas de inventario">
+          <NavbarItem label="Home" path="/" className={isActive('/') ? 'active' : ''}/>
+          <NavbarItem label="Políticas de inventario" className={isActiveParent('/politicas-de-inventario') ? 'activeParent' : ''}>
             <ul className="navbar-dropdown">
-              <DropdownItem label="1. Información" path="/politicas-de-inventario/informacion"/>
-              <DropdownItem label="2. Parámetros" path="/politicas-de-inventario/parametros"/>
-              <DropdownItem label="3. Resultados" path="/politicas-de-inventario/resultados"/>
+              <DropdownItem label="1. Información" path="/politicas-de-inventario/informacion" className={isActive('/politicas-de-inventario/informacion') ? 'active' : ''}/>
+              <DropdownItem label="2. Parámetros" path="/politicas-de-inventario/parametros" className={isActive('/politicas-de-inventario/parametros') ? 'active' : ''}/>
+              <DropdownItem label="3. Resultados" path="/politicas-de-inventario/resultados" className={isActive('/politicas-de-inventario/resultados') ? 'active' : ''}/>
             </ul>
           </NavbarItem>
-          <NavbarItem label="Plan de reposición">
+          <NavbarItem label="Plan de reposición" className={isActiveParent('/plan-de-reposicion') ? 'activeParent' : ''}>
             <ul className="navbar-dropdown">
-              <DropdownItem label="1. Archivos" path="/plan-de-reposicion/archivos"/>
-              <DropdownItem label="2. Resultados" path="/plan-de-reposicion/resultados"/>
+              <DropdownItem label="1. Archivos" path="/plan-de-reposicion/archivos" className={isActive('/plan-de-reposicion/archivos') ? 'active' : ''}/>
+              <DropdownItem label="2. Resultados" path="/plan-de-reposicion/resultados" className={isActive('/plan-de-reposicion/resultados') ? 'active' : ''}/>
             </ul>
           </NavbarItem>
         </ul>

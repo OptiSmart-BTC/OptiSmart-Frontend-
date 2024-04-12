@@ -6,7 +6,7 @@ import './../styles/planArchivos.css';
 const PlanArchivos = () => {
     return (
         <div className='planArchivos'>
-        <h1>Plan de Reposición  1. Archivos</h1>
+        <h1 className='titulo'>Plan de Reposición  1. Archivos</h1>
         </div>
     );
 };
