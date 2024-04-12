@@ -6,7 +6,7 @@ import './../styles/polParametros.css';
 const PolParametros = () => {
     return (
         <div className='polParametros'>
-        <h1>Políticas de Inv  2. Parametros</h1>
+        <h1 className='titulo'>Políticas de Inv  2. Parametros</h1>
         </div>
     );
 };

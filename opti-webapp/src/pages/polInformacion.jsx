@@ -6,7 +6,7 @@ import './../styles/polInformacion.css';
 const PolInformacion = () => {
     return (
         <div className='polInformacion'>
-        <h1>Políticas de Inv  1. Información</h1>
+        <h1 className='titulo'>Políticas de Inv  1. Información</h1>
         </div>
     );
 };

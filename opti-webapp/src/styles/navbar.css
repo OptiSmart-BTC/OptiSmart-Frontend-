@@ -10,22 +10,29 @@
     color: black; 
     box-sizing: border-box;
     margin-left: 0;
+    margin-right: 2vw;
 
     box-shadow: 0 0 10px #727272;
   }
   
-  .navbar-header h1 {
+  .navbar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 12vh;
     margin: 0;
     padding: 0;
-    padding-top: 4vh;
-    font-size: 2rem;
-    text-align: center;
-    vertical-align: middle;
+    padding-top: 2vh;
+    padding-bottom: 3vh;
     background-color: #012652;
-    color: white; /* Ensure the title is white */
     border-radius: 0 0 5px 5px;
+  }
+
+  .headerLogo {
+    max-height: 100%;
+    width: auto;
+    padding: 0;
   }
   
   .navbar-menu {
@@ -111,24 +118,19 @@
     height: 16px;
   }
   
-  /* Adjustments for smaller screen sizes */
 
-  /*
-  @media (max-width: 768px) {
-    .navbar {
-      width: 100%;
-      height: auto;
-      flex-direction: row;
-    }
-    .navbar-menu, .navbar-footer {
-      flex-direction: row;
-      justify-content: space-around;
-    }
-    .navbar-item {
-      border-left: none;
-    }
+  .navbar-item.active, .dropdown-item.active, .active {
+    position: relative; /* This is necessary for the absolute positioning of the :after pseudo-element */
   }
-  */
   
-  /* Additional styling based on your specific needs */
-  
+  .navbar-item.active:after, .dropdown-item.active:after, .active:after {
+    content: '';
+    position: absolute;
+    right: -2.6vw; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 1.3vw; /* Adjust size of the triangle */
+    border-style: solid;
+    border-color: transparent transparent transparent #012652;
+    /* This creates a triangle with the hypotenuse on the left side and the right color */
+  }
