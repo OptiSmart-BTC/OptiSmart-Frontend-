@@ -10,17 +10,29 @@
     font-weight: 500;
 }
 
+/*
 .ParamsDiv {
     display: flex;
     height: 13vh;
     margin-top: 6vh;
 
 }
+*/
+.ParamsDiv {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 13vh;
+    margin-top: 6vh;
+    padding-right: 20vw;
+}
+
 
 .Form {
-    vertical-align: middle;
+    /*vertical-align: middle;
     padding-right: 30vw;
-    flex: 1;
+    flex: 1;*/
+    padding-right: 2vw;
 }
 
 .tableContainer {

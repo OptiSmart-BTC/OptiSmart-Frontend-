@@ -17,7 +17,7 @@ const MyButton = ({ onClick, texto }) => {
         verticalAlign: 'bottom',
         height: '7vh',
         marginTop: '3vh',
-        marginRight: '37vw',
+        marginRight: '.1vw',
       }}
       onClick={onClick}
     >
