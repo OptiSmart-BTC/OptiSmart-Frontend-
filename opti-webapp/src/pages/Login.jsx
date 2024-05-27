@@ -1,27 +1,37 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiUser, FiLock } from 'react-icons/fi';
 import { useAuth } from './../components/AuthContext';
 
-import './../styles/Login.css';
+import './../styles/pages/Login.css';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const { login } = useAuth();
+  const { isAuthenticated, isLoading, login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username === 'BTC1' && password === 'BTC-OPTI') {
-      login();
+      login(username);
       navigate('/');
     } else {
       alert('Usuario o contraseña incorrectos');
     }
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      return <div>Cargando...</div>;
+    }
+
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  });
 
   return (
     <div className="login-wrapper">

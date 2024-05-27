@@ -13,6 +13,7 @@ import PolParametros from './pages/polParametros';
 import PolResultados from './pages/polResultados';
 import PlanArchivos from './pages/planArchivos';
 import PlanResultados from './pages/planResultados';
+import Documentacion from './pages/Documentacion';
 
 // components
 import NavbarLayout from './components/NavbarLayout';
@@ -40,6 +41,7 @@ const AppRoutes = () => {
           <Route path="politicas-de-inventario/resultados" element={<PolResultados />} />
           <Route path="plan-de-reposicion/archivos" element={<PlanArchivos />} />
           <Route path="plan-de-reposicion/resultados" element={<PlanResultados />} />
+          <Route path="Documentacion" element={<Documentacion />} />
         </Route>
       </Route>
     </Routes>

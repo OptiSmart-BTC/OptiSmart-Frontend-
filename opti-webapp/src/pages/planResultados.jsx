@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import Papa from 'papaparse';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, InputLabel, FormControl, TablePagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, InputLabel, FormControl, TablePagination, TextField } from '@mui/material';
 import MyButton from '../components/ButtonConsult';
-import './../styles/planResultados.css';
+import InfoButton from '../components/InfoButton';
+import './../styles/pages/planResultados.css';
 
 const stickyColumnStyle = {
     backgroundColor: '#012148',
@@ -70,7 +71,7 @@ function PlanResultados() {
         <div className='planResultados'>
             <h1 className='titulo'>Resultados</h1>
             <div className='ParamsDiv'>
-                <FormControl variant="outlined" className='Form' style={{ marginTop: '20px' }}>
+                <FormControl variant="outlined" className='Form' style={{ marginTop: '3vh' }}>
                     <InputLabel id="cal-label">Calendario</InputLabel>
                     <Select
                     labelId="cal-label"
@@ -85,7 +86,8 @@ function PlanResultados() {
                         ))}
                     </Select>
                 </FormControl>
-                <MyButton onClick={handleButtonClick} texto={"Consultar"} />
+                <MyButton onClick={handleButtonClick} texto={"Consultar"} mL='3vw' height='7vh' mT='3vh' mR='.1vw' />
+                <InfoButton information={"Aquí se muestran los resultados de la simulación"} />
             </div>
 
             <div className='TablaDiv'>

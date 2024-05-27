@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 
-import './../styles/planArchivos.css';
+import './../styles/pages/planArchivos.css';
 
 const PlanArchivos = () => {
     return (

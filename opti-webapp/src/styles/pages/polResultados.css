@@ -1,4 +1,4 @@
-.planResultados {
+.polResultados{
     width: 73vw;
     margin: 0 auto;
     margin-right: 2vw;
@@ -14,12 +14,16 @@
     display: flex;
     height: 13vh;
     margin-top: 6vh;
+}
 
+.radio {
+    margin-top: 1.5vh;
+    margin-right: 5vw;
 }
 
 .Form {
     vertical-align: middle;
-    padding-right: 30vw;
+    padding-right: 50vw;
     flex: 1;
 }
 

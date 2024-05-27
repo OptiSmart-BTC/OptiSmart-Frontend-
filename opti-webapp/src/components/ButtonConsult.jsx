@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PropTypes from 'prop-types';
 
-const MyButton = ({ onClick, texto }) => {
+const MyButton = ({ onClick, texto, mL, height, mT, mR }) => {
   return (
     <Button
       variant="contained"
@@ -13,11 +13,11 @@ const MyButton = ({ onClick, texto }) => {
         backgroundColor: '#3e4251',
         color: 'white',
         alignContent: 'center',
-        marginLeft: '3vw',
+        marginLeft: mL,
         verticalAlign: 'bottom',
-        height: '7vh',
-        marginTop: '3vh',
-        marginRight: '37vw',
+        height: height,
+        marginTop: mT,
+        marginRight: mR,
       }}
       onClick={onClick}
     >
@@ -29,6 +29,10 @@ const MyButton = ({ onClick, texto }) => {
 MyButton.propTypes = {
     onClick: PropTypes.func.isRequired,
     texto: PropTypes.string.isRequired,
+    mL: PropTypes.string.isRequired,
+    height: PropTypes.string.isRequired,
+    mT: PropTypes.string.isRequired,
+    mR: PropTypes.string.isRequired
   };
   
 
