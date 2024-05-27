@@ -107,10 +107,11 @@
     gap: 10px; /* Add space between icon and text */
   }
 
-  .navbar-documentacion:hover, .navbar-perfil:hover {
+  .navbar-documentacion:hover, .navbar-perfil:hover{
     /*underline the text on hover with a transform effect*/
     text-decoration: underline;
-    transform: scale(1.01);
+    /*font-size: 1.5rem;*/
+    transform: scale(1.02);
   }
   
   .navbar-icon {
@@ -134,3 +135,33 @@
     border-color: transparent transparent transparent #012652;
     /* This creates a triangle with the hypotenuse on the left side and the right color */
   }
+
+
+  /* dropdown de perfil */
+  .profile-dropdown {
+    position: absolute;
+    left: 24vw;
+    bottom: 2vh;
+    background-color: #012652;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .profile-dropdown .profile-dropdown-item {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .profile-dropdown .profile-dropdown-item svg {
+    margin-right: 10px;
+  }
+  
+  .profile-dropdown .profile-dropdown-item:hover {
+    background-color: #033169;
+    border-radius: 8px;
+  }
+  

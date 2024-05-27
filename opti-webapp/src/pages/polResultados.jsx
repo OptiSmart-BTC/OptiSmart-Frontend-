@@ -4,7 +4,7 @@ import Papa from 'papaparse';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, InputLabel, FormControl, TablePagination, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import MyButton from '../components/ButtonConsult';
 
-import './../styles/polResultados.css';
+import './../styles/pages/polResultados.css';
 
 const stickyColumnStyle = {
     backgroundColor: '#012148',
@@ -114,7 +114,7 @@ const PolResultados = () => {
                         ))}
                     </Select>
                 </FormControl>
-                <MyButton onClick={handleButtonClick} texto={"Consultar"} />
+                <MyButton onClick={handleButtonClick} texto={"Consultar"} mL='3vw' height='7vh' mT='3vh' mR='.1vw' />
             </div>
 
             <div className='TablaDiv'>

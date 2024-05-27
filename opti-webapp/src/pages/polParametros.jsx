@@ -1,7 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import './../styles/polParametros.css';
 import ABCMatrix from './../components/ABCMatrix';
+import MyButton from '../components/ButtonConsult';
+import InfoButton from '../components/InfoButton';
+
+import './../styles/pages/polParametros.css';
 
 function PolParametros() {
     const [historicalHorizon, setHistoricalHorizon] = useState(180);
@@ -21,18 +24,16 @@ function PolParametros() {
     };
 
     const handleSaveChanges = () => {
-        // Implement the logic to save changes
+        // Boton
     };
 
     const handleExecuteClassificationAndPolicies = () => {
-        // Implement the logic to execute classification and policies
+        // Boton
     };  
-
-    // Add more states and handlers as needed for your inputs and buttons
 
     return (
         <div className='polParametros'>
-            <h1>Parametrización</h1>
+            <h1 className='titulo'>Parametrización</h1>
             <div className='historicalHorizonInput'>
                 <label htmlFor='historicalHorizon'>Horizonte del Histórico: </label>
                 <input
@@ -51,7 +52,6 @@ function PolParametros() {
                     value={endOfHorizon}
                     onChange={handleEndOfHorizonChange}
                 />
-                {/* Tooltip or Info icon here */}
             </div>
             <div className='calendarSelect'>
                 <label htmlFor='calendar'>Calendario: </label>
@@ -60,16 +60,33 @@ function PolParametros() {
                     <option value='Semanal'>Semanal</option>
                     <option value='Mensual'>Mensual</option>
                 </select>
-                {/* Tooltip or Info icon here */}
             </div>
             <div className='buttons'>
-                <button onClick={handleSaveChanges}>Guardar Cambios</button>
-                <button onClick={handleExecuteClassificationAndPolicies}>Ejecuta Clasificación y Políticas</button>
+                <MyButton onClick={handleSaveChanges} texto={"Guardar Cambios"} mL='.5vw' height='6vh' mT='1vh' mR='.1vw'  />
+                <MyButton onClick={handleExecuteClassificationAndPolicies} texto={"Ejecuta Clasificación y Políticas"} mL='.5vw' height='6vh' mT='1vh' mR='.1vw' />
+
             </div>
 
-            {/* Implementar aqui la matriz */}
+            <div className='sub-header'>
+                <h2 className='sub-titulo'>Matriz de Clasificación ABC</h2>
+                <InfoButton information='La matriz de clasificación ABC es una herramienta de análisis que permite clasificar los productos de una empresa en función de su importancia relativa.' />  
+            </div>
             <ABCMatrix />
 
+            <div className='sub-header'>
+                <h2 className='sub-titulo'>Nivel de Servicio</h2>
+                <InfoButton information='El nivel de servicio dice que tanto se debe satisfacer la demanda de dependiendo del producto' />  
+            </div>
+
+            <div className='service-level'>
+                {['A', 'B', 'C', 'D'].map((label) => (
+                    <div key={label} className='service-level-item'>
+                        <label>{label}</label>
+                        <input type='number' defaultValue='95' />
+                        <span>%</span>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

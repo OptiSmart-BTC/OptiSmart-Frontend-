@@ -5,7 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Navbar from './Navbar';
 import { Outlet } from 'react-router-dom';
 
-import './../styles/navbarLayout.css';
+import './../styles/components/navbarLayout.css';
 
 
 

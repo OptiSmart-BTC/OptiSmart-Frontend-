@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 
-import './../styles/polInformacion.css';
+import './../styles/pages/polInformacion.css';
 
 const PolInformacion = () => {
     return (

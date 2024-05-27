@@ -11,20 +11,52 @@
 .verdito {
     background-color: rgb(198, 224, 180);
     color: white;
+    padding: .5% 3% .5% 1%;
+}
+
+.verdito p {
+    margin-left: 20%;
+    text-align: center;
+    color: #000;
+}
+
+.verdito input {
+    color: #3d3f41;
+    text-align: center;
 }
 
 .azulito {
     background-color: rgb(189, 215, 238);
     color: white;
+    padding: 0.5% 3% 1% 1%;
+}
+
+.azulito2 {
+    background-color: rgb(189, 215, 238);
+    color: #000;
+    padding: 0.5% 3% 1% 3%;
+}
+
+.azulito input {
+    color: #3d3f41;
+    text-align: center;
 }
 
 .amarillito {
-    background-color: rgb(255, 242, 204);
+    background-color: rgb(255, 242, 204);;
+    padding: .5% 3% .5% 1%;
+}
+
+.amarillito input {
+    color: #3d3f41;
+    text-align: center;
 }
 
 .naranjita {
     background-color: rgb(244, 176, 132);
-    color: white;
+    color: black;
+    text-align: center;
+    padding: .5% 0% .5% 0%;
 }
 
 /* Opcional: Ajustes adicionales de estilo para la tabla */

@@ -4,7 +4,7 @@ import Papa from 'papaparse';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, InputLabel, FormControl, TablePagination, TextField } from '@mui/material';
 import MyButton from '../components/ButtonConsult';
 import InfoButton from '../components/InfoButton';
-import './../styles/planResultados.css';
+import './../styles/pages/planResultados.css';
 
 const stickyColumnStyle = {
     backgroundColor: '#012148',
@@ -86,7 +86,7 @@ function PlanResultados() {
                         ))}
                     </Select>
                 </FormControl>
-                <MyButton onClick={handleButtonClick} texto={"Consultar"}/>
+                <MyButton onClick={handleButtonClick} texto={"Consultar"} mL='3vw' height='7vh' mT='3vh' mR='.1vw' />
                 <InfoButton information={"Aquí se muestran los resultados de la simulación"} />
             </div>
 

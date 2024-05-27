@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import './InfoButton.css';
 import PropTypes from 'prop-types';
+
+import './../styles/components/infoButton.css';
 
 const InfoButton = ({ information }) => {
   const [isHovered, setIsHovered] = useState(false);

@@ -1,20 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import './ABCMatrix.css';
+import './../styles/components/ABCMatrix.css';
 
 function ABCMatrix() {
     const [inputs, setInputs] = useState({
-        varAlta: '',
-        varMedia: '',
-        varBaja: '',
-        VaMbDmb: '', VaMaDmb: '', VaMbDb: '', VaMaDb: '',
-        VaMbDm: '', VaMaDm: '', VaMbDa: '', VaMaDa: '',
-        VmMbDmb: '', VmMaDmb: '', VmMbDb: '', VmMaDb: '',
-        VmMbDm: '', VmMaDm: '', VmMbDa: '', VmMaDa: '',
-        VbMbDmb: '', VbMaDmb: '', VbMbDb: '', VbMaDb: '',
-        VbMbDm: '', VbMaDm: '', VbMbDa: '', VbMaDa: '',
-        MbDmb: '', MaDmb: '', MbDb: '', MaDb: '',
-        MbDm: '', MaDm: '', MbDa: '', MaDa: ''
+        varAlta: '1.5',
+        varMedia: '0.5',
+        VaMbDmb: 'D', VaMaDmb: 'D', VaMbDb: 'C', VaMaDb: 'C',
+        VaMbDm: 'C', VaMaDm: 'B', VaMbDa: 'B', VaMaDa: 'B',
+        VmMbDmb: 'D', VmMaDmb: 'C', VmMbDb: 'C', VmMaDb: 'C',
+        VmMbDm: 'B', VmMaDm: 'B', VmMbDa: 'A', VmMaDa: 'A',
+        VbMbDmb: 'C', VbMaDmb: 'C', VbMbDb: 'C', VbMaDb: 'B',
+        VbMbDm: 'B', VbMaDm: 'A', VbMbDa: 'A', VbMaDa: 'A',
+        MbDmb: '30', MaDmb: '30', MbDb: '30', MaDb: '30',
+        MbDm: '30', MaDm: '30', MbDa: '30', MaDa: '30'
     });
 
     const handleChange = (e) => {
@@ -29,12 +28,6 @@ function ABCMatrix() {
         <div className="row align-items-center">
             <div className="col-10">
                 <div className="m-2">
-                    <div className="text-lg font-weight-bold text-uppercase mb-1 text-center">
-                        MATRIZ DE CLASIFICACIÓN ABC
-                        <a data-toggle="modal" data-target="#matrizMod">
-                            <i className="fas fa-info-circle fa-sm fa-fw mr-2 text-gray-400" data-toggle="modal" data-target="#matrizMod"></i>
-                        </a>
-                    </div>
                     <div className="table-responsive">
                         <table className="table table-bordered" id="dataTableg" cellSpacing="0" style={{ textAlign: 'center' }}>
                             <thead>
@@ -42,14 +35,14 @@ function ABCMatrix() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th rowSpan="3" style={{ backgroundColor: 'rgb(84, 130, 53)', color: 'white', writingMode: 'vertical-rl', transform: 'rotate(180deg)', lineHeight: '5%', marginTop: '30%' }} className="ml-2">
+                                    <th rowSpan="3" style={{ backgroundColor: 'rgb(84, 130, 53)', color: 'white', writingMode: 'vertical-rl', transform: 'rotate(180deg)', lineHeight: '5%', marginTop: '30%', width:'5%' }} className="ml-2">
                                         <br /><br />VARIABILIDAD
                                         <a data-toggle="modal" data-target="#variMod">
                                             <i className="fas fa-info-circle fa-sm fa-fw mr-2 text-gray-400" data-toggle="modal" data-target="#variMod"></i>
                                         </a>
                                     </th>
                                     <th rowSpan="3" className="verdito">
-                                        <p style={{ color: 'black' }}>Alta</p>
+                                        <p>Alta</p>
                                         <input
                                             type="text"
                                             className="form-control form-control-user text-center"
@@ -59,7 +52,7 @@ function ABCMatrix() {
                                             onChange={handleChange}
                                             value={inputs.varAlta}
                                         />
-                                        <p style={{ color: 'black' }}>Media</p>
+                                        <p>Media</p>
                                         <input
                                             type="text"
                                             className="form-control form-control-user text-center"
@@ -69,7 +62,7 @@ function ABCMatrix() {
                                             onChange={handleChange}
                                             value={inputs.varMedia}
                                         />
-                                        <p style={{ color: 'black' }}>Baja</p>
+                                        <p>Baja</p>
                                     </th>
                                     <th className="amarillito">
                                         <input
@@ -389,7 +382,7 @@ function ABCMatrix() {
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th colSpan="2" rowSpan="2" style={{ backgroundColor: 'rgb(48, 84, 150)', color: 'white' }}>
+                                    <th colSpan="2" rowSpan="2" style={{ backgroundColor: 'rgb(48, 84, 150)', color: 'white'}}>
                                         <br />MARGEN
                                         <a data-toggle="modal" data-target="#margMod">
                                             <i className="fas fa-info-circle fa-sm fa-fw mr-2 text-gray-400" data-toggle="modal" data-target="#margMod"></i>
@@ -485,14 +478,14 @@ function ABCMatrix() {
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th className="azulito" style={{ color: 'black' }}>Bajo</th>
-                                    <th className="azulito" style={{ color: 'black' }}>Alto</th>
-                                    <th className="azulito" style={{ color: 'black' }}>Bajo</th>
-                                    <th className="azulito" style={{ color: 'black' }}>Alto</th>
-                                    <th className="azulito" style={{ color: 'black' }}>Bajo</th>
-                                    <th className="azulito" style={{ color: 'black' }}>Alto</th>
-                                    <th className="azulito" style={{ color: 'black' }}>Bajo</th>
-                                    <th className="azulito" style={{ color: 'black' }}>Alto</th>
+                                    <th className="azulito2" >Bajo</th>
+                                    <th className="azulito2" >Alto</th>
+                                    <th className="azulito2" >Bajo</th>
+                                    <th className="azulito2" >Alto</th>
+                                    <th className="azulito2" >Bajo</th>
+                                    <th className="azulito2" >Alto</th>
+                                    <th className="azulito2" >Bajo</th>
+                                    <th className="azulito2" >Alto</th>
                                 </tr>
                                 <tr>
                                     <th className="borderless"></th>
@@ -501,7 +494,7 @@ function ABCMatrix() {
                                         <input
                                             type="number"
                                             className="form-control form-control-user text-center"
-                                            style={{ width: '60%', marginLeft: '20%' }}
+                                            style={{ width: '60%', marginLeft: '15%' }}
                                             name="Dmb"
                                             placeholder="Muy Baja %"
                                             disabled
@@ -513,7 +506,7 @@ function ABCMatrix() {
                                         <input
                                             type="number"
                                             className="form-control form-control-user text-center"
-                                            style={{ width: '60%', marginLeft: '20%' }}
+                                            style={{ width: '60%', marginLeft: '15%' }}
                                             name="Db"
                                             placeholder="Baja %"
                                             onKeyUp="valDemanda()"
@@ -525,7 +518,7 @@ function ABCMatrix() {
                                         <input
                                             type="number"
                                             className="form-control form-control-user text-center"
-                                            style={{ width: '60%', marginLeft: '20%' }}
+                                            style={{ width: '60%', marginLeft: '15%' }}
                                             name="Dm"
                                             placeholder="Media %"
                                             onKeyUp="valDemanda()"
@@ -537,7 +530,7 @@ function ABCMatrix() {
                                         <input
                                             type="number"
                                             className="form-control form-control-user text-center"
-                                            style={{ width: '60%', marginLeft: '20%' }}
+                                            style={{ width: '60%', marginLeft: '15%' }}
                                             name="Da"
                                             placeholder="Alta %"
                                             onKeyUp="valDemanda()"
@@ -549,17 +542,17 @@ function ABCMatrix() {
                                 <tr>
                                     <th className="borderless"></th>
                                     <th className="borderless"></th>
-                                    <th colSpan="2" className="naranjita" style={{ color: 'black' }}>Muy Baja</th>
-                                    <th colSpan="2" className="naranjita" style={{ color: 'black' }}>Baja</th>
-                                    <th colSpan="2" className="naranjita" style={{ color: 'black' }}>Media</th>
-                                    <th colSpan="2" className="naranjita" style={{ color: 'black' }}>Alta</th>
+                                    <th colSpan="2" className="naranjita">Muy Baja</th>
+                                    <th colSpan="2" className="naranjita">Baja</th>
+                                    <th colSpan="2" className="naranjita">Media</th>
+                                    <th colSpan="2" className="naranjita">Alta</th>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th className="borderless"></th>
                                     <th className="borderless"></th>
-                                    <th colSpan="8" style={{ backgroundColor: 'rgb(198, 89, 17)', color: 'white' }}>DEMANDA
+                                    <th colSpan="8" style={{ backgroundColor: 'rgb(198, 89, 17)', color: 'white', padding:'1.5%' }}>DEMANDA
                                         <a data-toggle="modal" data-target="#demaMod">
                                             <i className="fas fa-info-circle fa-sm fa-fw mr-2 text-gray-400" data-toggle="modal" data-target="#demaMod"></i>
                                         </a>
