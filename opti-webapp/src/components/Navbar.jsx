@@ -62,7 +62,7 @@ const ProfileDropdown = ({ username, onLogout }) => {
 
   return (
     <div className="profile-dropdown">
-      <div className="profile-dropdown-item">
+      <div className="profile-dropdown-user">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
           <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a5 5 0 0 0-4.468 2.64C4.635 12.058 6.255 13 8 13s3.365-.942 4.468-1.36A5 5 0 0 0 8 9z"/>
         </svg>

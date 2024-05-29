@@ -405,7 +405,6 @@ function ABCMatrix() {
                                             className="form-control form-control-user text-center"
                                             name="MaDmb"
                                             placeholder="%"
-                                            disabled
                                             onChange={handleChange}
                                             value={inputs.MaDmb}
                                         />
@@ -416,7 +415,6 @@ function ABCMatrix() {
                                             className="form-control form-control-user text-center"
                                             name="MbDb"
                                             placeholder="%"
-                                            disabled
                                             onChange={handleChange}
                                             value={inputs.MbDb}
                                         />
@@ -427,7 +425,6 @@ function ABCMatrix() {
                                             className="form-control form-control-user text-center"
                                             name="MaDb"
                                             placeholder="%"
-                                            disabled
                                             onChange={handleChange}
                                             value={inputs.MaDb}
                                         />
@@ -438,7 +435,6 @@ function ABCMatrix() {
                                             className="form-control form-control-user text-center"
                                             name="MbDm"
                                             placeholder="%"
-                                            disabled
                                             onChange={handleChange}
                                             value={inputs.MbDm}
                                         />
@@ -449,7 +445,6 @@ function ABCMatrix() {
                                             className="form-control form-control-user text-center"
                                             name="MaDm"
                                             placeholder="%"
-                                            disabled
                                             onChange={handleChange}
                                             value={inputs.MaDm}
                                         />
@@ -460,7 +455,6 @@ function ABCMatrix() {
                                             className="form-control form-control-user text-center"
                                             name="MbDa"
                                             placeholder="%"
-                                            disabled
                                             onChange={handleChange}
                                             value={inputs.MbDa}
                                         />
@@ -471,7 +465,6 @@ function ABCMatrix() {
                                             className="form-control form-control-user text-center"
                                             name="MaDa"
                                             placeholder="%"
-                                            disabled
                                             onChange={handleChange}
                                             value={inputs.MaDa}
                                         />
@@ -497,7 +490,6 @@ function ABCMatrix() {
                                             style={{ width: '60%', marginLeft: '15%' }}
                                             name="Dmb"
                                             placeholder="Muy Baja %"
-                                            disabled
                                             onChange={handleChange}
                                             value={inputs.Dmb}
                                         />
