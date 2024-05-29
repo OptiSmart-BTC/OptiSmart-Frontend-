@@ -13,14 +13,51 @@ function Login() {
   const { isAuthenticated, isLoading, login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (username === 'BTC1' && password === 'BTC-OPTI') {
+      login(username);
+      navigate('/');
+    }
+
+    const payload = {
+      username: username,
+      password: password
+    };
+
+    try {
+      // Send a POST request to the server
+      const response = await fetch('https://localhost/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+  
+      // Check if the request was successful
+      if (response.ok) {
+        const data = await response.json();
+        // Handle successful login
+        login(username);
+        navigate('/');
+      } else {
+        // Handle login failure
+        alert('Usuario o contraseña incorrectos');
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error('Error:', error);
+      alert('Error de conexión. Por favor, intente nuevamente.');
+    }
+    /*
     if (username === 'BTC1' && password === 'BTC-OPTI') {
       login(username);
       navigate('/');
     } else {
       alert('Usuario o contraseña incorrectos');
-    }
+    }*/
   };
 
   useEffect(() => {
