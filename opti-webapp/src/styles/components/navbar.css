@@ -149,14 +149,17 @@
     z-index: 1000;
   }
   
-  .profile-dropdown .profile-dropdown-item {
+  .profile-dropdown .profile-dropdown-item, .profile-dropdown .profile-dropdown-user {
     padding: 10px 20px;
     display: flex;
     align-items: center;
+  }
+
+  .profile-dropdown .profile-dropdown-item {
     cursor: pointer;
   }
   
-  .profile-dropdown .profile-dropdown-item svg {
+  .profile-dropdown .profile-dropdown-item svg, .profile-dropdown .profile-dropdown-user svg {
     margin-right: 10px;
   }
   
