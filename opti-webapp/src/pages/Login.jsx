@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiUser, FiLock } from 'react-icons/fi';
 import { useAuth } from './../components/AuthContext';
+import Spinner from './../components/Spinner';
 
 import './../styles/pages/Login.css';
 
 function Login() {
-  const [username, setUsername] = useState('Usuario');
-  const [password, setPassword] = useState('Pass');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { isAuthenticated, isLoading, login } = useAuth();
   const navigate = useNavigate();
@@ -16,10 +18,10 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (username === 'BTC1' && password === 'BTC-OPTI') {
+    /*if (username === 'BTC1' && password === 'BTC-OPTI') {
       login(username);
       navigate('/');
-    }
+    }*/
 
     const payload = {
       username: username,
@@ -27,8 +29,10 @@ function Login() {
     };
 
     try {
+      setLoading(true);
+
       // Send a POST request to the server
-      const response = await fetch('https://localhost/login', {
+      const response = await fetch('https://optiscportal.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -50,14 +54,9 @@ function Login() {
       // Handle network errors
       console.error('Error:', error);
       alert('Error de conexión. Por favor, intente nuevamente.');
+    } finally {
+      setLoading(false);
     }
-    /*
-    if (username === 'BTC1' && password === 'BTC-OPTI') {
-      login(username);
-      navigate('/');
-    } else {
-      alert('Usuario o contraseña incorrectos');
-    }*/
   };
 
   useEffect(() => {
@@ -72,6 +71,7 @@ function Login() {
 
   return (
     <div className="login-wrapper">
+      {loading && <Spinner />} {/* Mostrar el spinner */}
       <img src="/images/Opti_Smart_Blanco.png" alt="Logo BTC" className="logo-btc" />
       <div className="login-background"></div>
       <form onSubmit={handleSubmit} className="login-form">

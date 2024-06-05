@@ -91,6 +91,12 @@
   background-color: white; /* Ensure background remains white on focus */
 }
 
+.input-field input:-webkit-autofill, .input-field input:-webkit-autofill:hover, .input-field input:-webkit-autofill:focus, .input-field input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, .5), 0 0 0 30px white inset !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .5), 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: black !important;
+}
+
 .recover {
   position: relative;
   margin-top: -1vh;
