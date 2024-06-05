@@ -1,11 +1,95 @@
-.planArchivos{
-    width: 73vw;
-    margin: 0 auto;
-    margin-right: 2vw;
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
 }
 
-.titulo {
-    margin-top: 4vh;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
+.planArchivos {
+    display: flex;
 }
+
+.main-content {
+    margin-left: 250px; /* Debe ser igual al ancho de la barra lateral */
+    padding: 20px;
+    width: calc(100% - 250px);
+    display: flex;
+    justify-content: left; /* Centrar el contenido horizontalmente */
+    flex-direction: column; /* Asegura que los elementos hijos se apilen verticalmente */
+}
+
+.planArchivos .titulo {
+    margin-bottom: 20px;
+    text-align: center; /* Centrar el título */
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Cambiar a columna para que los cuadros se posicionen uno encima del otro */
+    gap: 20px;
+    max-width: 800px; /* Limitar el ancho máximo del contenedor */
+    width: 100%; /* Asegurar que el contenedor ocupe todo el ancho disponible */
+    margin: 0 auto; /* Centrar el contenedor */
+    margin-left: 20px; /* Ajustar este margen para mover a la izquierda */
+}
+
+.upload-section, .results-section {
+    flex: 1;
+    background: #FFF;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.upload-section h2, .results-section h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em; /* Ajustar el tamaño de fuente */
+}
+
+.radio-buttons {
+    margin-bottom: 20px;
+}
+
+.radio-buttons label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1em; /* Ajustar el tamaño de fuente */
+}
+
+input[type="file"] {
+    margin-bottom: 20px;
+    font-size: 1em; /* Ajustar el tamaño de fuente */
+}
+
+button {
+    display: block;
+    background-color: #007BFF; /* Color azul */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    width: 100%; /* Se ajusta para que el botón se expanda al ancho del contenedor */
+    font-size: 1em; /* Ajustar el tamaño de fuente */
+}
+
+button:disabled {
+    background-color: #CCC;
+}
+
+button:hover:not(:disabled) {
+    background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
+}
+
+.results-section {
+    display: flex;
+    flex-direction: column;
+}
+
+textarea {
+    flex: 1; /* Hace que el textarea crezca para llenar el espacio disponible */
+    min-height: 300px; /* Aumentar la altura mínima */
+    margin-bottom: 20px;
+    font-size: 1em; /* Ajustar el tamaño de fuente */
+}
+
