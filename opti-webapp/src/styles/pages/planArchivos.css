@@ -1,19 +1,11 @@
-body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-}
-
 .planArchivos {
     display: flex;
-}
-
-.main-content {
-    margin-left: 250px; /* Debe ser igual al ancho de la barra lateral */
-    padding: 20px;
-    width: calc(100% - 250px);
-    display: flex;
-    justify-content: left; /* Centrar el contenido horizontalmente */
-    flex-direction: column; /* Asegura que los elementos hijos se apilen verticalmente */
+    width: 73vw;
+    height: 100vh;
+    margin: 0 auto;
+    padding-right: 2vw;
+    overflow: auto;
+    flex-direction: column;
 }
 
 .planArchivos .titulo {

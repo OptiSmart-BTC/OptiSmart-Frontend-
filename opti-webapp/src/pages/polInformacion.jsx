@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import './../styles/polInformacion.css';
 /* eslint-disable no-unused-vars */
-import React from 'react';
-
+import React, { useState } from 'react';
 import './../styles/pages/polInformacion.css';
 
 const PolInformacion = () => {
@@ -42,7 +39,7 @@ const PolInformacion = () => {
                     <div className='radio-buttons'>
                         <label>
                             <input type="radio" value="catalogo" checked={uploadType === 'catalogo'} onChange={handleUploadTypeChange} />
-                            Catálogo de SKU's
+                            Catálogo de SKU&apos;s
                         </label>
                         <label>
                             <input type="radio" value="historico" checked={uploadType === 'historico'} onChange={handleUploadTypeChange} />

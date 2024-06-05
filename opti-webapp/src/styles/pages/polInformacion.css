@@ -1,11 +1,11 @@
 .polInformacion {
-    font-family: 'Arial', sans-serif;
     display: flex;
     flex-direction: column;
-    max-width: calc(100vw - 250px); /* Mantener el espacio reservado para la barra lateral */
-    margin-left: auto;
-    margin-right: auto;
-    padding: 20px;
+    width: 73vw;
+    height: 100vh;
+    margin: 0 auto;
+    padding-right: 2vw;
+    overflow: auto;
 }
 
 .titulo {

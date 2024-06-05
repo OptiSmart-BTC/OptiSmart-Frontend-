@@ -43,6 +43,8 @@ function Login() {
       // Check if the request was successful
       if (response.ok) {
         const data = await response.json();
+
+        console.log(data);
         // Handle successful login
         login(username);
         navigate('/');
