@@ -99,7 +99,7 @@ const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
 
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   
   const isActive = (path) => {
     return location.pathname === path;
@@ -170,7 +170,7 @@ const Navbar = () => {
             </svg>
             Perfil
           </div>
-          {isProfileOpen && <ProfileDropdown username="Nico Treviño" onLogout={logout} />}
+          {isProfileOpen && <ProfileDropdown username={user.userName} onLogout={logout} />}
         </div>
 
     </nav>

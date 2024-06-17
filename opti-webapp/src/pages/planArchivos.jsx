@@ -45,14 +45,14 @@ const PlanArchivos = () => {
                         </label>
                     </div>
                     <input type="file" onChange={handleFileChange} />
-                    <button onClick={handleFileUpload}>Cargar Nuevo</button>
-                    <button>Descargar Actual</button>
-                    <button>Descargar Plantillas</button>
+                    <button className='archivos-button' onClick={handleFileUpload}>Cargar Nuevo</button>
+                    <button className='archivos-button'>Descargar Actual</button>
+                    <button className='archivos-button'>Descargar Plantillas</button>
                 </div>
                 <div className='results-section'>
                     <h2>Resultado de la Carga de Información</h2>
                     <textarea readOnly placeholder='Resultado de la carga de información' />
-                    <button>Descargar Log de Resultados</button>
+                    <button className='archivos-button'>Descargar Log de Resultados</button>
                 </div>
             </div>
         </div>

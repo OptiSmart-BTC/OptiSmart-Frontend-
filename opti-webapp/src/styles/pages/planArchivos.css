@@ -52,7 +52,7 @@ input[type="file"] {
     font-size: 1em; /* Ajustar el tamaño de fuente */
 }
 
-button {
+.archivos-button {
     display: block;
     background-color: #007BFF; /* Color azul */
     color: white;
@@ -65,11 +65,11 @@ button {
     font-size: 1em; /* Ajustar el tamaño de fuente */
 }
 
-button:disabled {
+.archivos-button:disabled {
     background-color: #CCC;
 }
 
-button:hover:not(:disabled) {
+.archivos-button:hover:not(:disabled) {
     background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
 }
 

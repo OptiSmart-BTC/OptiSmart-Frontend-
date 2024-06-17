@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Papa from 'papaparse';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, InputLabel, FormControl, TablePagination, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import MyButton from '../components/ButtonConsult';
+import { useAuth } from './../components/AuthContext';
+import Spinner from './../components/Spinner';
 
 import './../styles/pages/polResultados.css';
 
@@ -26,8 +28,11 @@ const PolResultados = () => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-    const [selectedValue, setSelectedValue] = useState('clasifABC');
+    const [selectedValue, setSelectedValue] = useState('clasifABCD');
+    const [calendar, setCalendar] = useState('');
+    const [loading, setLoading] = useState(false);
 
+    const { user } = useAuth();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -46,49 +51,79 @@ const PolResultados = () => {
         /* hola */
     };
 
-    const handleButtonClick = () => {
-        const filePath = '/resultados_test.csv';
-
-        // Fetch the CSV file
-        fetch(filePath)
-            .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.text();
-            })
-            .then(text => {
-            // Parse the CSV text
-            Papa.parse(text, {
-                header: true,
-                skipEmptyLines: true,
-                complete: (results) => {
-                setData(results.data);
-                },
-            });
-            })
-            .catch(error => {
-                console.error('Error while fetching and parsing the CSV file:', error);
-        });
+    const handleCalendarChange = (event) => {
+        setCalendar(event.target.value);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const handleButtonClick = async () => {
+        setLoading(true);
+
+        const url = 'https://optiscportal.com/getCSVPol';
+
+        if(url, selectedValue, calendar) {
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        appUser: user.AppUser,
+                        appPass: user.password,
+                        DBName: user.dbName,
+                        type: selectedValue,
+                        cal: calendar
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const blob = await response.blob();
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    const text = event.target.result;
+                    Papa.parse(text, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: (results) => {
+                            setData(results.data);
+                            setLoading(false);
+                        },
+                    });
+                };
+
+                reader.readAsText(blob);
+            } catch (error) {
+                console.error('Error while fetching and parsing the CSV file:', error);
+                setLoading(false);
+            }
+        } else {
+            alert('Por favor selecciona una clasificación y un calendario');
+            setLoading(false);
+        }
+    };
 
     return (
         <div className='polResultados'>
+            {loading && <Spinner />}
             <h1 className='titulo'>Resultados</h1>
             <div className='ParamsDiv'>
                 <div className='radio'>
                     <FormControl component="fieldset">
                         <RadioGroup 
-                            column 
                             aria-label="classification" 
                             name="classification" 
                             value={selectedValue} 
                             onChange={handleRadioChange}
+                            style={{ flexDirection: 'column' }}
                         >
                             <FormControlLabel
-                                value="clasifABC"
+                                value="clasifABCD"
                                 control={<Radio />}
-                                label="Clasificación ABC"
+                                label="Clasificación ABCD"
                             />
                             <FormControlLabel
                                 value="polInv"
@@ -105,9 +140,10 @@ const PolResultados = () => {
                     labelId="cal-label"
                     id="cal"
                     label="Calendario"
-                    onChange={handleNoChange}
+                    value={calendar}
+                    onChange={handleCalendarChange}
                     >
-                        {["Diario", "Semanal", "Mensual"].map((tiempo) => (
+                        {["Diario", "Semanal"].map((tiempo) => (
                             <MenuItem key={tiempo} value={tiempo}>
                                 {tiempo}
                             </MenuItem>
@@ -132,23 +168,15 @@ const PolResultados = () => {
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rowsPerPage > 0
-                                ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
-                                    <TableRow key={rowIndex}>
-                                    {Object.keys(data[0]).map((colKey, colIndex) => (
+                            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
+                                <TableRow key={rowIndex}>
+                                    {Object.keys(row).map((colKey, colIndex) => (
                                         <TableCell key={colIndex} style={colKey === 'SKU' ? stickyColumnStyle : null}>
-                                        {row[colKey]}
+                                            {row[colKey]}
                                         </TableCell>
                                     ))}
-                                    </TableRow>
-                                ))
-                                : null}
-
-                            {emptyRows > 0 && (
-                                <TableRow style={{ height: 53 * emptyRows }}>
-                                <TableCell colSpan={6} />
                                 </TableRow>
-                            )}
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>

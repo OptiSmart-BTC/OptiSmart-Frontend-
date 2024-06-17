@@ -9,7 +9,9 @@
 }
 
 .titulo {
-    margin-bottom: 20px;
+    margin-top: 4vh;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
 }
 
 .container {
@@ -41,7 +43,7 @@ input[type="file"] {
     margin-bottom: 20px;
 }
 
-button {
+.informacion-buttons {
     display: block;
     background-color: #007BFF; /* Color azul */
     color: white;
@@ -53,11 +55,11 @@ button {
     width: 100%; /* Se ajusta para que el botón se expanda al ancho del contenedor */
 }
 
-button:disabled {
+.informacion-buttons:disabled {
     background-color: #CCC;
 }
 
-button:hover:not(:disabled) {
+.informacion-buttons:hover:not(:disabled) {
     background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
 }
 

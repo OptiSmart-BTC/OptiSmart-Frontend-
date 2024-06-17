@@ -10,7 +10,7 @@ import './../styles/pages/Login.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loadingLogin, setLoadingLogin] = useState(false);
 
   const { isAuthenticated, isLoading, login } = useAuth();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function Login() {
     };
 
     try {
-      setLoading(true);
+      setLoadingLogin(true);
 
       // Send a POST request to the server
       const response = await fetch('https://optiscportal.com/login', {
@@ -46,7 +46,14 @@ function Login() {
 
         console.log(data);
         // Handle successful login
-        login(username);
+
+        if(data.userActivo === 0) {
+          setLoadingLogin(false);
+          alert('Usuario inactivo');
+          return;
+        }
+
+        login(data);
         navigate('/');
       } else {
         // Handle login failure
@@ -57,7 +64,7 @@ function Login() {
       console.error('Error:', error);
       alert('Error de conexión. Por favor, intente nuevamente.');
     } finally {
-      setLoading(false);
+      setLoadingLogin(false);
     }
   };
 
@@ -73,7 +80,7 @@ function Login() {
 
   return (
     <div className="login-wrapper">
-      {loading && <Spinner />} {/* Mostrar el spinner */}
+      {(loadingLogin || isLoading) && <Spinner />}
       <img src="/images/Opti_Smart_Blanco.png" alt="Logo BTC" className="logo-btc" />
       <div className="login-background"></div>
       <form onSubmit={handleSubmit} className="login-form">
