@@ -26,7 +26,7 @@ function ABCMatrix( params ) {
     useEffect(() => {
         async function fetchData() {
             try {
-                const url = 'https://optiscportal.com/showParams';
+                const url = `${import.meta.env.VITE_API_URL}/showParams`;
 
                 const response = await fetch(url, {
                     method: 'POST',

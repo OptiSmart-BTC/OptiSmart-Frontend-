@@ -10,7 +10,7 @@ function Welcome() {
       <div className='rightSection'>
         <h1>¡Bienvenido a la Optimización!</h1>
         <p className='description'>
-          La herramienta diseñada específicamente para facilitar  la gestión de tu inventario.
+          La herramienta diseñada específicamente para facilitar de manera facil   la gestión de tu inventario.
         </p>
         <p className='description'>
          Ayudándote a optimizar tus procesos y a tomar decisiones      más informadas.

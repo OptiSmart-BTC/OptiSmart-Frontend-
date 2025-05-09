@@ -4,13 +4,13 @@ import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PropTypes from 'prop-types';
 
-const MyButton = ({ onClick, texto, mL, height, mT, mR }) => {
+const MyButton = ({ onClick, texto, mL, height, mT, mR, backColor, disabled }) => {
   return (
     <Button
       variant="contained"
       startIcon={<CheckCircleIcon />}
       style={{
-        backgroundColor: '#3e4251',
+        backgroundColor: backColor,
         color: 'white',
         alignContent: 'center',
         marginLeft: mL,
@@ -20,6 +20,7 @@ const MyButton = ({ onClick, texto, mL, height, mT, mR }) => {
         marginRight: mR,
       }}
       onClick={onClick}
+      disabled={disabled} // Añadimos el parámetro disabled aquí
     >
       {texto}
     </Button>
@@ -27,13 +28,18 @@ const MyButton = ({ onClick, texto, mL, height, mT, mR }) => {
 };
 
 MyButton.propTypes = {
-    onClick: PropTypes.func.isRequired,
-    texto: PropTypes.string.isRequired,
-    mL: PropTypes.string.isRequired,
-    height: PropTypes.string.isRequired,
-    mT: PropTypes.string.isRequired,
-    mR: PropTypes.string.isRequired
-  };
-  
+  onClick: PropTypes.func.isRequired,
+  texto: PropTypes.string.isRequired,
+  mL: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
+  mT: PropTypes.string.isRequired,
+  mR: PropTypes.string.isRequired,
+  backColor: PropTypes.string.isRequired,
+  disabled: PropTypes.bool, // Definimos el nuevo prop disabled como opcional
+};
+
+MyButton.defaultProps = {
+  disabled: false, // Valor predeterminado para disabled
+};
 
 export default MyButton;

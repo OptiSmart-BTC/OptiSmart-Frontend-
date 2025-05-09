@@ -10,34 +10,21 @@
     font-weight: 500;
 }
 
-/*
-.ParamsDiv {
-    display: flex;
-    height: 13vh;
-    margin-top: 6vh;
-
-}
-*/
 .ParamsDiv {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    height: 13vh;
+    justify-content: space-between;
+    height: auto;
     margin-top: 6vh;
-    padding-right: 20vw;
 }
 
-
 .Form {
-    /*vertical-align: middle;
-    padding-right: 30vw;
-    flex: 1;*/
     padding-right: 2vw;
 }
 
 .tableContainer {
     max-height: 55vh;
-    overflow-y: auto;
+    
     margin-top: 3vh;
 }
 
@@ -57,7 +44,9 @@ table {
     position: sticky;
     top: 0;
     z-index: 1020; /* Same or higher than individual cells to ensure it stays on top */
-}.tableContainer .MuiTableHead-root .MuiTableCell-root {
+}
+
+.tableContainer .MuiTableHead-root .MuiTableCell-root {
     font-weight: bold;
     background-color: #001630;
     color: white;
@@ -71,4 +60,41 @@ table {
     top: 0;
     /* Higher z-index to keep the header above all the other rows and elements */
     z-index: 1100; 
+}
+
+.button-info {
+    display: flex;
+    gap: 15px; /* Espaciado entre botones */
+}
+
+.resultados-button {
+    flex-shrink: 0; /* Asegura que el botón no cambie de tamaño */
+    width: 220px; /* Incrementar el ancho */
+    text-align: center;
+    background-color: #007BFF; /* Azul */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px; /* Mantén la altura igual */
+    font-size: 1em;
+}
+
+.resultados-button:disabled {
+    background-color: #CCC;
+}
+
+.resultados-button:hover:not(:disabled) {
+    background-color: #0056b3; /* Azul más oscuro */
+}
+
+/* Ajustes para los controles de formulario */
+.form-control {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Añadir un espacio entre el control y el icono */
+    margin-bottom: 10px; /* Margen inferior para separar los controles */
+}
+
+.form-control .MuiFormControl-root {
+    flex: 1; /* Asegurar que el control ocupe todo el espacio disponible */
 }

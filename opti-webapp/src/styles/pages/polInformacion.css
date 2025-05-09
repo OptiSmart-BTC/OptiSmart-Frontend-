@@ -1,4 +1,5 @@
-.polInformacion {
+/* Estilos para .planArchivos y .polInformacion */
+.planArchivos, .polInformacion {
     display: flex;
     flex-direction: column;
     width: 73vw;
@@ -9,25 +10,28 @@
 }
 
 .titulo {
-    margin-top: 4vh;
-    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 20px; /* Asegura un margen uniforme para los títulos */
+    text-align: center; /* Centra el título */
+    font-family: 'Montserrat', sans-serif; /* Unifica la fuente */
     font-weight: 500;
 }
 
 .container {
     display: flex;
-    flex-wrap: wrap; /* Permite la envoltura de elementos si no caben en una sola fila */
+    flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
     gap: 20px;
+    max-width: 800px; /* Mantiene un ancho máximo consistente */
+    width: 100%;
+    margin: 0 auto;
 }
 
 .upload-section, .results-section {
-    flex: 1; /* Se asigna la propiedad flex para que ambos tomen el mismo espacio */
-    min-width: 700px; /* Se define un mínimo de ancho mayor */
+    flex: 1;
     background: #FFF;
     border: 1px solid #DDD;
     border-radius: 4px;
     padding: 20px;
-    width: 100%; /* Se ajusta para que el cuadro tome todo el ancho disponible */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .radio-buttons {
@@ -35,32 +39,55 @@
 }
 
 .radio-buttons label {
-    display: block;
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
+    font-size: 1em;
+    gap: 10px;
+}
+
+/* Unificación de estilos de botones */
+.small-download-button, .archivos-button {
+    background-color: #007bff; /* Color azul estándar */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+.small-download-button:hover, .archivos-button:hover:not(:disabled) {
+    background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
 }
 
 input[type="file"] {
     margin-bottom: 20px;
 }
 
-.informacion-buttons {
-    display: block;
-    background-color: #007BFF; /* Color azul */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    width: 100%; /* Se ajusta para que el botón se expanda al ancho del contenedor */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
 }
 
-.informacion-buttons:disabled {
-    background-color: #CCC;
+.informacion-buttons, .small-download-button {
+    min-width: 280px; /* Ancho mínimo para todos los botones */
+    padding: 12px 20px; /* Espaciado interno para botones */
+    border-radius: 8px; /* Esquinas redondeadas */
+    font-size: 14px; /* Tamaño de la fuente para la legibilidad */
+    transition: background-color 0.3s ease; /* Transición suave para el hover */
 }
 
-.informacion-buttons:hover:not(:disabled) {
-    background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
+.informacion-buttons:disabled, .small-download-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .results-section {
@@ -69,7 +96,13 @@ input[type="file"] {
 }
 
 textarea {
-    flex: 1; /* Hace que el textarea crezca para llenar el espacio disponible */
-    min-height: 150px; /* Se cambia a min-height para permitir que crezca */
+    flex: 1; /* Permite que el textarea se expanda */
+    min-height: 150px; /* Altura mínima ajustada */
     margin-bottom: 20px;
+}
+
+.button-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

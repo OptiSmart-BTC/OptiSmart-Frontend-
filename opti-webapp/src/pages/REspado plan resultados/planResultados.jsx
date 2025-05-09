@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars -TEST */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Papa from 'papaparse';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, InputLabel, TextField, FormControl, TablePagination, Button } from '@mui/material';
 import MyButton from '../components/ButtonConsult';
@@ -42,90 +42,6 @@ function PlanResultados() {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
-    const [userRole, setUserRole] = useState(null); // Rol del usuario
-    const [rolePermissions, setRolePermissions] = useState([]); // Permisos del rol
-
-  // Función para obtener el rol y permisos del usuario al cargar el componente
-  useEffect(() => {
-    const fetchUserRoleAndPermissions = async () => {
-      try {
-        // Consultar la API para obtener los datos del usuario
-        const userResponse = await fetch(
-          `http://localhost:3000/api/users?AppUser=${user.AppUser}`
-        );
-
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          console.log("Datos del usuario obtenidos:", userData);
-
-          // Buscar el documento donde aparece el usuario actual
-          const matchingUserDoc = userData.find((doc) =>
-            doc.UserUI.some((uiUser) => uiUser.AppUser === user.AppUser)
-          );
-
-          if (matchingUserDoc) {
-            // Buscar el usuario específico en el array UserUI
-            const matchingUser = matchingUserDoc.UserUI.find(
-              (uiUser) => uiUser.AppUser === user.AppUser
-            );
-
-            // Validar si el usuario tiene el campo `rol` asignado
-            if (matchingUser && matchingUser.rol) {
-              const roleName = matchingUser.rol;
-              setUserRole(roleName); // Guardar el rol del usuario
-              console.log(`Rol asignado al usuario: ${roleName}`);
-
-              // Obtener los permisos del rol desde la colección de roles
-              const rolesResponse = await fetch(
-                "http://localhost:3000/api/roles"
-              );
-              if (rolesResponse.ok) {
-                const rolesData = await rolesResponse.json();
-                const roleData = rolesData.find(
-                  (role) => role.name === roleName
-                );
-
-                if (roleData) {
-                  setRolePermissions(roleData.permissions);
-                  console.log(
-                    `Permisos del rol '${roleName}':`,
-                    roleData.permissions
-                  );
-                } else {
-                  console.error(
-                    `No se encontraron datos para el rol '${roleName}'.`
-                  );
-                }
-              } else {
-                console.error("Error al obtener los datos de roles.");
-              }
-            } else {
-              console.warn(
-                `El usuario '${user.AppUser}' no tiene un rol asignado.`
-              );
-              setUserRole(null); // El usuario no tiene rol asignado
-            }
-          } else {
-            console.error(
-              `No se encontró el usuario '${user.AppUser}' en los datos.`
-            );
-          }
-        } else {
-          console.error("No se pudo obtener la información del usuario.");
-        }
-      } catch (error) {
-        console.error("Error en la conexión:", error);
-      }
-    };
-
-    fetchUserRoleAndPermissions();
-  }, [user.AppUser]);
-
-  // Valida si el usuario tiene un permiso específico
-  const validatePermission = (permission) => {
-    return rolePermissions.includes(permission);
-  };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -273,59 +189,38 @@ function PlanResultados() {
         }
     };
 
-	const handleDownloadClick = () => {
-			// Crear una copia de los datos originales
-			const updatedData = data.map((row, index) => {
-				if (overrideValues[index] !== undefined) {
-					return {
-						...row,
-						'Plan_Firme_Pallets': overrideValues[index],
-					};
-				}
-				return row;
-			});
-
-			// Generar el CSV con coma como delimitador
-			const csv = Papa.unparse(updatedData, {
-				delimiter: ',', // Usar coma como delimitador
-			});
-
-			// Agregar el BOM para UTF-8 al inicio del archivo
-			const bom = '\uFEFF'; // BOM UTF-8
-			const csvWithBom = bom + csv;
-
-			// Crear un blob con codificación UTF-8
-			const blob = new Blob([new TextEncoder().encode(csvWithBom)], { type: 'text/csv;charset=utf-8;' });
-			const url = URL.createObjectURL(blob);
-
-			// Crear un enlace de descarga y disparar la acción
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = 'resultados.csv';
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-			URL.revokeObjectURL(url);
-	};
-
-
-
-
-
-
-    const handleOverrideChange = (rowIndex, value) => {
-        setOverrideValues((prev) => ({
-            ...prev,
-            [rowIndex]: value,
-        }));
-	};
+    const handleDownloadClick = () => {
+        // Crear una copia de los datos originales
+        const updatedData = data.map((row, index) => {
+            // Si hay un valor de override para la fila actual, lo agregamos al objeto
+            if (overrideValues[index] !== undefined) {
+                return {
+                    ...row,
+                    'Plan_Firme_Pallets': overrideValues[index], // Añadir la columna con el valor de override
+                };
+            }
+            return row; // Si no hay override, retornamos la fila tal como está
+        });
     
-    /*const handleOverrideChange = (rowIndex, value) => {
+        // Generar el CSV con los datos actualizados
+        const csv = Papa.unparse(updatedData);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'resultados.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+    
+    const handleOverrideChange = (rowIndex, value) => {
         setOverrideValues((prev) => ({
             ...prev,
             [rowIndex]: value, // Guardamos el valor ingresado en la celda correspondiente
         }));
-    };*/
+    };
     
     const handleApplyOverride = async () => {
         setLoading(true);
@@ -433,12 +328,9 @@ function PlanResultados() {
 
         {/* Botones */}
         <div className="button-info">
-            <MyButton onClick={handleExecutePlanReposicion} texto={"Ejecutar Plan de Reposición"} data-permission="Plan-resultados ejecutar plan"
-            disabled={!validatePermission("Plan-resultados ejecutar plan")}/>
-            <MyButton onClick={handleButtonClick} texto={"Consultar Resultados"} data-permission="Plan-resultados consultar resultados"
-            disabled={!validatePermission("Plan-resultados consultar resultados")} />
-            <MyButton className="resultados-button" onClick={handleDownloadClick} texto={"Descargar Resultados"} data-permission="Plan-resultados descargar resultados"
-            disabled={!validatePermission("Plan-resultados descargar resultados")}/>
+            <MyButton onClick={handleExecutePlanReposicion} texto={"Ejecutar Plan de Reposición"} />
+            <MyButton onClick={handleButtonClick} texto={"Consultar Resultados"} />
+            <MyButton className="resultados-button" onClick={handleDownloadClick} texto={"Descargar Resultados"} />
         </div>
     </div>
 
@@ -506,8 +398,6 @@ function PlanResultados() {
                     onClick={handleApplyOverride}
                     variant="contained"
                     color="primary"
-                    data-permission="Plan-resultados aplicar override"
-                    disabled={!validatePermission("Plan-resultados aplicar override")}
                     style={{ marginTop: '3vh' }}
                 >
                     Aplicar Override
