@@ -1,21 +1,14 @@
 /* eslint-disable no-unused-vars -TEST */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Papa from 'papaparse';
-<<<<<<< HEAD
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, InputLabel, FormControl, TablePagination } from '@mui/material';
-=======
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, InputLabel, TextField, FormControl, TablePagination, Button } from '@mui/material';
->>>>>>> origin/frontendtest
 import MyButton from '../components/ButtonConsult';
 import InfoButton from '../components/InfoButton';
 import './../styles/pages/planResultados.css';
 import Spinner from './../components/Spinner';
 import { useAuth } from './../components/AuthContext';
-<<<<<<< HEAD
-=======
 
 
->>>>>>> origin/frontendtest
 
 const stickyColumnStyle = {
     backgroundColor: '#012148',
@@ -43,100 +36,12 @@ function PlanResultados() {
     const [loading, setLoading] = useState(false);
     const [reportType, setReportType] = useState('CSV'); // Estado para el tipo de reporte
     const { user } = useAuth();
-<<<<<<< HEAD
-
-=======
     const [overrideValues, setOverrideValues] = useState({});
     const [filteredData, setFilteredData] = useState([]); // Para mostrar datos filtrados
     const [searchTerm, setSearchTerm] = useState(''); // Para almacenar el término de búsqueda
->>>>>>> origin/frontendtest
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
-    const [userRole, setUserRole] = useState(null); // Rol del usuario
-    const [rolePermissions, setRolePermissions] = useState([]); // Permisos del rol
-
-  // Función para obtener el rol y permisos del usuario al cargar el componente
-  useEffect(() => {
-    const fetchUserRoleAndPermissions = async () => {
-      try {
-        // Consultar la API para obtener los datos del usuario
-        const userResponse = await fetch(
-          `http://localhost:3000/api/users?AppUser=${user.AppUser}`
-        );
-
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          console.log("Datos del usuario obtenidos:", userData);
-
-          // Buscar el documento donde aparece el usuario actual
-          const matchingUserDoc = userData.find((doc) =>
-            doc.UserUI.some((uiUser) => uiUser.AppUser === user.AppUser)
-          );
-
-          if (matchingUserDoc) {
-            // Buscar el usuario específico en el array UserUI
-            const matchingUser = matchingUserDoc.UserUI.find(
-              (uiUser) => uiUser.AppUser === user.AppUser
-            );
-
-            // Validar si el usuario tiene el campo `rol` asignado
-            if (matchingUser && matchingUser.rol) {
-              const roleName = matchingUser.rol;
-              setUserRole(roleName); // Guardar el rol del usuario
-              console.log(`Rol asignado al usuario: ${roleName}`);
-
-              // Obtener los permisos del rol desde la colección de roles
-              const rolesResponse = await fetch(
-                "http://localhost:3000/api/roles"
-              );
-              if (rolesResponse.ok) {
-                const rolesData = await rolesResponse.json();
-                const roleData = rolesData.find(
-                  (role) => role.name === roleName
-                );
-
-                if (roleData) {
-                  setRolePermissions(roleData.permissions);
-                  console.log(
-                    `Permisos del rol '${roleName}':`,
-                    roleData.permissions
-                  );
-                } else {
-                  console.error(
-                    `No se encontraron datos para el rol '${roleName}'.`
-                  );
-                }
-              } else {
-                console.error("Error al obtener los datos de roles.");
-              }
-            } else {
-              console.warn(
-                `El usuario '${user.AppUser}' no tiene un rol asignado.`
-              );
-              setUserRole(null); // El usuario no tiene rol asignado
-            }
-          } else {
-            console.error(
-              `No se encontró el usuario '${user.AppUser}' en los datos.`
-            );
-          }
-        } else {
-          console.error("No se pudo obtener la información del usuario.");
-        }
-      } catch (error) {
-        console.error("Error en la conexión:", error);
-      }
-    };
-
-    fetchUserRoleAndPermissions();
-  }, [user.AppUser]);
-
-  // Valida si el usuario tiene un permiso específico
-  const validatePermission = (permission) => {
-    return rolePermissions.includes(permission);
-  };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -147,140 +52,6 @@ function PlanResultados() {
         setCalendar(event.target.value);
     };
 
-<<<<<<< HEAD
-    const handleReportTypeChange = (event) => {
-        setReportType(event.target.value);
-    };
-
-    const handleExecutePlanReposicion = async () => {
-        setLoading(true); // Activar el spinner al inicio de la operación
-        try {
-            if (calendar !== 'Ambos') {
-                const url = calendar === 'Diario' ? 'http://localhost:3000/runPlanReposicionDiario' : 'http://localhost:3000/runPlanReposicionSemanal';
-    
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        appUser: user.AppUser,
-                        appPass: user.password,
-                        DBName: user.dbName
-                    })
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Error en la ejecución');
-                }
-            } else {
-                // Ejecutar ambas funciones asincrónicamente y esperar que ambas terminen
-                const [response, response2] = await Promise.all([
-                    fetch('http://localhost:3000/runPlanReposicionDiario', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            appUser: user.AppUser,
-                            appPass: user.password,
-                            DBName: user.dbName
-                        })
-                    }),
-                    fetch('http://localhost:3000/runPlanReposicionSemanal', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            appUser: user.AppUser,
-                            appPass: user.password,
-                            DBName: user.dbName
-                        })
-                    })
-                ]);
-    
-                if (!response.ok || !response2.ok) {
-                    throw new Error('Error en la ejecución');
-                }
-            }
-            alert('Se ejecutó correctamente el Plan de Reposición');
-        } catch (error) {
-            console.error('Error en la ejecución:', error);
-            alert('Error en la ejecución');
-        } finally {
-            setLoading(false); // Desactivar el spinner al finalizar todas las operaciones
-        }
-    };
-
-    const handleButtonClick = async () => {
-        setLoading(true);
-
-        if (reportType === 'CSV') {
-            const url = 'http://localhost:3000/getCSVPlanReposicion';
-    
-            if (url && calendar) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            appUser: user.AppUser,
-                            appPass: user.password,
-                            DBName: user.dbName,
-                            type: 'PlanReposicion',
-                            cal: calendar,
-                        }),
-                    });
-    
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok: ${response.statusText}`);
-                    }
-    
-                    const blob = await response.blob();
-                    const reader = new FileReader();
-    
-                    reader.onload = (event) => {
-                        const text = event.target.result;
-                        Papa.parse(text, {
-                            header: true,
-                            skipEmptyLines: true,
-                            complete: (results) => {
-                                setData(results.data);
-                                setLoading(false);
-                            },
-                        });
-                    };
-    
-                    reader.readAsText(blob);
-                } catch (error) {
-                    console.error('Error while fetching and parsing the CSV file:', error);
-                    setError(`Error: ${error.message}`);
-                    setLoading(false);
-                }
-            } else {
-                alert('Por favor selecciona un calendario');
-                setLoading(false);
-            }
-        } else if (reportType === 'Dashboard') {
-            setLoading(false);
-        }
-    };
-
-    const handleDownloadClick = () => {
-        const csv = Papa.unparse(data);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'resultados.csv';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-=======
     const handleSearchChange = (event) => {
         const term = event.target.value.toLowerCase();
         setSearchTerm(term);
@@ -294,7 +65,6 @@ function PlanResultados() {
             );
             setFilteredData(filtered);
         }
->>>>>>> origin/frontendtest
     };
 
     // Asegúrate de actualizar filteredData cuando se actualice data
@@ -419,59 +189,38 @@ function PlanResultados() {
         }
     };
 
-	const handleDownloadClick = () => {
-			// Crear una copia de los datos originales
-			const updatedData = data.map((row, index) => {
-				if (overrideValues[index] !== undefined) {
-					return {
-						...row,
-						'Plan_Firme_Pallets': overrideValues[index],
-					};
-				}
-				return row;
-			});
-
-			// Generar el CSV con coma como delimitador
-			const csv = Papa.unparse(updatedData, {
-				delimiter: ',', // Usar coma como delimitador
-			});
-
-			// Agregar el BOM para UTF-8 al inicio del archivo
-			const bom = '\uFEFF'; // BOM UTF-8
-			const csvWithBom = bom + csv;
-
-			// Crear un blob con codificación UTF-8
-			const blob = new Blob([new TextEncoder().encode(csvWithBom)], { type: 'text/csv;charset=utf-8;' });
-			const url = URL.createObjectURL(blob);
-
-			// Crear un enlace de descarga y disparar la acción
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = 'resultados.csv';
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-			URL.revokeObjectURL(url);
-	};
-
-
-
-
-
-
-    const handleOverrideChange = (rowIndex, value) => {
-        setOverrideValues((prev) => ({
-            ...prev,
-            [rowIndex]: value,
-        }));
-	};
+    const handleDownloadClick = () => {
+        // Crear una copia de los datos originales
+        const updatedData = data.map((row, index) => {
+            // Si hay un valor de override para la fila actual, lo agregamos al objeto
+            if (overrideValues[index] !== undefined) {
+                return {
+                    ...row,
+                    'Plan_Firme_Pallets': overrideValues[index], // Añadir la columna con el valor de override
+                };
+            }
+            return row; // Si no hay override, retornamos la fila tal como está
+        });
     
-    /*const handleOverrideChange = (rowIndex, value) => {
+        // Generar el CSV con los datos actualizados
+        const csv = Papa.unparse(updatedData);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'resultados.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+    
+    const handleOverrideChange = (rowIndex, value) => {
         setOverrideValues((prev) => ({
             ...prev,
             [rowIndex]: value, // Guardamos el valor ingresado en la celda correspondiente
         }));
-    };*/
+    };
     
     const handleApplyOverride = async () => {
         setLoading(true);
@@ -551,91 +300,6 @@ function PlanResultados() {
     
 
     return (
-<<<<<<< HEAD
-        <div className='planResultados' style={{ maxHeight: '90vh', overflowY: 'auto' }}>
-            {loading && <Spinner />}
-            {error && <div className='error'>{error}</div>}
-            <h1 className='titulo'>Ejecución y Resultados</h1>
-            <div style={{ display: 'flex', gap: '20px', marginTop: '3vh', flexWrap: 'wrap' }}>
-                <FormControl variant="outlined" style={{ minWidth: 200 }}>
-                    <InputLabel id="cal-label">Calendario</InputLabel>
-                    <Select
-                        labelId="cal-label"
-                        id="cal"
-                        value={calendar}
-                        onChange={handleCalendarChange}
-                        label="Calendario"
-                    >
-                        <MenuItem value="Diario">Diario</MenuItem>
-                        <MenuItem value="Semanal">Semanal</MenuItem>
-                        <MenuItem value="Ambos">Ambos</MenuItem>
-                    </Select>
-                </FormControl>
-                <FormControl variant="outlined" style={{ minWidth: 200 }}>
-                    <InputLabel id="report-type-label">Tipo de Reporte</InputLabel>
-                    <Select
-                        labelId="report-type-label"
-                        id="report-type"
-                        value={reportType}
-                        onChange={handleReportTypeChange}
-                        label="Tipo de Reporte"
-                    >
-                        <MenuItem value="CSV">CSV</MenuItem>
-                        <MenuItem value="Dashboard">Dashboard</MenuItem>
-                    </Select>
-                </FormControl>
-            </div>
-            <div style={{ display: 'flex', gap: '20px', marginTop: '3vh' }}>
-                <div>
-                    <MyButton onClick={handleExecutePlanReposicion} texto={"Ejecutar Plan de Reposición"} />
-                    <InfoButton information='Este botón permite generar el plan de reposición con la información recolectada de los archivos cargados en esta sección y la política de inventarios elegida.'/>
-                </div>
-                <div>
-                    <MyButton onClick={handleButtonClick} texto={"Consultar Resultados"} />
-                    <InfoButton information='Al apretar el botón, se genera una consulta de la tabla de salida'/>
-                </div>
-                <div>
-                    <MyButton onClick={handleDownloadClick} texto={"Descargar Resultados"} />
-                    <InfoButton information='Permite exportar la información del resultado de la carga.'/>
-                </div>
-                
-            </div>
-            {reportType === 'Dashboard' && (
-                <div style={{ marginTop: '3vh', height: '600px' }}>
-                    <iframe 
-                        src="https://app.powerbi.com/view?r=eyJrIjoiMmM4NTJmYTItNjZkZS00NDgyLWI0ZDktM2FjOGE5YjBkZThiIiwidCI6ImM2NWEzZWE2LTBmN2MtNDAwYi04OTM0LTVhNmRjMTcwNTY0NSIsImMiOjR9" 
-                        style={{ border: 'none', width: '100%', height: '100%' }} 
-                        title="Dashboard"
-                        allowFullScreen
-                    />
-                </div>
-            )}
-            <TableContainer component={Paper} className='tableContainer'>
-                <Table stickyHeader aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            {data.length > 0 && Object.keys(data[0]).map((key) => (
-                                <TableCell key={key}>{key}</TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rowsPerPage > 0 && data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
-                            <TableRow key={rowIndex}>
-                                {Object.keys(row).map((colKey) => (
-                                    <TableCell key={colKey}>{row[colKey]}</TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                        {rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage) > 0 && (
-                            <TableRow style={{ height: 53 * (rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage)) }}>
-                                <TableCell colSpan={6} />
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-=======
         <div className='planResultados' style={{ maxHeight: '90vh' }}>
     {loading && (
         <div className="spinner-overlay">
@@ -664,12 +328,9 @@ function PlanResultados() {
 
         {/* Botones */}
         <div className="button-info">
-            <MyButton onClick={handleExecutePlanReposicion} texto={"Ejecutar Plan de Reposición"} data-permission="Plan-resultados ejecutar plan"
-            disabled={!validatePermission("Plan-resultados ejecutar plan")}/>
-            <MyButton onClick={handleButtonClick} texto={"Consultar Resultados"} data-permission="Plan-resultados consultar resultados"
-            disabled={!validatePermission("Plan-resultados consultar resultados")} />
-            <MyButton className="resultados-button" onClick={handleDownloadClick} texto={"Descargar Resultados"} data-permission="Plan-resultados descargar resultados"
-            disabled={!validatePermission("Plan-resultados descargar resultados")}/>
+            <MyButton onClick={handleExecutePlanReposicion} texto={"Ejecutar Plan de Reposición"} />
+            <MyButton onClick={handleButtonClick} texto={"Consultar Resultados"} />
+            <MyButton className="resultados-button" onClick={handleDownloadClick} texto={"Descargar Resultados"} />
         </div>
     </div>
 
@@ -737,8 +398,6 @@ function PlanResultados() {
                     onClick={handleApplyOverride}
                     variant="contained"
                     color="primary"
-                    data-permission="Plan-resultados aplicar override"
-                    disabled={!validatePermission("Plan-resultados aplicar override")}
                     style={{ marginTop: '3vh' }}
                 >
                     Aplicar Override
@@ -746,7 +405,6 @@ function PlanResultados() {
             )}
     
             {/* Paginación */}
->>>>>>> origin/frontendtest
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 100]}
                 component="div"

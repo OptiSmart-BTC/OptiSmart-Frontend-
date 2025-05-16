@@ -32,13 +32,20 @@ function Login() {
       setLoadingLogin(true);
 
       // Send a POST request to the server
+<<<<<<< HEAD
       const response = await fetch('http://localhost:3000', {
+=======
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+>>>>>>> origin/frontendtest
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
+      
+      console.log(process.env.VITE_API_URL);
+
   
       // Check if the request was successful
       if (response.ok) {

@@ -1,0 +1,67 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden; /* Evita el desbordamiento horizontal */
+}
+
+.RoleManager {
+  height: 100vh; /* Asegura que ocupe toda la altura disponible */
+  display: flex;
+  width: 73vw;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box; /* Incluye padding en el ancho total */
+  overflow: auto; /* Permite el scroll vertical */
+}
+
+.roles-section,
+.users-section {
+  margin-bottom: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+select {
+  padding: 5px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.modal-content input {
+  display: block;
+  width: 90%;
+  margin: 10px auto;
+}
+
+.create-user-btn {
+  margin-bottom: 10px;
+}

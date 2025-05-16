@@ -65,7 +65,7 @@ input[type="file"] {
     padding: 10px 15px;
     margin-bottom: 10px;
     cursor: pointer;
-    width: 100%; /* Se ajusta para que el botón se expanda al ancho del contenedor */
+    width: 80%; /* Se ajusta para que el botón se expanda al ancho del contenedor */
     font-size: 1em; /* Ajustar el tamaño de fuente */
     gap: 10px; /* Añadir un espacio entre el texto y el icono */
 }

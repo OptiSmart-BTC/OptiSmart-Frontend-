@@ -1,9 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from './../components/AuthContext';
 import Spinner from './../components/Spinner';
 import InfoButton from '../components/InfoButton';
+<<<<<<< HEAD
 
+=======
+import JSZip from 'jszip';
+>>>>>>> origin/frontendtest
 import './../styles/pages/polInformacion.css';
 
 const PolInformacion = () => {
@@ -13,6 +17,89 @@ const PolInformacion = () => {
     const [results, setResults] = useState('Resultado de la carga de información');
 
     const { user } = useAuth();
+    const [userRole, setUserRole] = useState(null); // Rol del usuario
+    const [rolePermissions, setRolePermissions] = useState([]); // Permisos del rol
+
+  // Función para obtener el rol y permisos del usuario al cargar el componente
+  useEffect(() => {
+    const fetchUserRoleAndPermissions = async () => {
+      try {
+        // Consultar la API para obtener los datos del usuario
+        const userResponse = await fetch(
+          `http://localhost:3000/api/users?AppUser=${user.AppUser}`
+        );
+
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          console.log("Datos del usuario obtenidos:", userData);
+
+          // Buscar el documento donde aparece el usuario actual
+          const matchingUserDoc = userData.find((doc) =>
+            doc.UserUI.some((uiUser) => uiUser.AppUser === user.AppUser)
+          );
+
+          if (matchingUserDoc) {
+            // Buscar el usuario específico en el array UserUI
+            const matchingUser = matchingUserDoc.UserUI.find(
+              (uiUser) => uiUser.AppUser === user.AppUser
+            );
+
+            // Validar si el usuario tiene el campo `rol` asignado
+            if (matchingUser && matchingUser.rol) {
+              const roleName = matchingUser.rol;
+              setUserRole(roleName); // Guardar el rol del usuario
+              console.log(`Rol asignado al usuario: ${roleName}`);
+
+              // Obtener los permisos del rol desde la colección de roles
+              const rolesResponse = await fetch(
+                "http://localhost:3000/api/roles"
+              );
+              if (rolesResponse.ok) {
+                const rolesData = await rolesResponse.json();
+                const roleData = rolesData.find(
+                  (role) => role.name === roleName
+                );
+
+                if (roleData) {
+                  setRolePermissions(roleData.permissions);
+                  console.log(
+                    `Permisos del rol '${roleName}':`,
+                    roleData.permissions
+                  );
+                } else {
+                  console.error(
+                    `No se encontraron datos para el rol '${roleName}'.`
+                  );
+                }
+              } else {
+                console.error("Error al obtener los datos de roles.");
+              }
+            } else {
+              console.warn(
+                `El usuario '${user.AppUser}' no tiene un rol asignado.`
+              );
+              setUserRole(null); // El usuario no tiene rol asignado
+            }
+          } else {
+            console.error(
+              `No se encontró el usuario '${user.AppUser}' en los datos.`
+            );
+          }
+        } else {
+          console.error("No se pudo obtener la información del usuario.");
+        }
+      } catch (error) {
+        console.error("Error en la conexión:", error);
+      }
+    };
+
+    fetchUserRoleAndPermissions();
+  }, [user.AppUser]);
+
+  // Valida si el usuario tiene un permiso específico
+  const validatePermission = (permission) => {
+    return rolePermissions.includes(permission);
+  };
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -27,31 +114,42 @@ const PolInformacion = () => {
             alert('Por favor selecciona un archivo para subir.');
             return;
         }
-
+    
         let append = uploadType === 'catalogo' ? 'CargaCSVsku' : 'CargaCSVhist';
         setIsUploading(true);
-
+    
         const formData = new FormData();
         formData.append('doc', selectedFile);
         formData.append('appUser', user.AppUser);
         formData.append('appPass', user.password);
+<<<<<<< HEAD
         formData.append('DBName', user.dbName); 
     
         const url = `http://localhost:3000/${append}`;
+=======
+        formData.append('DBName', user.dbName);
+    
+        // Construir la URL dinámicamente con VITE_API_URL
+        const url = `${import.meta.env.VITE_API_URL}/${append}`;
+>>>>>>> origin/frontendtest
     
         try {
             const response = await fetch(url, {
                 method: 'POST',
-                body: formData
+                body: formData,
             });
     
             if (response.ok) {
                 const result = await response.text();
                 alert('Carga exitosa');
-                console.log(result); // Display or process the result as needed
+                console.log(result); // Muestra o procesa el resultado según sea necesario
                 setResults(result);
             } else {
+<<<<<<< HEAD
                 const errorDetail = await response.text(); // Assumir que el error viene en texto plano, puede ajustarse si el formato es diferente
+=======
+                const errorDetail = await response.text(); // Captura el error en texto plano
+>>>>>>> origin/frontendtest
                 console.error('Error en la carga del archivo:', errorDetail);
                 alert(`Error en la carga del archivo: ${errorDetail}`);
             }
@@ -63,7 +161,9 @@ const PolInformacion = () => {
             setSelectedFile(null);
         }
     };
+    
 
+<<<<<<< HEAD
     const descargarTemplates = async () => {
         const skuPath = "/templates/template-sku.csv";
         const histPath = "/templates/template-historico_demanda.csv";
@@ -71,20 +171,57 @@ const PolInformacion = () => {
         const a = document.createElement('a');
         a.href = skuPath;
         a.download = 'template-sku.csv';
+=======
+    
+
+const descargarTemplates = async () => {
+    const skuPath = "/templates/template-sku.csv";
+    const histPath = "/templates/template-historico_demanda.csv";
+
+    try {
+        const zip = new JSZip();
+
+        // Obtener el contenido del archivo SKU
+        const skuResponse = await fetch(skuPath);
+        if (!skuResponse.ok) throw new Error("Error al descargar el archivo SKU");
+        const skuData = await skuResponse.blob();
+
+        // Obtener el contenido del archivo histórico
+        const histResponse = await fetch(histPath);
+        if (!histResponse.ok) throw new Error("Error al descargar el archivo Histórico");
+        const histData = await histResponse.blob();
+
+        // Agregar los archivos al ZIP
+        zip.file("template-sku.csv", skuData);
+        zip.file("template-historico_demanda.csv", histData);
+
+        // Generar el archivo ZIP
+        const zipContent = await zip.generateAsync({ type: "blob" });
+
+        // Crear un enlace para descargar el ZIP
+        const url = URL.createObjectURL(zipContent);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "templates.zip"; // Nombre del archivo ZIP
+>>>>>>> origin/frontendtest
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+        URL.revokeObjectURL(url);
 
-        const b = document.createElement('a');
-        b.href = histPath;
-        b.download = 'template-historico_demanda.csv';
-        document.body.appendChild(b);
-        b.click();
-        document.body.removeChild(b);
+        alert("Descarga de templates exitosa");
+    } catch (error) {
+        console.error("Error al generar el archivo ZIP:", error);
+        alert("Ocurrió un error al descargar los templates.");
     }
+};
 
     const descargarActual = async () => {
+<<<<<<< HEAD
         const url = 'http://localhost:3000/getActualCSVPol';
+=======
+        const url = `${import.meta.env.VITE_API_URL}/getActualCSVPol`;
+>>>>>>> origin/frontendtest
 
         setIsUploading(true);
 
@@ -145,11 +282,12 @@ const PolInformacion = () => {
     }
 
     return (
-        <div className='polInformacion'>
+        <div className='planArchivos'>
             {isUploading && <Spinner />}
             <h1 className='titulo'>Archivos de Entrada</h1>
             <div className='container'>
                 <div className='upload-section'>
+<<<<<<< HEAD
                     <div className='radio-buttons'>
                         <label>
                             <input type="radio" value="catalogo" checked={uploadType === 'catalogo'} onChange={handleUploadTypeChange} />
@@ -175,17 +313,112 @@ const PolInformacion = () => {
                         <button className='informacion-buttons' onClick={descargarTemplates}>Descargar Plantillas</button>
                         <InfoButton information='Este botón descargará el template/plantilla base que se debe seguir en nuestros archivos (SKU e Histórico) a la hora de cargarlos en la aplicación. De no seguir el formato de la plantilla podrá haber varios errores en los resultados.'/>
                     </div>
+=======
+                    <h2>Carga de Información</h2>
+    
+                    {/* Contenedor principal para selectores y botones */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        {/* Selectores de información */}
+                        <div className='radio-buttons' style={{ flex: 1, width: '50%' }}>
+                            <label>
+                                <input
+                                    type="radio"
+                                    value="catalogo"
+                                    checked={uploadType === 'catalogo'}
+                                    onChange={handleUploadTypeChange}
+                                />
+                                Catálogo de SKU&apos;s
+                                <InfoButton information="Con esta casilla activa los procesos ejecutados modificarán o descargarán los datos de SKU´S." />
+                            </label>
+                            <label>
+                                <input
+                                    type="radio"
+                                    value="historico"
+                                    checked={uploadType === 'historico'}
+                                    onChange={handleUploadTypeChange}
+                                />
+                                Histórico de Demanda
+                                <InfoButton information="Con esta casilla activa los procesos ejecutados modificarán o descargarán los datos del Histórico de Ventas de los productos." />
+                            </label>
+                            
+                            {/* Campo de carga de archivos y botón justo debajo */}
+<div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+    <input 
+        type="file" 
+        onChange={handleFileChange} 
+        style={{ width: '90%' }} 
+    />
+    <div 
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '0.5rem' }}
+    >
+        <button
+            className="archivos-button"
+            onClick={handleFileUpload}
+            data-permission="Politica-archivos cargar nuevo"
+            disabled={!validatePermission("Politica-archivos cargar nuevo")}
+            style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', width: '100' }}
+        >
+            Cargar Nuevo
+        </button>
+        <InfoButton
+            information="Permite cargar nuevos archivos reemplazando los actuales."
+        />
+    </div>
+</div>
+                        </div>
+    
+                        {/* Botones de descarga */}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '40%' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', width: '120%', marginBottom: '1rem' }}>
+                                <button
+                                    className='archivos-button'
+                                    onClick={descargarActual}
+                                    data-permission="Politica-archivos descargar actuales"
+                                    disabled={!validatePermission("Politica-archivos descargar actuales")}
+                                    style={{ flex: 1 }}
+                                >
+                                    Descargar Actuales
+                                </button>
+                                <InfoButton information='Exporta la información actual cargada en la herramienta.' style={{ marginLeft: '0.5rem' }} />
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: '120%' }}>
+                                <button
+                                    className='archivos-button'
+                                    onClick={descargarTemplates}
+                                    data-permission="Politica-archivos descargar plantillas"
+                                    disabled={!validatePermission("Politica-archivos descargar plantillas")}
+                                    style={{ flex: 1 }}
+                                >
+                                    Descargar Plantillas
+                                </button>
+                                <InfoButton information='Descarga plantillas base para cargar datos correctamente.' style={{ marginLeft: '0.5rem' }} />
+                            </div>
+                        </div>
+                    </div>
+>>>>>>> origin/frontendtest
                 </div>
+    
                 <div className='results-section'>
+<<<<<<< HEAD
                     <textarea readOnly placeholder={results} />
                     <div className='button-info'>
                         <button className='informacion-buttons' onClick={descargarLog}>Descargar Log de Resultados</button>
                         <InfoButton information='Permite descargar un archivo de texto con la información del resultado de la carga.'/>
+=======
+                    <textarea readOnly value={results} style={{ width: '100%' }} />
+                    <div className='button-info'>
+                        <button className='archivos-button' onClick={descargarLog} data-permission="Politica-archivos descargar logs"
+            disabled={!validatePermission("Politica-archivos descargar logs")}>
+                            Descargar Log de Resultados
+                        </button>
+                        <InfoButton information='Permite exportar los resultados de la carga de información.' />
+>>>>>>> origin/frontendtest
                     </div>
                 </div>
             </div>
         </div>
     );
+
 };
 
 export default PolInformacion;

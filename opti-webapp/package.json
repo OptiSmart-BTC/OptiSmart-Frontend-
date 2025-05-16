@@ -15,7 +15,12 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "cors": "^2.8.5",
+<<<<<<< HEAD
     "express": "^4.19.2",
+=======
+    "express": "^4.21.1",
+    "jszip": "^3.10.1",
+>>>>>>> origin/frontendtest
     "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",

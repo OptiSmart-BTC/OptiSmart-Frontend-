@@ -14,7 +14,11 @@ function Documentacion() {
 
   const toggleSubsection = (subsection) => {
     setOpenSubsection(subsection === openSubsection ? null : subsection);
+<<<<<<< HEAD
     setOpenSubSubsection(null);
+=======
+    setOpenSubSubsection(null); //Cambio para optismart
+>>>>>>> origin/frontendtest
   };
 
   const toggleSubSubsection = (subsubsection) => {
