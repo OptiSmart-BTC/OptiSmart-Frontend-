@@ -151,6 +151,16 @@ const Navbar = () => {
               <DropdownItem label="2. Resultados" path="/plan-de-reposicion/resultados" className={isActive('/plan-de-reposicion/resultados') ? 'active' : ''}/>
             </ul>
           </NavbarItem>
+          <NavbarItem label="Planeación de Demanda" className={isActiveParent('/planeacion-de-demanda') ? 'activeParent' : ''}>
+            <ul className="navbar-dropdown">
+              <DropdownItem label="1. Archivos" path="/planeacion-de-demanda/archivos" className={isActive('/planeacion-de-demanda/archivos') ? 'active' : ''}/>
+              <DropdownItem label="2. Tablas" path="/planeacion-de-demanda/tablas" className={isActive('/planeacion-de-demanda/tablas') ? 'active' : ''}/>
+              <DropdownItem label="3. Clasificación Demanda" path="/planeacion-de-demanda/clasificacion" className={isActive('/planeacion-de-demanda/clasificacion') ? 'active' : ''}/>
+              <DropdownItem label="4. Configuración" path="/planeacion-de-demanda/configuracion" className={isActive('/planeacion-de-demanda/configuracion') ? 'active' : ''}/>
+              <DropdownItem label="5. Resultados" path="/planeacion-de-demanda/resultados" className={isActive('/planeacion-de-demanda/resultados') ? 'active' : ''}/>
+              <DropdownItem label="6. Histórico Forecast" path="/planeacion-de-demanda/historico-forecast" className={isActive('/planeacion-de-demanda/historico-forecast') ? 'active' : ''}/>
+            </ul>
+          </NavbarItem>
         </ul>
 
         <div className="navbar-footer">

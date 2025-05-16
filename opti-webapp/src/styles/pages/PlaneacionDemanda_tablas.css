@@ -1,0 +1,67 @@
+/* Contenedor principal de la tabla */
+.table-container {
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 100%;
+  height: 80vh; /* Ajuste a porcentaje para adaptarse a diferentes pantallas */
+  overflow-y: auto; /* Activa el scroll vertical */
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+}
+
+/* Tabla */
+.demand-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Encabezado de la tabla */
+.demand-table th {
+  background-color: #012652; /* Fondo azul oscuro */
+  color: white; /* Texto blanco */
+  font-weight: bold;
+  position: sticky;
+  top: 0; /* Fija el encabezado en la parte superior del contenedor */
+  z-index: 1; /* Asegura que el encabezado esté encima del contenido */
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+/* Estilos para las celdas */
+.demand-table th, .demand-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+/* Opcional: para evitar compresión de columnas */
+.demand-table th, .demand-table td {
+  min-width: 150px; /* Ajusta según sea necesario */
+  white-space: nowrap;
+}
+
+/* Clase para los encabezados específicos que se aplica en JSX */
+.opti-header {
+  background-color: #012652 !important; /* Azul oscuro */
+  color: white !important; /* Texto blanco */
+  font-weight: bold !important;
+}
+
+/* Sobrescribe solo si no hay estilo desde JSX */
+.demand-table th:not(.opti-header) {
+  background-color: inherit; /* Respeta el estilo definido en JSX */
+  color: inherit;
+}
+
+.even {
+  background-color: #f3f4f6; /* Color claro para filas pares */
+}
+
+.odd {
+  background-color: #e7e9eb; /* Color un poco más oscuro para filas impares */
+}
+
+/* Opcional: agrega un estilo para cambiar el color al pasar el cursor sobre una fila */
+.even:hover, .odd:hover {
+  background-color: #d1d5db; /* Color para la fila seleccionada al hacer hover */
+}

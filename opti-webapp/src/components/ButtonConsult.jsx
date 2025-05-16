@@ -4,13 +4,13 @@ import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PropTypes from 'prop-types';
 
-const MyButton = ({ onClick, texto, mL, height, mT, mR }) => {
+const MyButton = ({ onClick, texto, mL, height, mT, mR, backColor }) => {
   return (
     <Button
       variant="contained"
       startIcon={<CheckCircleIcon />}
       style={{
-        backgroundColor: '#3e4251',
+        backgroundColor: backColor,
         color: 'white',
         alignContent: 'center',
         marginLeft: mL,

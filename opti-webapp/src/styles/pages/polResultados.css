@@ -1,7 +1,10 @@
 .polResultados{
     width: 73vw;
+    height: 100vh;
     margin: 0 auto;
-    margin-right: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 1.5vh;
+    overflow: auto;
 }
 
 .titulo {

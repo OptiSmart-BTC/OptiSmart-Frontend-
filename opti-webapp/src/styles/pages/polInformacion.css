@@ -73,3 +73,9 @@ textarea {
     min-height: 150px; /* Se cambia a min-height para permitir que crezca */
     margin-bottom: 20px;
 }
+
+.button-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

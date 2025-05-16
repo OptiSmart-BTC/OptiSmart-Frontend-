@@ -1,0 +1,125 @@
+/* Contenedor principal */
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Título */
+.file-upload-title {
+  font-size: 2.5em; /* Aumentar tamaño del título */
+  color: #012652;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Opciones de selección */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Personalización de los radio buttons y el texto de las opciones */
+.MuiFormControlLabel-label {
+  font-size: 1.3em; /* Aumentar el tamaño de texto de la etiqueta */
+  color: #333; /* Color del texto */
+}
+
+.MuiRadio-root {
+  color: #90caf9; /* Color gris claro para los radio buttons no seleccionados */
+  transform: scale(1.2); /* Aumenta el tamaño del radio button */
+}
+
+.MuiRadio-root.Mui-checked {
+  color: #012652; /* Azul oscuro de Opti para el radio button seleccionado */
+}
+
+/* Botones */
+.button-group {
+  display: flex;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.button-group button {
+  padding: 16px 30px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+  font-size: 1.1em;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-group button:hover {
+  transform: translateY(-2px);
+}
+
+/* Botón Cargar Nuevo (Celeste) */
+.button-group .upload-button {
+  background-color: #66c0f4; /* Celeste claro */
+}
+
+.button-group .upload-button:hover {
+  background-color: #57aede;
+}
+
+/* Botón Descargar Actual (Azul oscuro) */
+.button-group .download-button {
+  background-color: #012652; /* Azul oscuro de Opti */
+}
+
+.button-group .download-button:hover {
+  background-color: #011f47;
+}
+
+/* Botón Actualizar (Azul oscuro) */
+.button-group .update-button {
+  background-color: #6b92ff; /* Azul oscuro de Opti */
+}
+
+.button-group .update-button:hover {
+  background-color: #5a8dd4;
+}
+
+/* Input de archivo */
+.file-input-container {
+  margin-top: 25px;
+  padding: 18px;
+  background-color: #f9fbfd;
+  border: 2px dashed #b3d4fc;
+  border-radius: 10px;
+  text-align: center;
+  width: 60%;
+  transition: border-color 0.3s ease-in-out, background-color 0.3s;
+}
+
+.file-input-container:hover {
+  border-color: #90caf9;
+  background-color: #eef6fc;
+}
+
+.file-input-container input[type="file"] {
+  color: #555;
+  font-size: 1em;
+  margin-top: 10px;
+}
+
+.radio-button-group .MuiFormControlLabel-root {
+  margin-right: 20px; /* Espaciado horizontal entre los botones */
+}
+
+
+

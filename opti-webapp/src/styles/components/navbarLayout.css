@@ -9,3 +9,16 @@
     min-height: 100vh;
     background-color: #f5f5f5;
 }
+
+/* NavbarLayout.css */
+.layout {
+    display: flex;
+  }
+  
+  .content {
+    margin-left: 250px; /* Debe coincidir con el ancho de la sidebar */
+    padding: 20px;
+    width: calc(100% - 250px);
+    overflow-y: auto;
+  }
+  

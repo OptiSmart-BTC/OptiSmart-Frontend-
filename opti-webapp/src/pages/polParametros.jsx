@@ -37,13 +37,96 @@ function PolParametros() {
         D: 95
     });
 
+    
+    
+    const [manualChanges, setManualChanges] = useState({
+        Dmb: false,
+        Db: false,
+        Dm: false,
+        Da: false
+    });
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setInputs(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        const validValues = ['A', 'B', 'C', 'D']; // Define los valores válidos para la matriz ABC
+        const demandFields = ['Dmb', 'Db', 'Dm', 'Da']; // Campos relacionados con la demanda
+        const newValue = parseInt(value);
+    
+        if (name === "MbDmb") {
+            // Actualiza todos los campos de margen al cambiar el primero
+            setInputs(prev => ({
+                ...prev,
+                MbDmb: newValue,
+                MaDmb: newValue,
+                MbDb: newValue,
+                MaDb: newValue,
+                MbDm: newValue,
+                MaDm: newValue,
+                MbDa: newValue,
+                MaDa: newValue
+            }));
+        } else if (demandFields.includes(name)) {
+            // Maneja los cambios en los campos de demanda
+            setInputs(prev => {
+                const newInputs = {
+                    ...prev,
+                    [name]: isNaN(newValue) ? '' : newValue
+                };
+    
+                setManualChanges(prev => ({ ...prev, [name]: true }));
+    
+                const sumModified = demandFields.reduce((acc, fieldName) => {
+                    if (manualChanges[fieldName] && fieldName !== name) {
+                        acc += newInputs[fieldName] || 0;
+                    }
+                    return acc;
+                }, newValue);
+    
+                const remainingValue = 100 - sumModified;
+    
+                const unmodifiedFields = demandFields.filter(fieldName => !manualChanges[fieldName] && fieldName !== name);
+                const countUnmodified = unmodifiedFields.length;
+    
+                if (remainingValue < 0 || (remainingValue > 0 && countUnmodified === 0)) {
+                    alert("Los ajustes exceden la demanda total permitida de 100 o no hay campos para ajustar la diferencia.");
+                } else {
+                    unmodifiedFields.forEach(fieldName => {
+                        newInputs[fieldName] = Math.floor(remainingValue / countUnmodified);
+                    });
+    
+                    const lastField = unmodifiedFields[unmodifiedFields.length - 1];
+                    if (lastField) {
+                        newInputs[lastField] += remainingValue % countUnmodified;
+                    }
+                }
+    
+                return newInputs;
+            });
+        } else {
+            if (value === '' || validValues.includes(value.toUpperCase())) {
+                // Permite borrar el valor o actualizar si es válido
+                setInputs(prev => ({
+                    ...prev,
+                    [name]: value.toUpperCase()
+                }));
+            } else {
+                alert('Error: Solo se permiten los valores A, B, C, D para la matriz ABC.');
+            }
+        }
     };
+    
+    
+    
+        
+    
+                
+    
+    
+    
+    
+    
+    
+    
 
     const handleHistoricalHorizonChange = (event) => {
         setHistoricalHorizon(event.target.value);
@@ -67,7 +150,7 @@ function PolParametros() {
     const handleSaveChanges = async () => {
         setLoaded(false);
         try {
-            const url = 'https://optiscportal.com/saveParams';
+            const url = 'http://localhost:3000/saveParams';
     
             const response = await fetch(url, {
                 method: 'POST',
@@ -108,38 +191,52 @@ function PolParametros() {
 
     const handleExecuteClassificationAndPolicies = async () => {
         setLoaded(false);
+    
         try {
-            const url = calendar === 'Diario' ? 'https://optiscportal.com/runProcess' : 'https://optiscportal.com/runProcessSem';
-    
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    appUser: user.AppUser,
-                    appPass: user.password,
-                    DBName: user.dbName
-                })
-            });
-    
-            if (response.ok) {
-                setLoaded(true);
-                alert('Se ejecuto correctamente la clasificación y las políticas');
-            } else {
-                setLoaded(true);
-                alert('Error en la ejecucion');
+            let urls = [];
+            if (calendar === 'Diario') {
+                urls.push('http://localhost:3000/runProcess');
+            } else if (calendar === 'Semanal') {
+                urls.push('http://localhost:3000/runProcessSem');
+            } else if (calendar === 'Ambos') {
+                
+                urls.push('http://localhost:3000/runProcess', 'http://localhost:3000/runProcessSem');
             }
+    
+            // Ejecutar los procesos en el orden que se añadieron en el array
+            for (const url of urls) {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        appUser: user.AppUser,
+                        appPass: user.password,
+                        DBName: user.dbName
+                    })
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Error en la ejecución del proceso.');
+                }
+            }
+    
+            // Si todos los procesos se ejecutan sin errores
+            setLoaded(true);
+            alert('Se ejecutó correctamente la clasificación y las políticas');
         } catch (error) {
             setLoaded(true);
-            console.error('Error en la ejecucion:', error);
+            console.error('Error en la ejecución:', error);
+            alert('Error en la ejecución: ' + error.message);
         }
     };
+    
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const url = 'https://optiscportal.com/showParams';
+                const url = 'http://localhost:3000/showParams';
 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -172,9 +269,21 @@ function PolParametros() {
                     });
                     setHistoricalHorizon(result[33]);
 
-                    const parsedDate = new Date(result[34]);
-                    const newdate = parsedDate.toISOString().split('T')[0];
-                    setEndOfHorizon(newdate);
+                    console.log("fecha original: ", result[34]);
+
+                    const dateParts = result[34].split('/');
+                    const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                    const parsedDate = new Date(formattedDate);
+
+                    console.log("parsed date: ", parsedDate);
+                    
+                    if (!isNaN(parsedDate)) {
+                        const newdate = parsedDate.toISOString().split('T')[0];
+                        console.log("new date:", newdate);
+                        setEndOfHorizon(newdate);
+                    } else {
+                        throw new Error("Invalid date format");
+                    }
 
                     setServiceLevels({
                         A: result[35],
@@ -225,12 +334,12 @@ function PolParametros() {
                 <select id='calendar' value={calendar} onChange={handleCalendarChange}>
                     <option value='Diario'>Diario</option>
                     <option value='Semanal'>Semanal</option>
-                    {/*<option value='Mensual'>Mensual</option>*/}
+                    <option value='Ambos'>Ambos</option>
                 </select>
             </div>
             <div className='buttons'>
-                <MyButton onClick={handleSaveChanges} texto={"Guardar Cambios"} mL='.5vw' height='6vh' mT='1vh' mR='.1vw'  />
-                <MyButton onClick={handleExecuteClassificationAndPolicies} texto={"Ejecuta Clasificación y Políticas"} mL='.5vw' height='6vh' mT='1vh' mR='.1vw' />
+                <MyButton onClick={handleSaveChanges} texto={"Guardar Cambios"} mL='.5vw' height='6vh' mT='1vh' mR='.1vw' backColor='#3e4251' />
+                <MyButton onClick={handleExecuteClassificationAndPolicies} texto={"Ejecuta Clasificación y Políticas"} mL='.5vw' height='6vh' mT='1vh' mR='.1vw' backColor='#3e4251' />
 
             </div>
 
@@ -574,92 +683,93 @@ function PolParametros() {
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th colSpan="2" rowSpan="2" style={{ backgroundColor: 'rgb(48, 84, 150)', color: 'white'}}>
+                                        <th colSpan="2" rowSpan="2" style={{ backgroundColor: 'rgb(48, 84, 150)', color: 'white'}}>
                                                 <br />MARGEN
                                                 <a data-toggle="modal" data-target="#margMod">
                                                     <i className="fas fa-info-circle fa-sm fa-fw mr-2 text-gray-400" data-toggle="modal" data-target="#margMod"></i>
                                                 </a>
-                                            </th>
-                                            <th className="azulito">
-                                                <input
-                                                    type="text"
-                                                    className="form-control form-control-user text-center"
-                                                    name="MbDmb"
-                                                    placeholder="mBajo%"
-                                                    onChange={handleChange}
-                                                    value={inputs.MbDmb}
-                                                />
-                                            </th>
-                                            <th className="azulito">
-                                                <input
-                                                    type="text"
-                                                    className="form-control form-control-user text-center"
-                                                    name="MaDmb"
-                                                    placeholder="%"
-                                                    onChange={handleChange}
-                                                    value={inputs.MaDmb}
-                                                />
-                                            </th>
-                                            <th className="azulito">
-                                                <input
-                                                    type="text"
-                                                    className="form-control form-control-user text-center"
-                                                    name="MbDb"
-                                                    placeholder="%"
-                                                    onChange={handleChange}
-                                                    value={inputs.MbDb}
-                                                />
-                                            </th>
-                                            <th className="azulito">
-                                                <input
-                                                    type="text"
-                                                    className="form-control form-control-user text-center"
-                                                    name="MaDb"
-                                                    placeholder="%"
-                                                    onChange={handleChange}
-                                                    value={inputs.MaDb}
-                                                />
-                                            </th>
-                                            <th className="azulito">
-                                                <input
-                                                    type="text"
-                                                    className="form-control form-control-user text-center"
-                                                    name="MbDm"
-                                                    placeholder="%"
-                                                    onChange={handleChange}
-                                                    value={inputs.MbDm}
-                                                />
-                                            </th>
-                                            <th className="azulito">
-                                                <input
-                                                    type="text"
-                                                    className="form-control form-control-user text-center"
-                                                    name="MaDm"
-                                                    placeholder="%"
-                                                    onChange={handleChange}
-                                                    value={inputs.MaDm}
-                                                />
-                                            </th>
-                                            <th className="azulito">
-                                                <input
-                                                    type="text"
-                                                    className="form-control form-control-user text-center"
-                                                    name="MbDa"
-                                                    placeholder="%"
-                                                    onChange={handleChange}
-                                                    value={inputs.MbDa}
-                                                />
-                                            </th>
-                                            <th className="azulito">
-                                                <input
-                                                    type="text"
-                                                    className="form-control form-control-user text-center"
-                                                    name="MaDa"
-                                                    placeholder="%"
-                                                    onChange={handleChange}
-                                                    value={inputs.MaDa}
-                                                />
-                                            </th>
+                                                </th>
+                                        <th className="azulito">
+    <input
+        type="text"
+        className="form-control form-control-user text-center"
+        name="MbDmb"
+        placeholder="mBajo%"
+        onChange={handleChange}
+        value={inputs.MbDmb}
+    />
+</th>
+<th className="azulito">
+    <input
+        type="text"
+        className="form-control form-control-user text-center"
+        name="MaDmb"
+        placeholder="%"
+        readOnly
+        value={inputs.MaDmb}
+    />
+</th>
+<th className="azulito">
+    <input
+        type="text"
+        className="form-control form-control-user text-center"
+        name="MbDb"
+        placeholder="%"
+        readOnly
+        value={inputs.MbDb}
+    />
+</th>
+<th className="azulito">
+    <input
+        type="text"
+        className="form-control form-control-user text-center"
+        name="MaDb"
+        placeholder="%"
+        readOnly
+        value={inputs.MaDb}
+    />
+</th>
+<th className="azulito">
+    <input
+        type="text"
+        className="form-control form-control-user text-center"
+        name="MbDm"
+        placeholder="%"
+        readOnly
+        value={inputs.MbDm}
+    />
+</th>
+<th className="azulito">
+    <input
+        type="text"
+        className="form-control form-control-user text-center"
+        name="MaDm"
+        placeholder="%"
+        readOnly
+        value={inputs.MaDm}
+    />
+</th>
+<th className="azulito">
+    <input
+        type="text"
+        className="form-control form-control-user text-center"
+        name="MbDa"
+        placeholder="%"
+        readOnly
+        value={inputs.MbDa}
+    />
+</th>
+<th className="azulito">
+    <input
+        type="text"
+        className="form-control form-control-user text-center"
+        name="MaDa"
+        placeholder="%"
+        readOnly
+        value={inputs.MaDa}
+    />
+</th>
+
                                         </tr>
                                         <tr>
                                             <th className="azulito2" >Bajo</th>

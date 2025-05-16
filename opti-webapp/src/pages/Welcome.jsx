@@ -1,15 +1,23 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import './../styles/pages/welcome.css'; 
 
 function Welcome() {
   return (
-    <>
     <div className='Welcome'>
-      <h1 className='text1'>Bienvenido a BTC OPTI</h1>
-      <h2>OPTI 2.0</h2>
+      <div className='leftSection'>
+        <img src="/images/fondowel.jpg" alt="Fondo" className='fondowel' />
+      </div>
+      <div className='rightSection'>
+        <h1>¡Bienvenido a la Optimización!</h1>
+        <p className='description'>
+          La herramienta diseñada específicamente para facilitar       la gestión de tu inventario.
+        </p>
+        <p className='description'>
+         Ayudándote a optimizar tus procesos y a tomar decisiones      más informadas.
+        </p>
+      </div>
+      <img src="/images/btccolor.png" alt="Icono" className='smallIcon' />
     </div>
-    </>
   );
 }
 

@@ -7,6 +7,7 @@ import { useAuth } from './../components/AuthContext';
 import Spinner from './../components/Spinner';
 
 import './../styles/pages/polResultados.css';
+import InfoButton from '../components/InfoButton';
 
 const stickyColumnStyle = {
     backgroundColor: '#012148',
@@ -58,7 +59,7 @@ const PolResultados = () => {
     const handleButtonClick = async () => {
         setLoading(true);
 
-        const url = 'https://optiscportal.com/getCSVPol';
+        const url = 'http://localhost:3000/getCSVPol';
 
         if(url, selectedValue, calendar) {
             try {
@@ -106,6 +107,20 @@ const PolResultados = () => {
         }
     };
 
+    const handleDownloadClick = () => {
+        const csv = Papa.unparse(data);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'resultados.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+
     return (
         <div className='polResultados'>
             {loading && <Spinner />}
@@ -120,16 +135,24 @@ const PolResultados = () => {
                             onChange={handleRadioChange}
                             style={{ flexDirection: 'column' }}
                         >
-                            <FormControlLabel
-                                value="clasifABCD"
-                                control={<Radio />}
-                                label="Clasificación ABCD"
-                            />
-                            <FormControlLabel
-                                value="polInv"
-                                control={<Radio />}
-                                label="Políticas de Inventario"
-                            />
+                            <div>
+                                <FormControlLabel
+                                    value="clasifABCD"
+                                    control={<Radio />}
+                                    label="Clasificación ABCD"    
+                                />
+                                <InfoButton information='Cuando se selecciona esta opción, la consulta generada muestra la salida del proceso de cálculo de clasificación ABCD a nivel Producto-Ubicación.'/>
+                            </div>
+                            
+                            <div>
+                                <FormControlLabel
+                                    value="polInv"
+                                    control={<Radio />}
+                                    label="Políticas de Inventario"
+                                />
+                                <InfoButton information='Cuando se selecciona esta opción, la consulta generada muestra la salida del proceso de cálculo de políticas de inventario a nivel Producto-Ubicación.'/>
+                            </div>
+                            
                         </RadioGroup>
                     </FormControl>
                 </div>
@@ -150,7 +173,8 @@ const PolResultados = () => {
                         ))}
                     </Select>
                 </FormControl>
-                <MyButton onClick={handleButtonClick} texto={"Consultar"} mL='3vw' height='7vh' mT='3vh' mR='.1vw' />
+                <InfoButton information='Elige la granularidad de los periodos de tiempo con los que se calculó la política de inventarios.'/>
+                <MyButton onClick={handleButtonClick} texto={"Consultar"} mL='3vw' height='7vh' mT='3vh' mR='.1vw' backColor='#3e4251' />
             </div>
 
             <div className='TablaDiv'>
@@ -191,6 +215,8 @@ const PolResultados = () => {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+
+            {data.length > 0 && <MyButton onClick={handleDownloadClick} texto={"Descargar Resultados"} mL='55vw' height='7vh' mT='3vh' mR='.1vw' backColor='#3d4c87' />} 
         </div>
     );
 };

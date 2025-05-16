@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+﻿/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiUser, FiLock } from 'react-icons/fi';
@@ -32,7 +32,7 @@ function Login() {
       setLoadingLogin(true);
 
       // Send a POST request to the server
-      const response = await fetch('https://optiscportal.com/login', {
+      const response = await fetch('http://localhost:3000', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

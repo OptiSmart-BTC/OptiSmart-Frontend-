@@ -42,9 +42,11 @@
 }
 
 .radio-buttons label {
-    display: block;
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
     font-size: 1em; /* Ajustar el tamaño de fuente */
+    gap: 10px; /* Añadir un espacio entre el texto y el icono */
 }
 
 input[type="file"] {
@@ -53,7 +55,9 @@ input[type="file"] {
 }
 
 .archivos-button {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #007BFF; /* Color azul */
     color: white;
     border: none;
@@ -63,6 +67,7 @@ input[type="file"] {
     cursor: pointer;
     width: 100%; /* Se ajusta para que el botón se expanda al ancho del contenedor */
     font-size: 1em; /* Ajustar el tamaño de fuente */
+    gap: 10px; /* Añadir un espacio entre el texto y el icono */
 }
 
 .archivos-button:disabled {
@@ -85,3 +90,8 @@ textarea {
     font-size: 1em; /* Ajustar el tamaño de fuente */
 }
 
+.button-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
