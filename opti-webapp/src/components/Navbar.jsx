@@ -193,39 +193,6 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-<<<<<<< HEAD
-        <div className="navbar-header">
-          {/*<h1>BTC OPTI</h1>*/}
-          <img src="/images/Opti_Smart_Blanco.png" alt="BTC Opti" className='headerLogo'/>
-        </div>
-        
-        <ul className="navbar-menu">
-          <NavbarItem label="Home" path="/" className={isActive('/') ? 'active' : ''}/>
-          <NavbarItem label="Políticas de inventario" className={isActiveParent('/politicas-de-inventario') ? 'activeParent' : ''}>
-            <ul className="navbar-dropdown">
-              <DropdownItem label="1. Información" path="/politicas-de-inventario/informacion" className={isActive('/politicas-de-inventario/informacion') ? 'active' : ''}/>
-              <DropdownItem label="2. Parámetros" path="/politicas-de-inventario/parametros" className={isActive('/politicas-de-inventario/parametros') ? 'active' : ''}/>
-              <DropdownItem label="3. Resultados" path="/politicas-de-inventario/resultados" className={isActive('/politicas-de-inventario/resultados') ? 'active' : ''}/>
-            </ul>
-          </NavbarItem>
-          <NavbarItem label="Plan de reposición" className={isActiveParent('/plan-de-reposicion') ? 'activeParent' : ''}>
-            <ul className="navbar-dropdown">
-              <DropdownItem label="1. Archivos" path="/plan-de-reposicion/archivos" className={isActive('/plan-de-reposicion/archivos') ? 'active' : ''}/>
-              <DropdownItem label="2. Resultados" path="/plan-de-reposicion/resultados" className={isActive('/plan-de-reposicion/resultados') ? 'active' : ''}/>
-            </ul>
-          </NavbarItem>
-          <NavbarItem label="Planeación de Demanda" className={isActiveParent('/planeacion-de-demanda') ? 'activeParent' : ''}>
-            <ul className="navbar-dropdown">
-              <DropdownItem label="1. Archivos" path="/planeacion-de-demanda/archivos" className={isActive('/planeacion-de-demanda/archivos') ? 'active' : ''}/>
-              <DropdownItem label="2. Tablas" path="/planeacion-de-demanda/tablas" className={isActive('/planeacion-de-demanda/tablas') ? 'active' : ''}/>
-              <DropdownItem label="3. Clasificación Demanda" path="/planeacion-de-demanda/clasificacion" className={isActive('/planeacion-de-demanda/clasificacion') ? 'active' : ''}/>
-              <DropdownItem label="4. Configuración" path="/planeacion-de-demanda/configuracion" className={isActive('/planeacion-de-demanda/configuracion') ? 'active' : ''}/>
-              <DropdownItem label="5. Resultados" path="/planeacion-de-demanda/resultados" className={isActive('/planeacion-de-demanda/resultados') ? 'active' : ''}/>
-              <DropdownItem label="6. Histórico Forecast" path="/planeacion-de-demanda/historico-forecast" className={isActive('/planeacion-de-demanda/historico-forecast') ? 'active' : ''}/>
-            </ul>
-          </NavbarItem>
-        </ul>
-=======
       <div className="navbar-header">
         <img
           src="/images/Opti_Smart_Blanco.png"
@@ -306,6 +273,58 @@ const Navbar = () => {
                   }
                 />
             </NavbarItem>
+            <NavbarItem
+              label="Planación de Demanda"
+              className={
+                isActiveParent("/planeacion-de-demanda") ? "activeParent" : ""
+              }
+            >
+              <ul className="navbar-dropdown">
+                <DropdownItem
+                  label="Archivos"
+                  path="/planeacion-de-demanda/archivos"
+                  className={
+                    isActive("//planeacion-de-demanda/archivos") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Tablas"
+                  path="/planeacion-de-demanda/tablas"
+                  className={
+                    isActive("/planeacion-de-demanda/tablas") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Clasificación de Demanda"
+                  path="/planeacion-de-demanda/clasificacion"
+                  className={
+                    isActive("/planeacion-de-demanda/clasificacion") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Configuración"
+                  path="/planeacion-de-demanda/configuracion"
+                  className={
+                    isActive("/planeacion-de-demanda/configuracion") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Resultados"
+                  path="/planeacion-de-demanda/resultados"
+                  className={
+                    isActive("/planeacion-de-demanda/resultados") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Historia de Forecast"
+                  path="planeacion-de-demanda/historico-forecast"
+                  className={
+                    isActive("planeacion-de-demanda/historico-forecast") ? "active" : ""
+                  }
+                />
+                
+              </ul>
+            </NavbarItem>
           </>
         )}
   
@@ -353,7 +372,6 @@ const Navbar = () => {
             </NavbarItem>
           </>
         )}
->>>>>>> origin/frontendtest
 
         <div className="navbar-footer">
           <div className="navbar-documentacion"  onClick={() => { handleNavigation('/Documentacion'); }}>

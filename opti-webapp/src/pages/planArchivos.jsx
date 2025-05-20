@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-import Spinner from './../components/Spinner';
-import { useAuth } from './../components/AuthContext';
-
-=======
 import React, { useState, useEffect } from 'react';
 import Spinner from './../components/Spinner';
 import { useAuth } from './../components/AuthContext';
 import JSZip from 'jszip';
->>>>>>> origin/frontendtest
 import './../styles/pages/planArchivos.css';
 import InfoButton from '../components/InfoButton';
 
@@ -18,11 +11,8 @@ const PlanArchivos = () => {
     const [uploadType, setUploadType] = useState('inventario');
     const [results, setResults] = useState('Resultado de la carga de información');
     const { user } = useAuth();
-<<<<<<< HEAD
-=======
     const [userRole, setUserRole] = useState(null); // Rol del usuario
     const [rolePermissions, setRolePermissions] = useState([]); // Permisos del rol
->>>>>>> origin/frontendtest
 
   // Función para obtener el rol y permisos del usuario al cargar el componente
   useEffect(() => {
@@ -142,11 +132,7 @@ const PlanArchivos = () => {
         formData.append('appPass', user.password);
         formData.append('DBName', user.dbName);
 
-<<<<<<< HEAD
-        const url = `http://localhost:3000/${append}`;
-=======
         const url = `${import.meta.env.VITE_API_URL}/${append}`;
->>>>>>> origin/frontendtest
 
         try {
             const response = await fetch(url, {
@@ -173,36 +159,14 @@ const PlanArchivos = () => {
         }
     };
 
-<<<<<<< HEAD
-    const descargarTemplates = () => {
-=======
     
 
     const descargarTemplates = async () => {
->>>>>>> origin/frontendtest
         const templates = [
             { path: "/templates/template-inventario_disponible.csv", name: "template-inventario_disponible.csv" },
             { path: "/templates/template-inventario_transito.csv", name: "template-inventario_transito.csv" },
             { path: "/templates/template-requerimientos_confirmados.csv", name: "template-requerimientos_confirmados.csv" }
         ];
-<<<<<<< HEAD
-
-        templates.forEach(template => {
-            const a = document.createElement('a');
-            a.href = template.path;
-            a.download = template.name;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        });
-    }
-
-    const descargarActual = async () => {
-        const url = 'http://localhost:3000/getActualCSVInvDisp';
-
-        setIsUploading(true);
-
-=======
     
         const zip = new JSZip();
     
@@ -250,7 +214,6 @@ const PlanArchivos = () => {
     
         setIsUploading(true); // Mostrar spinner mientras se procesa la solicitud
     
->>>>>>> origin/frontendtest
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -263,36 +226,6 @@ const PlanArchivos = () => {
                     DBName: user.dbName,
                 }),
             });
-<<<<<<< HEAD
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const blob = await response.blob();
-            const fileUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = fileUrl;
-
-            const filename = response.headers.get('Content-Disposition')
-                ? response.headers.get('Content-Disposition').split('filename=')[1].replace(/"/g, '')
-                : 'csv_actual.zip';
-
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(fileUrl);
-
-            alert('Descarga exitosa');
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error de conexión. Por favor, intente nuevamente.');
-        } finally {
-            setIsUploading(false);
-        }
-    }
-=======
     
             if (!response.ok) {
                 throw new Error('Error al conectar con el servidor. Intente nuevamente.');
@@ -328,7 +261,6 @@ const PlanArchivos = () => {
         }
     };
     
->>>>>>> origin/frontendtest
 
     const descargarLog = () => {
         const blob = new Blob([results], { type: 'text/plain' });
@@ -350,38 +282,6 @@ const PlanArchivos = () => {
             <div className='container'>
                 <div className='upload-section'>
                     <h2>Carga de Información</h2>
-<<<<<<< HEAD
-                    <div className='radio-buttons'>
-                        <label>
-                            <input type="radio" value="inventario" checked={uploadType === 'inventario'} onChange={handleUploadTypeChange} />
-                            Inventario Disponible
-                            <InfoButton information='Al seleccionar esta opción, permite al usuario cargar el archivo que contiene la información del inventario disponible (léase tabla “Inventario disponible”), así como descargar el archivo actualmente cargado en la herramienta, o descargar la plantilla para ser usada en una carga inicial.'/>
-                        </label>
-                        <label>
-                            <input type="radio" value="transito" checked={uploadType === 'transito'} onChange={handleUploadTypeChange} />
-                            Inventario en Tránsito
-                            <InfoButton information='Al seleccionar esta opción, permite al usuario cargar el archivo que contiene la información del inventario en tránsito (léase tabla “Inventario en tránsito”), así como descargar el archivo actualmente cargado en la herramienta, o descargar la plantilla para ser usada en una carga inicial.'/>
-                        </label>
-                        <label>
-                            <input type="radio" value="confirmados" checked={uploadType === 'confirmados'} onChange={handleUploadTypeChange} />
-                            Requerimientos Confirmados
-                            <InfoButton information='Al seleccionar esta opción, permite al usuario cargar el archivo que contiene la información de los requerimientos confirmados (léase tabla “Requerimientos confirmados”), así como descargar el archivo actualmente cargado en la herramienta, o descargar la plantilla para ser usada en una carga inicial.'/>
-                        </label>
-                    </div>
-                    <input type="file" onChange={handleFileChange} />
-                    <div className='button-info'>
-                        <button className='archivos-button' onClick={handleFileUpload} disabled={isUploading}>Cargar Nuevo</button>
-                        <InfoButton information='Permite importar desde un archivo CSV a BTC OPTISmart de la opción elegida. La carga de este archivo borra la información previamente cargada y la reemplaza con la del archivo cargado. Nota: Para una carga exitosa, asegúrese de acomodar la información del CSV de acuerdo con la plantilla de la opción elegida. Un mal acomodo de la información, así como usar caracteres no permitidos puede generar errores de carga.'/>
-                    </div>
-                    <div className='button-info'>
-                        <button className='archivos-button' onClick={descargarActual}>Descargar Actual</button>
-                        <InfoButton information='Permite exportar la información actual y previamente cargada a BTC OPTISmart de la opción elegida.'/>     
-                    </div>
-                    <div className='button-info'>
-                        <button className='archivos-button' onClick={descargarTemplates}>Descargar Plantillas</button>
-                        <InfoButton information='Permite descargar una plantilla base en la cual se encuentran los encabezados y el orden que deben llevar para importar la opción seleccionada en el botón cargar nuevo.'/>
-                    </div>
-=======
     
                     {/* Contenedor principal para selectores y botones */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -472,16 +372,9 @@ const PlanArchivos = () => {
                             </div>
                         </div>
                     </div>
->>>>>>> origin/frontendtest
                 </div>
     
                 <div className='results-section'>
-<<<<<<< HEAD
-                    <textarea readOnly value={results} />
-                    <div className='button-info'>
-                        <button className='archivos-button' onClick={descargarLog}>Descargar Log de Resultados</button>
-                        <InfoButton information='Permite exportar la información del resultado de la carga.'/>
-=======
                     <textarea readOnly value={results} style={{ width: '100%' }} />
                     <div className='button-info'>
                         <button className='archivos-button' onClick={descargarLog} data-permission="Plan-archivos descargar logs"
@@ -489,7 +382,6 @@ const PlanArchivos = () => {
                             Descargar Log de Resultados
                         </button>
                         <InfoButton information='Permite exportar los resultados de la carga de información.' />
->>>>>>> origin/frontendtest
                     </div>
                 </div>
             </div>

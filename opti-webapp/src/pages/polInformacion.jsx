@@ -3,11 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './../components/AuthContext';
 import Spinner from './../components/Spinner';
 import InfoButton from '../components/InfoButton';
-<<<<<<< HEAD
-
-=======
 import JSZip from 'jszip';
->>>>>>> origin/frontendtest
 import './../styles/pages/polInformacion.css';
 
 const PolInformacion = () => {
@@ -122,16 +118,10 @@ const PolInformacion = () => {
         formData.append('doc', selectedFile);
         formData.append('appUser', user.AppUser);
         formData.append('appPass', user.password);
-<<<<<<< HEAD
-        formData.append('DBName', user.dbName); 
-    
-        const url = `http://localhost:3000/${append}`;
-=======
         formData.append('DBName', user.dbName);
     
         // Construir la URL dinámicamente con VITE_API_URL
         const url = `${import.meta.env.VITE_API_URL}/${append}`;
->>>>>>> origin/frontendtest
     
         try {
             const response = await fetch(url, {
@@ -145,11 +135,7 @@ const PolInformacion = () => {
                 console.log(result); // Muestra o procesa el resultado según sea necesario
                 setResults(result);
             } else {
-<<<<<<< HEAD
-                const errorDetail = await response.text(); // Assumir que el error viene en texto plano, puede ajustarse si el formato es diferente
-=======
                 const errorDetail = await response.text(); // Captura el error en texto plano
->>>>>>> origin/frontendtest
                 console.error('Error en la carga del archivo:', errorDetail);
                 alert(`Error en la carga del archivo: ${errorDetail}`);
             }
@@ -163,15 +149,6 @@ const PolInformacion = () => {
     };
     
 
-<<<<<<< HEAD
-    const descargarTemplates = async () => {
-        const skuPath = "/templates/template-sku.csv";
-        const histPath = "/templates/template-historico_demanda.csv";
-
-        const a = document.createElement('a');
-        a.href = skuPath;
-        a.download = 'template-sku.csv';
-=======
     
 
 const descargarTemplates = async () => {
@@ -203,7 +180,6 @@ const descargarTemplates = async () => {
         const a = document.createElement("a");
         a.href = url;
         a.download = "templates.zip"; // Nombre del archivo ZIP
->>>>>>> origin/frontendtest
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -217,11 +193,7 @@ const descargarTemplates = async () => {
 };
 
     const descargarActual = async () => {
-<<<<<<< HEAD
-        const url = 'http://localhost:3000/getActualCSVPol';
-=======
         const url = `${import.meta.env.VITE_API_URL}/getActualCSVPol`;
->>>>>>> origin/frontendtest
 
         setIsUploading(true);
 
@@ -287,33 +259,6 @@ const descargarTemplates = async () => {
             <h1 className='titulo'>Archivos de Entrada</h1>
             <div className='container'>
                 <div className='upload-section'>
-<<<<<<< HEAD
-                    <div className='radio-buttons'>
-                        <label>
-                            <input type="radio" value="catalogo" checked={uploadType === 'catalogo'} onChange={handleUploadTypeChange} />
-                            Catálogo de SKU&apos;s
-                            <InfoButton information='Con esta casilla activa los procesos ejecutados modificarán o descargarán los datos de SKU´S.'/>
-                        </label>
-                        <label>
-                            <input type="radio" value="historico" checked={uploadType === 'historico'} onChange={handleUploadTypeChange} />
-                            Histórico de Demanda
-                            <InfoButton information='Con esta casilla activa los procesos ejecutados modificarán o descargarán los datos del Histórico de Ventas de los productos.'/>
-                        </label>
-                    </div>
-                    <input type="file" onChange={handleFileChange} />
-                    <div className='button-info'>
-                        <button className='informacion-buttons' onClick={handleFileUpload} disabled={isUploading}>Cargar Nuevo</button>
-                        <InfoButton information='Este botón nos permitirá seleccionar un archivo de nuestro ordenador para introducirlo como información base para la aplicación, ya sea, de los datos SKU (1) o del Histórico (2).'/>
-                    </div>
-                    <div className='button-info'>
-                        <button className='informacion-buttons' onClick={descargarActual}>Descargar Actual</button>
-                        <InfoButton information='Este botón descargará los datos actuales que se tienen guardados en la aplicación ya sea del SKU (1) o del Histórico (2), dependiendo de la casilla que se tenga seleccionada.'/>
-                    </div>
-                    <div className='button-info'>
-                        <button className='informacion-buttons' onClick={descargarTemplates}>Descargar Plantillas</button>
-                        <InfoButton information='Este botón descargará el template/plantilla base que se debe seguir en nuestros archivos (SKU e Histórico) a la hora de cargarlos en la aplicación. De no seguir el formato de la plantilla podrá haber varios errores en los resultados.'/>
-                    </div>
-=======
                     <h2>Carga de Información</h2>
     
                     {/* Contenedor principal para selectores y botones */}
@@ -395,16 +340,9 @@ const descargarTemplates = async () => {
                             </div>
                         </div>
                     </div>
->>>>>>> origin/frontendtest
                 </div>
     
                 <div className='results-section'>
-<<<<<<< HEAD
-                    <textarea readOnly placeholder={results} />
-                    <div className='button-info'>
-                        <button className='informacion-buttons' onClick={descargarLog}>Descargar Log de Resultados</button>
-                        <InfoButton information='Permite descargar un archivo de texto con la información del resultado de la carga.'/>
-=======
                     <textarea readOnly value={results} style={{ width: '100%' }} />
                     <div className='button-info'>
                         <button className='archivos-button' onClick={descargarLog} data-permission="Politica-archivos descargar logs"
@@ -412,7 +350,6 @@ const descargarTemplates = async () => {
                             Descargar Log de Resultados
                         </button>
                         <InfoButton information='Permite exportar los resultados de la carga de información.' />
->>>>>>> origin/frontendtest
                     </div>
                 </div>
             </div>

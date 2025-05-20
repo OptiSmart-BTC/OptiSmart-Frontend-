@@ -7,10 +7,6 @@ import { useAuth } from './../components/AuthContext';
 import Spinner from './../components/Spinner';
 import './../styles/pages/polResultados.css';
 import InfoButton from '../components/InfoButton';
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/frontendtest
 
 const stickyColumnStyle = {
     backgroundColor: '#012148',
@@ -236,11 +232,7 @@ const PolResultados = () => {
     const handleButtonClick = async () => {
         setLoading(true);
 
-<<<<<<< HEAD
-        const url = 'http://localhost:3000/getCSVPol';
-=======
         const url = `${import.meta.env.VITE_API_URL}/getCSVPol`;
->>>>>>> origin/frontendtest
 
         if(url && selectedValue && calendar) {
             try {
@@ -288,10 +280,6 @@ const PolResultados = () => {
         }
     };
 
-<<<<<<< HEAD
-    const handleDownloadClick = () => {
-        const csv = Papa.unparse(data);
-=======
     /*const handleDownloadClick = () => {
         const updatedData = data.map((row, index) => {
             if (overrideValues[index] !== undefined) {
@@ -304,7 +292,6 @@ const PolResultados = () => {
         });
 
         const csv = Papa.unparse(updatedData);
->>>>>>> origin/frontendtest
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -314,10 +301,6 @@ const PolResultados = () => {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-<<<<<<< HEAD
-    };
-
-=======
     };*/
 	const handleDownloadClick = () => {
 		const updatedData = data.map((row, index) => {
@@ -521,7 +504,6 @@ const PolResultados = () => {
     
     
     
->>>>>>> origin/frontendtest
 
     return (
         <div className="polResultados">
@@ -539,18 +521,6 @@ const PolResultados = () => {
                             onChange={handleRadioChange}
                             style={{ flexDirection: "column" }}
                         >
-<<<<<<< HEAD
-                            <div>
-                                <FormControlLabel
-                                    value="clasifABCD"
-                                    control={<Radio />}
-                                    label="Clasificación ABCD"    
-                                />
-                                <InfoButton information='Cuando se selecciona esta opción, la consulta generada muestra la salida del proceso de cálculo de clasificación ABCD a nivel Producto-Ubicación.'/>
-                            </div>
-                            
-                            <div>
-=======
                             <div style={{ display: "flex", alignItems: "center" }}>
                                 <FormControlLabel
                                     value="clasifABCD"
@@ -561,20 +531,13 @@ const PolResultados = () => {
                             </div>
     
                             <div style={{ display: "flex", alignItems: "center" }}>
->>>>>>> origin/frontendtest
                                 <FormControlLabel
                                     value="polInv"
                                     control={<Radio />}
                                     label="Políticas de Inventario"
                                 />
-<<<<<<< HEAD
-                                <InfoButton information='Cuando se selecciona esta opción, la consulta generada muestra la salida del proceso de cálculo de políticas de inventario a nivel Producto-Ubicación.'/>
-                            </div>
-                            
-=======
                                 <InfoButton information="Cuando se selecciona esta opción, la consulta generada muestra la salida del proceso de cálculo de políticas de inventario a nivel Producto-Ubicación." />
                             </div>
->>>>>>> origin/frontendtest
                         </RadioGroup>
                     </FormControl>
                 </div>
@@ -599,13 +562,7 @@ const PolResultados = () => {
                         ))}
                     </Select>
                 </FormControl>
-<<<<<<< HEAD
-                <InfoButton information='Elige la granularidad de los periodos de tiempo con los que se calculó la política de inventarios.'/>
-                <MyButton onClick={handleButtonClick} texto={"Consultar"} mL='3vw' height='7vh' mT='3vh' mR='.1vw' backColor='#3e4251' />
-            </div>
-=======
                 <InfoButton information="Elige la granularidad de los periodos de tiempo con los que se calculó la política de inventarios." />
->>>>>>> origin/frontendtest
 
                 <FormControl
                     variant="outlined"
@@ -739,10 +696,6 @@ const PolResultados = () => {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-<<<<<<< HEAD
-
-            {data.length > 0 && <MyButton onClick={handleDownloadClick} texto={"Descargar Resultados"} mL='55vw' height='7vh' mT='3vh' mR='.1vw' backColor='#3d4c87' />} 
-=======
     
             {data.length > 0 && (
                 <>
@@ -824,7 +777,6 @@ const PolResultados = () => {
             {/*  */}
         </div>
    
->>>>>>> origin/frontendtest
         </div>
     );
 };

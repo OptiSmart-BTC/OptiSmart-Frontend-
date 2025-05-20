@@ -10,7 +10,6 @@ import PolInformacion from './pages/polInformacion';
 import PolParametros from './pages/polParametros';
 import PolResultados from './pages/polResultados';
 import PowerBIDashboard from './pages/PowerBIDashboard';
-
 import PlanArchivos from './pages/planArchivos';
 import PlanResultados from './pages/planResultados';
 import Documentacion from './pages/Documentacion';
@@ -39,10 +38,6 @@ const ProtectedRoutes = () => {
 const AppRoutes = () => {
   const location = useLocation();
 
-<<<<<<< HEAD
-  // Redirect to the root if the current path is not the login path
-=======
->>>>>>> origin/frontendtest
   useEffect(() => {
     window.history.replaceState(null, '', '/');
   }, [location]);
@@ -57,24 +52,19 @@ const AppRoutes = () => {
           <Route path="politicas-de-inventario/informacion" element={<PolInformacion />} />
           <Route path="politicas-de-inventario/parametros" element={<PolParametros />} />
           <Route path="politicas-de-inventario/resultados" element={<PolResultados />} />
-          
-
           <Route path="plan-de-reposicion/archivos" element={<PlanArchivos />} />
           <Route path="plan-de-reposicion/resultados" element={<PlanResultados />} />
           <Route path="plan-de-reposicion/dashboard" element={<PowerBIDashboard />} />
           <Route path="Documentacion" element={<Documentacion />} />
-<<<<<<< HEAD
           <Route path="planeacion-de-demanda/archivos" element={<PlaneacionDemandaArchivos/>} /> 
           <Route path="planeacion-de-demanda/tablas" element={<DemandTable/>} />
           <Route path="planeacion-de-demanda/clasificacion" element={<PlaneacionDemanda_clasificacion/>} />
           <Route path="planeacion-de-demanda/configuracion" element={<PlaneacionDemandaConfiguracion/>} />
           <Route path="planeacion-de-demanda/resultados" element={<PlaneacionDemandaResultados/>} />
           <Route path="planeacion-de-demanda/historico-forecast" element={<PlaneacionDemanda_histfcst/>} />
-=======
 
           <Route path="Gestor-de-roles" element={<GestorDeRoles />} />
           
->>>>>>> origin/frontendtest
         </Route>
       </Route>
     </Routes>

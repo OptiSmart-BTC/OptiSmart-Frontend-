@@ -4,11 +4,7 @@ import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PropTypes from 'prop-types';
 
-<<<<<<< HEAD
-const MyButton = ({ onClick, texto, mL, height, mT, mR, backColor }) => {
-=======
 const MyButton = ({ onClick, texto, mL, height, mT, mR, backColor, disabled }) => {
->>>>>>> origin/frontendtest
   return (
     <Button
       variant="contained"
