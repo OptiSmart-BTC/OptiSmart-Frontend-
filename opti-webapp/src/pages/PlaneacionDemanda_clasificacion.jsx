@@ -452,6 +452,23 @@ const PlaneacionDemanda_clasificacion = () => {
               width: 1
             }
           },
+          // Información personalizada para el hover
+          text: filtered.map(item => {
+            // Construir la cadena DFU (Producto-Canal-Ubicación)
+            const dfu = `${item.Producto || 'N/A'}-${item.Canal || 'N/A'}-${item.Ubicacion || 'N/A'}`;
+          return `DFU: ${dfu}<br>Puntos de datos: ${item.Data_Points || 0}`; 
+          }),
+          hovertemplate:
+            '<b>%{fullData.name}</b><br>' +
+            'ADI: %{x:.4f}<br>' +
+            'CV²: %{y:.4f}<br>' +
+            '%{text}' +
+            '<extra></extra>', // <extra></extra> oculta el box de la categoría
+          hoverlabel: {
+            bgcolor: pieColors[index % pieColors.length],
+            bordercolor: 'white',
+            font: { color: 'white', size: 13 }
+          }
         };
       });
       
