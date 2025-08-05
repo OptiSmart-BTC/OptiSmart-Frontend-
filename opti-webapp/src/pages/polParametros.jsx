@@ -24,12 +24,14 @@ function PolParametros() {
       try {
         // Consultar la API para obtener los datos del usuario
         const userResponse = await fetch(
-          `http://localhost:3000/api/users?AppUser=${user.AppUser}`
+          `${import.meta.env.VITE_API_URL}/api/users?AppUser=${user.AppUser}`
         );
-
+        
         if (userResponse.ok) {
           const userData = await userResponse.json();
           console.log("Datos del usuario obtenidos:", userData);
+        
+        
 
           // Buscar el documento donde aparece el usuario actual
           const matchingUserDoc = userData.find((doc) =>
@@ -50,13 +52,16 @@ function PolParametros() {
 
               // Obtener los permisos del rol desde la colección de roles
               const rolesResponse = await fetch(
-                "http://localhost:3000/api/roles"
+                `${import.meta.env.VITE_API_URL}/api/roles`
               );
+              
               if (rolesResponse.ok) {
                 const rolesData = await rolesResponse.json();
                 const roleData = rolesData.find(
                   (role) => role.name === roleName
                 );
+              
+              
 
                 if (roleData) {
                   setRolePermissions(roleData.permissions);
@@ -271,7 +276,7 @@ function PolParametros() {
 
       // Hacer la solicitud POST al endpoint
       const response = await fetch(
-        "http://localhost:3000/runMontecarloAndOverride",
+        `${import.meta.env.VITE_API_URL}/runMontecarloAndOverride`,
         {
           method: "POST",
           headers: {
@@ -280,6 +285,7 @@ function PolParametros() {
           body: JSON.stringify(requestBody),
         }
       );
+      
 
       // Verificar si la respuesta fue exitosa
       if (!response.ok) {
@@ -302,7 +308,7 @@ function PolParametros() {
   const handleSaveChanges = async () => {
     setLoaded(false);
     try {
-      const url = "http://localhost:3000/saveParams";
+      const url = `${import.meta.env.VITE_API_URL}/saveParams`;
 
       const response = await fetch(url, {
         method: "POST",
@@ -367,19 +373,21 @@ function PolParametros() {
 
   const handleExecuteClassificationAndPolicies = async () => {
     setLoaded(false);
-
     try {
       let urls = [];
+      const baseUrl = import.meta.env.VITE_API_URL;
+    
       if (calendar === "Diario") {
-        urls.push("http://localhost:3000/runProcess");
+        urls.push(`${baseUrl}/runProcess`);
       } else if (calendar === "Semanal") {
-        urls.push("http://localhost:3000/runProcessSem");
+        urls.push(`${baseUrl}/runProcessSem`);
       } else if (calendar === "Ambos") {
         urls.push(
-          "http://localhost:3000/runProcess",
-          "http://localhost:3000/runProcessSem"
+          `${baseUrl}/runProcess`,
+          `${baseUrl}/runProcessSem`
         );
       }
+    
 
       // Ejecutar los procesos en el orden que se añadieron en el array
       for (const url of urls) {
@@ -413,8 +421,8 @@ function PolParametros() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const url = "http://localhost:3000/showParams";
-
+        const url = `${import.meta.env.VITE_API_URL}/showParams`;
+  
         const response = await fetch(url, {
           method: "POST",
           headers: {
