@@ -25,37 +25,32 @@ function RoleManager() {
     permissions: [],
   });
 
-  const [userRoles, setUserRoles] = useState({}); // Tracks role changes for users
+  const [userRoles, setUserRoles] = useState({});
 
-  // Fetch roles, users, and permissions
   useEffect(() => {
     const fetchRolesAndUsers = async () => {
       try {
         console.log("Fetching roles, users, and permissions...");
 
-        // Fetch roles
-        const rolesResponse = await fetch("http://localhost:3000/api/roles");
+        const rolesResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/roles`);
         const rolesData = await rolesResponse.json();
         setRoles(rolesData);
         console.log("Roles fetched:", rolesData);
 
-        // Fetch users
-        const usersResponse = await fetch("http://localhost:3000/api/users"); // Correct endpoint
+        const usersResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/users`);
         const usersData = await usersResponse.json();
 
-        // Flatten and process users
         const flattenedUsers = usersData.flatMap((doc) =>
           doc.UserUI.map((user) => ({
-            id: doc._id + "-" + user.AppUser, // Unique key combining _id and AppUser
+            id: doc._id + "-" + user.AppUser,
             AppUser: user.AppUser,
             Type: user.Type,
-            role: user.rol || "N/A", // Default role to N/A if undefined
+            role: user.rol || "N/A",
           }))
         );
 
         setUsers(flattenedUsers);
 
-        // Set initial role selection for users
         const initialRoles = {};
         flattenedUsers.forEach((user) => {
           initialRoles[user.AppUser] = user.role;
@@ -64,10 +59,7 @@ function RoleManager() {
 
         console.log("Users fetched and processed:", flattenedUsers);
 
-        // Fetch permissions
-        const permissionsResponse = await fetch(
-          "http://localhost:3000/api/permissions"
-        );
+        const permissionsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/permissions`);
         const permissionsData = await permissionsResponse.json();
         setPermissions(
           permissionsData.map((perm) => ({
@@ -80,10 +72,10 @@ function RoleManager() {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchRolesAndUsers();
   }, []);
 
-  // Create a new role
   const handleCreateRole = async () => {
     if (!newRole.name || !newRole.description) {
       alert("Role name and description are required.");
@@ -92,7 +84,7 @@ function RoleManager() {
 
     try {
       console.log("Creating new role:", newRole);
-      const response = await fetch("http://localhost:3000/api/roles", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/roles`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -116,7 +108,6 @@ function RoleManager() {
     }
   };
 
-  // Handle permission toggle
   const handlePermissionToggle = (roleId, permissionId) => {
     setRoles((prevRoles) =>
       prevRoles.map((role) =>
@@ -132,24 +123,19 @@ function RoleManager() {
     );
   };
 
-  // Save updated permissions for a role
   const handleSavePermissions = async (roleId) => {
     const role = roles.find((r) => r._id === roleId);
-
     if (!role) return;
 
     try {
       console.log("Saving permissions for role:", roleId, role.permissions);
-      const response = await fetch(
-        `http://localhost:3000/api/roles/${roleId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ permissions: role.permissions }),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/roles/${roleId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ permissions: role.permissions }),
+      });
 
       if (response.ok) {
         alert("Permissions updated successfully.");
@@ -164,7 +150,6 @@ function RoleManager() {
     }
   };
 
-  // Handle role selection change in dropdown
   const handleRoleSelectChange = (appUser, roleName) => {
     setUserRoles((prev) => ({
       ...prev,
@@ -172,7 +157,6 @@ function RoleManager() {
     }));
   };
 
-  // Save role assignment for a user
   const handleRoleSave = async (appUser) => {
     const roleName = userRoles[appUser];
 
@@ -184,16 +168,13 @@ function RoleManager() {
     try {
       console.log("Saving role for user:", appUser, roleName);
 
-      const response = await fetch(
-        `http://localhost:3000/api/users/${appUser}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ rol: roleName }),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/${appUser}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rol: roleName }),
+      });
 
       if (response.ok) {
         alert(`Role updated for user ${appUser} to ${roleName}`);
@@ -219,12 +200,7 @@ function RoleManager() {
   const handleCreateUser = async () => {
     console.log("handleCreateUser called");
 
-    if (
-      !newUser.AppUser ||
-      !newUser.AppPassword ||
-      !newUser.UserName ||
-      !newUser.DBName
-    ) {
+    if (!newUser.AppUser || !newUser.AppPassword || !newUser.UserName || !newUser.DBName) {
       alert("Todos los campos obligatorios deben completarse.");
       return;
     }
@@ -232,7 +208,7 @@ function RoleManager() {
     console.log("Sending data to API:", newUser);
 
     try {
-      const response = await fetch("http://localhost:3000/api/create-user", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/create-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -275,6 +275,58 @@ const Navbar = () => {
                   }
                 />
             </NavbarItem>
+            <NavbarItem
+              label="Planación de Demanda"
+              className={
+                isActiveParent("/planeacion-de-demanda") ? "activeParent" : ""
+              }
+            >
+              <ul className="navbar-dropdown">
+                <DropdownItem
+                  label="Archivos"
+                  path="/planeacion-de-demanda/archivos"
+                  className={
+                    isActive("//planeacion-de-demanda/archivos") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Tablas"
+                  path="/planeacion-de-demanda/tablas"
+                  className={
+                    isActive("/planeacion-de-demanda/tablas") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Clasificación de Demanda"
+                  path="/planeacion-de-demanda/clasificacion"
+                  className={
+                    isActive("/planeacion-de-demanda/clasificacion") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Configuración"
+                  path="/planeacion-de-demanda/configuracion"
+                  className={
+                    isActive("/planeacion-de-demanda/configuracion") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Resultados"
+                  path="/planeacion-de-demanda/resultados"
+                  className={
+                    isActive("/planeacion-de-demanda/resultados") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Historia de Forecast"
+                  path="planeacion-de-demanda/historico-forecast"
+                  className={
+                    isActive("planeacion-de-demanda/historico-forecast") ? "active" : ""
+                  }
+                />
+                
+              </ul>
+            </NavbarItem>
           </>
         )}
   

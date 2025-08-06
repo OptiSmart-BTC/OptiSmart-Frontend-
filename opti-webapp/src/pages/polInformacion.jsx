@@ -22,12 +22,14 @@ const PolInformacion = () => {
       try {
         // Consultar la API para obtener los datos del usuario
         const userResponse = await fetch(
-          `http://localhost:3000/api/users?AppUser=${user.AppUser}`
+          `${import.meta.env.VITE_API_URL}/api/users?AppUser=${user.AppUser}`
         );
-
+        
         if (userResponse.ok) {
           const userData = await userResponse.json();
           console.log("Datos del usuario obtenidos:", userData);
+        
+        
 
           // Buscar el documento donde aparece el usuario actual
           const matchingUserDoc = userData.find((doc) =>
@@ -48,13 +50,16 @@ const PolInformacion = () => {
 
               // Obtener los permisos del rol desde la colección de roles
               const rolesResponse = await fetch(
-                "http://localhost:3000/api/roles"
+                `${import.meta.env.VITE_API_URL}/api/roles`
               );
+              
               if (rolesResponse.ok) {
                 const rolesData = await rolesResponse.json();
                 const roleData = rolesData.find(
                   (role) => role.name === roleName
                 );
+              
+              
 
                 if (roleData) {
                   setRolePermissions(roleData.permissions);
