@@ -1,0 +1,69 @@
+.usoPolitica {
+    display: flex;
+    flex-direction: column;
+    width: 73vw;
+    height: 100vh;
+    margin: 0 auto;
+    padding-right: 2vw;
+    overflow: auto;
+  }
+  
+  .titulo {
+    margin: 30px 0 20px;
+    text-align: center;
+    font-size: 1.8em;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .selector-politica {
+    width: 100%;
+  }
+  
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .button-info {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.75);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .error {
+    background-color: #ffe5e5;
+    border: 1px solid #ff9999;
+    color: #cc0000;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 4px;
+  }
+  
+  /* Ajustes para el campo de comentario */
+  .MuiTextField-root {
+    margin-top: 10px;
+  }
+  
