@@ -238,6 +238,8 @@ const Navbar = () => {
                     isActive("/politicas-de-inventario/resultados") ? "active" : ""
                   }
                 />
+
+
                 
               </ul>
             </NavbarItem>

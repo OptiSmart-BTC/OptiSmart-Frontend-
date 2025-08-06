@@ -9,6 +9,8 @@ import Welcome from './pages/Welcome';
 import PolInformacion from './pages/polInformacion';
 import PolParametros from './pages/polParametros';
 import PolResultados from './pages/polResultados';
+import UsoPoliticaGuardada from './pages/UsoPoliticaGuardada';
+
 import PowerBIDashboard from './pages/PowerBIDashboard';
 
 import PlanArchivos from './pages/planArchivos';
@@ -47,8 +49,6 @@ const AppRoutes = () => {
           <Route path="politicas-de-inventario/informacion" element={<PolInformacion />} />
           <Route path="politicas-de-inventario/parametros" element={<PolParametros />} />
           <Route path="politicas-de-inventario/resultados" element={<PolResultados />} />
-          
-
           <Route path="plan-de-reposicion/archivos" element={<PlanArchivos />} />
           <Route path="plan-de-reposicion/resultados" element={<PlanResultados />} />
           <Route path="plan-de-reposicion/dashboard" element={<PowerBIDashboard />} />
