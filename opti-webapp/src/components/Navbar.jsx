@@ -274,7 +274,7 @@ const Navbar = () => {
                 />
             </NavbarItem>
             <NavbarItem
-              label="Planación de Demanda"
+              label="Planeación de Demanda"
               className={
                 isActiveParent("/planeacion-de-demanda") ? "activeParent" : ""
               }
