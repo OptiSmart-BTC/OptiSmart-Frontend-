@@ -200,14 +200,14 @@ const Navbar = () => {
           className="headerLogo"
         />
       </div>
-  
+
       <ul className="navbar-menu">
         <NavbarItem
           label="Home"
           path="/"
           className={isActive("/") ? "active" : ""}
         />
-  
+
         {user?.userType === "A" && (
           <>
             <NavbarItem
@@ -221,24 +221,29 @@ const Navbar = () => {
                   label="Información"
                   path="/politicas-de-inventario/informacion"
                   className={
-                    isActive("/politicas-de-inventario/informacion") ? "active" : ""
+                    isActive("/politicas-de-inventario/informacion")
+                      ? "active"
+                      : ""
                   }
                 />
                 <DropdownItem
                   label="Parámetros"
                   path="/politicas-de-inventario/parametros"
                   className={
-                    isActive("/politicas-de-inventario/parametros") ? "active" : ""
+                    isActive("/politicas-de-inventario/parametros")
+                      ? "active"
+                      : ""
                   }
                 />
                 <DropdownItem
                   label="Resultados"
                   path="/politicas-de-inventario/resultados"
                   className={
-                    isActive("/politicas-de-inventario/resultados") ? "active" : ""
+                    isActive("/politicas-de-inventario/resultados")
+                      ? "active"
+                      : ""
                   }
                 />
-                
               </ul>
             </NavbarItem>
             <NavbarItem
@@ -266,12 +271,12 @@ const Navbar = () => {
                 />
               </ul>
               <DropdownItem
-                  label="Dashboard Power BI"
-                  path="/plan-de-reposicion/dashboard"
-                  className={
-                    isActive("/plan-de-reposcion/dashboard") ? "active" : ""
-                  }
-                />
+                label="Dashboard Power BI"
+                path="/plan-de-reposicion/dashboard"
+                className={
+                  isActive("/plan-de-reposcion/dashboard") ? "active" : ""
+                }
+              />
             </NavbarItem>
             <NavbarItem
               label="Planeación de Demanda"
@@ -298,36 +303,57 @@ const Navbar = () => {
                   label="Clasificación de Demanda"
                   path="/planeacion-de-demanda/clasificacion"
                   className={
-                    isActive("/planeacion-de-demanda/clasificacion") ? "active" : ""
+                    isActive("/planeacion-de-demanda/clasificacion")
+                      ? "active"
+                      : ""
                   }
                 />
                 <DropdownItem
                   label="Configuración"
                   path="/planeacion-de-demanda/configuracion"
                   className={
-                    isActive("/planeacion-de-demanda/configuracion") ? "active" : ""
+                    isActive("/planeacion-de-demanda/configuracion")
+                      ? "active"
+                      : ""
+                  }
+                />
+                <DropdownItem
+                  label="Planner - Edición"
+                  path="/planeacion-de-demanda/planner"
+                  className={
+                    isActive("/planeacion-de-demanda/planner") ? "active" : ""
+                  }
+                />
+                <DropdownItem
+                  label="Planner - Visualización"
+                  path="/planeacion-de-demanda/pivot"
+                  className={
+                    isActive("/planeacion-de-demanda/pivot") ? "active" : ""
                   }
                 />
                 <DropdownItem
                   label="Resultados"
                   path="/planeacion-de-demanda/resultados"
                   className={
-                    isActive("/planeacion-de-demanda/resultados") ? "active" : ""
+                    isActive("/planeacion-de-demanda/resultados")
+                      ? "active"
+                      : ""
                   }
                 />
                 <DropdownItem
                   label="Historia de Forecast"
                   path="planeacion-de-demanda/historico-forecast"
                   className={
-                    isActive("planeacion-de-demanda/historico-forecast") ? "active" : ""
+                    isActive("planeacion-de-demanda/historico-forecast")
+                      ? "active"
+                      : ""
                   }
                 />
-                
               </ul>
             </NavbarItem>
           </>
         )}
-  
+
         {user?.userType === "B" && (
           <>
             <NavbarItem
@@ -341,10 +367,11 @@ const Navbar = () => {
                   label="Resultados"
                   path="/politicas-de-inventario/resultados"
                   className={
-                    isActive("/politicas-de-inventario/resultados") ? "active" : ""
+                    isActive("/politicas-de-inventario/resultados")
+                      ? "active"
+                      : ""
                   }
                 />
-                
               </ul>
             </NavbarItem>
             <NavbarItem
@@ -363,44 +390,82 @@ const Navbar = () => {
                 />
               </ul>
               <DropdownItem
-                  label="Dashboard Power BI"
-                  path="/plan-de-reposicion/dashboard"
-                  className={
-                    isActive("/plan-de-reposcion/dashboard") ? "active" : ""
-                  }
-                />
+                label="Dashboard Power BI"
+                path="/plan-de-reposicion/dashboard"
+                className={
+                  isActive("/plan-de-reposcion/dashboard") ? "active" : ""
+                }
+              />
             </NavbarItem>
           </>
         )}
 
         <div className="navbar-footer">
-          <div className="navbar-documentacion"  onClick={() => { handleNavigation('/Documentacion'); }}>
-            <svg className="navbar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
+          <div
+            className="navbar-documentacion"
+            onClick={() => {
+              handleNavigation("/Documentacion");
+            }}
+          >
+            <svg
+              className="navbar-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
-                Documentación
+            Documentación
           </div>
-          <div className="navbar-perfil" onClick={() => setIsProfileOpen(!isProfileOpen)}>
-            <svg className="navbar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          <div
+            className="navbar-perfil"
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+          >
+            <svg
+              className="navbar-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
             Perfil
           </div>
-          <div className="gestor-de-roles"  onClick={() => { handleNavigation('Gestor-de-roles'); }}>
-            <svg className="navbar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
+          <div
+            className="gestor-de-roles"
+            onClick={() => {
+              handleNavigation("Gestor-de-roles");
+            }}
+          >
+            <svg
+              className="navbar-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
-                Gestor
+            Gestor
           </div>
-          {isProfileOpen && <ProfileDropdown username={user.userName} onLogout={logout} />}
+          {isProfileOpen && (
+            <ProfileDropdown username={user.userName} onLogout={logout} />
+          )}
         </div>
       </ul>
     </nav>
@@ -408,5 +473,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

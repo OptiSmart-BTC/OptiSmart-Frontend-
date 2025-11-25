@@ -1,0 +1,240 @@
+/* ======================================================
+   CONTENEDOR PRINCIPAL
+   ====================================================== */
+
+.pivot-wrapper {
+  position: relative;
+  width: 73vw;
+  max-height: 600px;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.pivot-inner {
+  display: inline-block;
+}
+
+
+/* ======================================================
+   TABLA
+   ====================================================== */
+
+.pivot-table {
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.pivot-table th,
+.pivot-table td {
+  padding: 4px 8px;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+  color: #1a1a1a;
+}
+
+/* Reduce padding interno de las tarjetas del Planner Pivot */
+.pivot-card {
+  padding: 12px !important;
+}
+
+/* Reduce separación entre elementos internos */
+.pivot-card .MuiCardContent-root {
+  padding: 12px !important;
+}
+
+/* Reduce spacing vertical entre stacks */
+.pivot-card .MuiStack-root {
+  gap: 8px !important;
+}
+
+
+/* ======================================================
+   HEADER STICKY (FILA 1)
+   ====================================================== */
+
+.pivot-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 50;                 /* EL MÁS ALTO */
+  background: #e3f2fd;
+  border-bottom: 2px solid #b0bec5;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+}
+
+/* Columnas de texto alineadas a la izquierda */
+.pivot-table thead th:nth-child(1),
+.pivot-table thead th:nth-child(2),
+.pivot-table thead th:nth-child(3),
+.pivot-table thead th:nth-child(4) {
+  text-align: left;
+}
+
+
+/* ======================================================
+   FILAS ALTERNADAS
+   ====================================================== */
+
+.pivot-table tbody tr:nth-child(odd) {
+  background: #fcfcfc;
+}
+
+.pivot-table tbody tr:nth-child(even) {
+  background: #ffffff;
+}
+
+
+/* ======================================================
+   ESTILOS DE MÉTRICAS Y INPUTS
+   ====================================================== */
+
+.col-values {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.pivot-cell-editable {
+  background: #fffef5;
+  font-family: 'Montserrat', sans-serif;
+  text-align: right;
+}
+
+.pivot-cell-readonly {
+  text-align: right;
+  font-family: 'Montserrat', sans-serif;
+  background: #ffffff;
+}
+
+.pivot-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  padding: 2px 2px;
+  font-size: 0.75rem;
+  text-align: right;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  color: #1a1a1a;
+}
+
+.pivot-cell-locked {
+  background: #e0e0e0;
+  color: #555555;
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+.pivot-input:focus {
+  outline: none;
+  border-color: #1976d2;
+  font-family: 'Montserrat', sans-serif;
+  background: #ffffff;
+  box-shadow: 0 0 0 1px rgba(25, 118, 210, 0.15);
+}
+
+.pivot-toggle-btn {
+  border: 1px solid #607d8b;
+  background: #ffffff;
+  color: #37474f;
+  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  line-height: 14px;
+  padding: 0;
+  margin-right: 4px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.pivot-toggle-btn:hover {
+  background: #eceff1;
+}
+
+
+/* ======================================================
+   COLUMNAS STICKY A LA IZQUIERDA (X-FREEZE)
+   ====================================================== */
+
+/* ---- HEADER de Producto / Canal / Ubic / Values ---- */
+.pivot-table thead .col-producto,
+.pivot-table thead .col-canal,
+.pivot-table thead .col-ubicacion,
+.pivot-table thead .col-values {
+  position: sticky;
+  top: 0;
+  z-index: 60;              /* incluso encima del resto del header */
+  background: #e3f2fd;
+}
+
+/* ---- BODY: PRODUCTO / CANAL / UBICACION ----
+   Fijos solo en X, NO en Y (sin top)
+   ====================================================== */
+
+.pivot-table tbody .col-producto,
+.pivot-table tbody .col-canal,
+.pivot-table tbody .col-ubicacion,
+.pivot-table tbody .col-values {
+  position: sticky;
+  z-index: 20;
+  background: inherit;       /* Toma el fondo de zebra */
+  vertical-align: top;
+  border-right: 1px solid #e0e0e0;
+}
+
+/* ======================================================
+   POSICIÓN HORIZONTAL (LEFT)
+   ====================================================== */
+
+.pivot-table .col-producto {
+  left: 0;
+  min-width: 140px;
+}
+
+.pivot-table .col-canal {
+  left: 140px;
+  min-width: 140px;
+}
+
+.pivot-table .col-ubicacion {
+  left: 280px;
+  min-width: 140px;
+  text-align: left;
+}
+
+.pivot-table .col-values {
+  left: 420px;
+  min-width: 110px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+/* ======================================================
+   TEXTO INTERNO (opcional)
+   ====================================================== */
+
+.pivot-row-header {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+/* ======================================================
+   WRAPPER LOCAL PARA EL PIVOT
+   ====================================================== */
+
+.pivot-layout {
+  width: 73vw;           
+  margin: 0 auto; /* sidebar 250px + padding */
+  padding: 0;            /* puedes ajustar si deseas */
+  box-sizing: border-box;
+}
+
+/* Centrar ligeramente */
+.pivot-layout {
+  padding-right: 2vw;
+}

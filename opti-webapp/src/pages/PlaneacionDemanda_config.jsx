@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { Box, Button, CircularProgress, TextField, MenuItem } from '@mui/material';
 import { useAuth } from './../components/AuthContext';
