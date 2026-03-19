@@ -19,8 +19,7 @@ import PlaneacionDemanda_clasificacion from './pages/PlaneacionDemanda_clasifica
 import PlaneacionDemandaConfiguracion from './pages/PlaneacionDemanda_config';
 import PlaneacionDemandaResultados from './pages/PlaneacionDemanda_resultados';
 import PlaneacionDemanda_histfcst from './pages/PlaneacionDemanda_histfcst';
-import PlaneacionDemandaPlanner from './pages/PlaneacionDemanda_planner';
-import PlaneacionDemanda_pivot from "./pages/PlaneacionDemanda_pivot";
+import PlaneacionDemanda_pivot from "./pages/PlaneacionDemanda_Workbench";
 
 import GestorDeRoles from './pages/gestorDeRoles';
 
@@ -62,7 +61,6 @@ const AppRoutes = () => {
           <Route path="planeacion-de-demanda/tablas" element={<DemandTable/>} />
           <Route path="planeacion-de-demanda/clasificacion" element={<PlaneacionDemanda_clasificacion/>} />
           <Route path="planeacion-de-demanda/configuracion" element={<PlaneacionDemandaConfiguracion/>} />
-          <Route path="planeacion-de-demanda/planner" element={<PlaneacionDemandaPlanner />} />
           <Route path="/planeacion-de-demanda/pivot" element={<PlaneacionDemanda_pivot />} />
           <Route path="planeacion-de-demanda/resultados" element={<PlaneacionDemandaResultados/>} />
           <Route path="planeacion-de-demanda/historico-forecast" element={<PlaneacionDemanda_histfcst/>} />

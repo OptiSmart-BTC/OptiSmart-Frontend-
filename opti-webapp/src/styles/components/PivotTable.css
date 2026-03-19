@@ -1,0 +1,281 @@
+/* ======================================================
+   PIVOT TABLE (PivotTable.jsx)
+   ====================================================== */
+
+.pivot-wrapper {
+  width: 100%;
+  max-width: 100%;
+  max-height: 600px;
+
+  overflow-x: auto;
+  overflow-y: auto;
+
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #ffffff;
+  box-sizing: border-box;
+
+ 
+  isolation: isolate;
+}
+
+.pivot-inner {
+  display: inline-block;
+}
+
+.pivot-table {
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  font-size: 0.8rem;
+
+
+  width: max-content;
+  min-width: 100%;
+
+  table-layout: fixed;
+
+
+  transform: translateZ(0);
+}
+
+
+.pivot-table th,
+.pivot-table td {
+  box-sizing: border-box;
+  white-space: nowrap;
+
+ 
+  contain: paint;
+}
+
+/* ======================================================
+   HEADER STICKY (CAPAS)
+   ====================================================== */
+.pivot-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 30; 
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-bottom: 2px solid #e2e8f0;
+  border-right: 1px solid #e0e0e0;
+}
+
+/* ======================================================
+   COLUMNAS FIJAS (WIDTHS + STICKY-LEFT)
+   ====================================================== */
+.col-producto { width: 180px; min-width: 180px; }
+.col-canal    { width: 140px; min-width: 140px; }
+.col-ubicacion { width: 140px; min-width: 140px; }
+.col-values    {
+  width: 110px;
+  min-width: 110px;
+  border-right: 3px solid #cbd5e1 !important;
+}
+
+
+.pivot-table thead th.col-producto,
+.pivot-table tbody td.col-producto { left: 0px; }
+
+.pivot-table thead th.col-canal,
+.pivot-table tbody td.col-canal { left: 180px; }
+
+.pivot-table thead th.col-ubicacion,
+.pivot-table tbody td.col-ubicacion { left: 320px; }
+
+.pivot-table thead th.col-values,
+.pivot-table tbody td.col-values { left: 460px; }
+
+
+.pivot-table thead th.col-producto,
+.pivot-table thead th.col-canal,
+.pivot-table thead th.col-ubicacion,
+.pivot-table thead th.col-values {
+  z-index: 60;          
+  background: #f8fafc;  
+  position: sticky;    
+}
+
+
+.pivot-table tbody td.col-producto,
+.pivot-table tbody td.col-canal,
+.pivot-table tbody td.col-ubicacion,
+.pivot-table tbody td.col-values {
+  position: sticky;
+  z-index: 40;              
+  background: #ffffff !important;
+}
+
+/* Producto pegado arriba en el rowSpan */
+.product-sticky-cell {
+  vertical-align: top !important;
+  padding-top: 15px !important;
+}
+
+/* ======================================================
+   COLUMNAS DE FECHA (HEADER + CELDAS)
+   ====================================================== */
+.col-fecha {
+  width: 100px !important;
+  min-width: 100px !important;
+  max-width: 100px !important;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 30; 
+}
+
+.pivot-cell {
+  width: 100px !important;
+  min-width: 100px !important;
+  max-width: 100px !important;
+  text-align: right !important;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  border-right: 1px solid #f0f0f0;
+  color: #1a1a1a !important;
+}
+
+/* ======================================================
+   INPUTS EDITABLES
+   ====================================================== */
+.pivot-input {
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: right !important;
+  font-family: inherit;
+  font-size: inherit;
+  color: #000000 !important;
+  font-weight: 500;
+}
+
+.pivot-input:hover {
+  background: #fffbeb;
+  border-color: #cbd5e1;
+}
+
+/* ======================================================
+   ESTADOS ESPECIALES
+   ====================================================== */
+.pivot-cell-locked {
+  background-color: #f8fafc !important;
+  color: #94a3b8 !important;
+}
+
+.cell-asertividad {
+  font-weight: bold !important;
+  background-color: #f1f5f9;
+  color: #000 !important;
+}
+
+/* Zebra Striping */
+.pivot-table tbody tr:nth-of-type(even) {
+  background-color: #fafbfc;
+}
+
+/* ======================================================
+   ANTI BLEED / ANTI “HOYITOS” (MAX ESTABILIDAD)
+   ====================================================== */
+
+
+.pivot-table thead th.col-producto,
+.pivot-table thead th.col-canal,
+.pivot-table thead th.col-ubicacion,
+.pivot-table thead th.col-values,
+.pivot-table tbody td.col-producto,
+.pivot-table tbody td.col-canal,
+.pivot-table tbody td.col-ubicacion,
+.pivot-table tbody td.col-values {
+  background-clip: padding-box;
+}
+
+
+.pivot-table thead th.col-producto,
+.pivot-table thead th.col-canal,
+.pivot-table thead th.col-ubicacion,
+.pivot-table thead th.col-values,
+.pivot-table tbody td.col-producto,
+.pivot-table tbody td.col-canal,
+.pivot-table tbody td.col-ubicacion,
+.pivot-table tbody td.col-values {
+  outline: 2px solid #ffffff;
+  outline-offset: -1px;
+}
+
+
+.pivot-table tbody td.col-producto,
+.pivot-table tbody td.col-canal,
+.pivot-table tbody td.col-ubicacion,
+.pivot-table tbody td.col-values {
+  box-shadow: inset -1px 0 0 #ffffff, inset 1px 0 0 #ffffff;
+}
+
+.pivot-table thead th.col-producto,
+.pivot-table thead th.col-canal,
+.pivot-table thead th.col-ubicacion,
+.pivot-table thead th.col-values {
+  box-shadow: inset -1px 0 0 #ffffff, inset 1px 0 0 #ffffff;
+}
+
+
+.pivot-table thead th.col-values,
+.pivot-table tbody td.col-values {
+  position: sticky;
+}
+
+.pivot-table thead th.col-values::after,
+.pivot-table tbody td.col-values::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -2px;
+  width: 6px;
+  height: 100%;
+  background: #ffffff;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+:root {
+  --pivot-sep: #f1f5f9;   
+}
+
+
+.pivot-table thead th.col-producto,
+.pivot-table thead th.col-canal,
+.pivot-table thead th.col-ubicacion,
+.pivot-table thead th.col-values,
+.pivot-table tbody td.col-producto,
+.pivot-table tbody td.col-canal,
+.pivot-table tbody td.col-ubicacion,
+.pivot-table tbody td.col-values {
+  outline-color: var(--pivot-sep) !important;
+}
+
+
+.pivot-table tbody td.col-producto,
+.pivot-table tbody td.col-canal,
+.pivot-table tbody td.col-ubicacion,
+.pivot-table tbody td.col-values,
+.pivot-table thead th.col-producto,
+.pivot-table thead th.col-canal,
+.pivot-table thead th.col-ubicacion,
+.pivot-table thead th.col-values {
+  box-shadow: inset -1px 0 0 var(--pivot-sep), inset 1px 0 0 var(--pivot-sep) !important;
+}
+
+.pivot-row-selected td {
+  background-color: #eaf2ff !important;
+}
+.pivot-dfu-click:hover {
+  text-decoration: underline;
+}
+
+.pivot-table thead th.col-values::after,
+.pivot-table tbody td.col-values::after {
+  background: var(--pivot-sep) !important;
+}

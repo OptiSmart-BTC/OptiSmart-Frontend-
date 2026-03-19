@@ -1,28 +1,48 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
-import { Box, Button, CircularProgress, TextField, MenuItem } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  MenuItem,
+  Paper,
+  Typography,
+  Grid,
+  Divider,
+} from '@mui/material';
 import { useAuth } from './../components/AuthContext';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp'; // Ícono relacionado al forecast
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import axios from 'axios';
 
+import TablaPlaneacionDemanda_ModelosManual from './PlaneacionDemanda_TablaModelosManual';
+
 const PlaneacionDemandaConfiguracion = () => {
-  const { user } = useAuth(); // Obtener las credenciales del usuario
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState('prophet'); // Algoritmo seleccionado
-  const [loading, setLoading] = useState(false); // Controlar el estado de carga
-  const [message, setMessage] = useState(''); // Mensajes de estado o error
+  const { user } = useAuth();
+
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState('auto');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
   const [parameters, setParameters] = useState({
     minRegistros: 100,
     maxPorcentajeCeros: 0.1,
     periodoAPredecir: 52,
-  }); // Parámetros de configuración
+  });
 
-  // Cambiar algoritmo seleccionado
+  const [dfuRows, setDfuRows] = useState([]);
+  const [loadingDfus, setLoadingDfus] = useState(false);
+  const [dfuMessage, setDfuMessage] = useState('');
+
+  const availableModels = useMemo(() => (['prophet', 'croston', 'tsb', 'arima']), []);
+  const apiBase = 'http://localhost:3000';
+
   const handleAlgorithmChange = (event) => {
     setSelectedAlgorithm(event.target.value);
     setMessage('');
+    setDfuMessage('');
   };
 
-  // Manejar cambios en los parámetros
   const handleParameterChange = (event) => {
     const { name, value } = event.target;
     setParameters((prev) => ({
@@ -31,20 +51,75 @@ const PlaneacionDemandaConfiguracion = () => {
     }));
   };
 
-  // Ejecutar forecast
+  const paramsAreValid = () => {
+    const { minRegistros, maxPorcentajeCeros, periodoAPredecir } = parameters;
+    return (
+      minRegistros > 0 &&
+      maxPorcentajeCeros >= 0 &&
+      maxPorcentajeCeros <= 1 &&
+      periodoAPredecir > 0
+    );
+  };
+
+  useEffect(() => {
+    const shouldLoad = selectedAlgorithm === 'manual' && paramsAreValid();
+    if (!shouldLoad) return;
+
+    fetchManualDfus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAlgorithm, parameters.minRegistros, parameters.maxPorcentajeCeros]);
+
+  const fetchManualDfus = async () => {
+    setLoadingDfus(true);
+    setDfuMessage('');
+    try {
+      const response = await axios.get(`${apiBase}/api/forecast/manual/dfus`, {
+        params: {
+          appUser: user.AppUser,
+          dbName: user.dbName,
+          minRegistros: parameters.minRegistros,
+          maxPorcentajeCeros: parameters.maxPorcentajeCeros,
+        },
+      });
+
+      const rows = response.data?.rows || [];
+
+      const normalized = rows.map((r) => {
+        const modelo = (r.Modelo || r.selected_model || (r.recommended_models?.[0] ?? '') || '')
+          .toString()
+          .toLowerCase();
+
+        return {
+          ...r,
+          Modelo: availableModels.includes(modelo) ? modelo : 'prophet',
+          Category: r.Category ?? r.Categoria ?? null,
+          Categoria: r.Categoria ?? r.Category ?? null,
+        };
+      });
+
+      setDfuRows(normalized);
+      setDfuMessage(`DFUs cargados: ${normalized.length}`);
+    } catch (error) {
+      console.error('Error al cargar DFUs manuales:', error);
+      setDfuRows([]);
+      setDfuMessage('Error al cargar DFUs. Revisa consola.');
+    } finally {
+      setLoadingDfus(false);
+    }
+  };
+
   const handleExecuteForecast = async () => {
     setLoading(true);
     setMessage('');
     try {
-      console.log('Ejecutando forecast con parámetros:', parameters);
-      const response = await axios.post('http://localhost:3000/api/forecast/run', {
+      const response = await axios.post(`${apiBase}/api/forecast/run`, {
         appUser: user.AppUser,
         dbName: user.dbName,
         algorithm: selectedAlgorithm,
         parameters,
       });
       console.log('Respuesta del servidor:', response.data);
-      setMessage('Forecast ejecutado correctamente.');
+      setMessage(`Forecast ejecutado correctamente. (modo: ${selectedAlgorithm})`);
     } catch (error) {
       console.error('Error al ejecutar el forecast:', error);
       setMessage('Error al ejecutar el forecast. Revisa la consola para más detalles.');
@@ -56,99 +131,182 @@ const PlaneacionDemandaConfiguracion = () => {
   return (
     <Box
       sx={{
-        height: '80vh',
-        width: '80%',
-        margin: '0 auto', // Centrar horizontalmente
-        padding: '20px',
-        borderRadius: '10px', // Bordes redondeados
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Sombra para diseño
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#f9f9f9',
+        //minHeight: 'calc(100vh - 64px)',
+        backgroundColor: '#f5f7fb',
+        p: 3,
       }}
     >
-      <h1>Planeación de Demanda - Configurar Forecast</h1>
+      <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+        <Typography variant="h4" sx={{ mb: 2, fontWeight: 700 }}>
+          Planeación de Demanda - Configurar Forecast
+        </Typography>
 
-      {/* Selector de Algoritmo */}
-      <TextField
-        label="Elegir Algoritmo"
-        select
-        value={selectedAlgorithm}
-        onChange={handleAlgorithmChange}
-        fullWidth
-        sx={{ marginBottom: '20px' }}
-      >
-        <MenuItem value="prophet">Prophet</MenuItem>
-        {/* Opciones futuras */}
-        <MenuItem value="otro">Otro Algoritmo (futuro)</MenuItem>
-      </TextField>
+        {/* CARD 1: Configuración */}
+        <Paper sx={{ p: 2.5, borderRadius: 3, boxShadow: '0 6px 18px rgba(0,0,0,0.08)' }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            Configuración
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
 
-      {/* Parámetros del Forecast */}
-      <TextField
-        label="Mínimo de Registros"
-        type="number"
-        name="minRegistros"
-        value={parameters.minRegistros}
-        onChange={handleParameterChange}
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: '20px' }}
-      />
-      <TextField
-        label="Máximo Porcentaje de Ceros"
-        type="number"
-        name="maxPorcentajeCeros"
-        value={parameters.maxPorcentajeCeros}
-        onChange={handleParameterChange}
-        inputProps={{ step: '0.01' }}
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: '20px' }}
-      />
-      <TextField
-        label="Período a Predecir"
-        type="number"
-        name="periodoAPredecir"
-        value={parameters.periodoAPredecir}
-        onChange={handleParameterChange}
-        variant="outlined"
-        fullWidth
-        sx={{ marginBottom: '20px' }}
-      />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Modo"
+                select
+                value={selectedAlgorithm}
+                onChange={handleAlgorithmChange}
+                fullWidth
+              >
+                <MenuItem value="auto">Automático</MenuItem>
+                <MenuItem value="manual">Selección Manual</MenuItem>
+              </TextField>
+            </Grid>
 
-      {/* Botón de ejecución */}
-      <Button
-        variant="contained"
-        onClick={handleExecuteForecast}
-        disabled={loading}
-        sx={{
-          padding: '16px 30px', // Espaciado interno
-          border: 'none', // Sin bordes
-          borderRadius: '10px', // Bordes redondeados
-          fontWeight: '600', // Texto en negrita
-          color: 'white', // Texto blanco
-          fontSize: '1.1em', // Tamaño de fuente más grande
-          backgroundColor: '#2196f3', // Azul oscuro Opti
-          cursor: 'pointer',
-          boxShadow: '0 3px 8px rgba(0, 0, 0, 0.2)', // Sombra
-          transition: 'background-color 0.3s ease-in-out, transform 0.2s', // Animación al pasar el mouse
-          '&:hover': {
-            backgroundColor: '#014A8F', // Azul más claro
-            transform: 'scale(1.05)', // Efecto de escala
-          },
-          '&:disabled': {
-            backgroundColor: '#8a9aa3', // Gris para estado deshabilitado
-            cursor: 'not-allowed',
-          },
-        }}
-        startIcon={<TrendingUpIcon />} // Icono antes del texto
-      >
-        Ejecutar Forecast
-      </Button>
-      {loading && <CircularProgress sx={{ marginLeft: '20px' }} />}
-      {message && (
-        <p style={{ marginTop: '20px', color: loading ? 'blue' : 'green' }}>{message}</p>
-      )}
+            <Grid item xs={12} md={4}>
+              <TextField
+                label="Mínimo de Registros"
+                type="number"
+                name="minRegistros"
+                value={parameters.minRegistros}
+                onChange={handleParameterChange}
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <TextField
+                label="Máximo Porcentaje de Ceros"
+                type="number"
+                name="maxPorcentajeCeros"
+                value={parameters.maxPorcentajeCeros}
+                onChange={handleParameterChange}
+                inputProps={{ step: '0.01' }}
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <TextField
+                label="Período a Predecir"
+                type="number"
+                name="periodoAPredecir"
+                value={parameters.periodoAPredecir}
+                onChange={handleParameterChange}
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* CARD 2: Manual DFUs */}
+        {selectedAlgorithm === 'manual' && (
+          <Paper
+            sx={{
+              mt: 2.5,
+              p: 2.5,
+              borderRadius: 3,
+              boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
+              <Box>
+                <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                  Selección de Modelos por DFU
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+                  Cambia el modelo por DFU y se guardará en <b>selected_model</b>.
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Button
+                  variant="outlined"
+                  onClick={fetchManualDfus}
+                  disabled={loadingDfus || !paramsAreValid()}
+                >
+                  {loadingDfus ? 'Cargando...' : 'Recargar DFUs'}
+                </Button>
+                {loadingDfus && <CircularProgress size={20} />}
+              </Box>
+            </Box>
+
+            {dfuMessage && (
+              <Typography sx={{ mt: 1.5, color: '#012652', fontWeight: 700 }}>
+                {dfuMessage}
+              </Typography>
+            )}
+
+            <Box sx={{ mt: 2 }}>
+              <TablaPlaneacionDemanda_ModelosManual
+                data={dfuRows}
+                allowedModels={availableModels}
+                maxHeight={420}
+                rowsPerPageOptions={[15, 25, 50]}
+                onModelChange={async (row, newModelLower) => {
+                  await axios.put(`${apiBase}/api/forecast/manual/selected-model`, {
+                    appUser: user.AppUser,
+                    dbName: user.dbName,
+                    Producto: row.Producto,
+                    Canal: row.Canal,
+                    Ubicacion: row.Ubicacion,
+                    selected_model: newModelLower,
+                  });
+
+                  setDfuRows((prev) =>
+                    prev.map((x) =>
+                      x.Producto === row.Producto &&
+                      x.Canal === row.Canal &&
+                      x.Ubicacion === row.Ubicacion
+                        ? { ...x, Modelo: newModelLower, selected_model: newModelLower }
+                        : x
+                    )
+                  );
+
+                  setDfuMessage(`Guardado: ${row.Producto}|${row.Canal}|${row.Ubicacion} -> ${newModelLower}`);
+                }}
+              />
+            </Box>
+          </Paper>
+        )}
+
+        {/* CARD 3: Ejecutar */}
+        <Paper
+          sx={{
+            mt: 2.5,
+            p: 2.5,
+            borderRadius: 3,
+            boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+            <Button
+              variant="contained"
+              onClick={handleExecuteForecast}
+              disabled={loading || (selectedAlgorithm === 'manual' && loadingDfus)}
+              startIcon={<TrendingUpIcon />}
+              sx={{
+                padding: '14px 26px',
+                borderRadius: 2,
+                fontWeight: 800,
+                backgroundColor: '#2196f3',
+                '&:hover': { backgroundColor: '#014A8F' },
+              }}
+            >
+              Ejecutar Forecast
+            </Button>
+
+            {loading && <CircularProgress size={22} />}
+            {message && (
+              <Typography sx={{ color: loading ? 'info.main' : 'success.main', fontWeight: 700 }}>
+                {message}
+              </Typography>
+            )}
+          </Box>
+        </Paper>
+      </Box>
     </Box>
   );
 };

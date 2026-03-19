@@ -318,14 +318,7 @@ const Navbar = () => {
                   }
                 />
                 <DropdownItem
-                  label="Planner - Edición"
-                  path="/planeacion-de-demanda/planner"
-                  className={
-                    isActive("/planeacion-de-demanda/planner") ? "active" : ""
-                  }
-                />
-                <DropdownItem
-                  label="Planner - Visualización"
+                  label="Workbench - Planeación de Demanda"
                   path="/planeacion-de-demanda/pivot"
                   className={
                     isActive("/planeacion-de-demanda/pivot") ? "active" : ""

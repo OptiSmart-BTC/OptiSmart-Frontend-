@@ -1,0 +1,25 @@
+/* ======================================================
+   WORKBENCH / PÁGINA (PlaneacionDemanda_pivot.jsx)
+   ====================================================== */
+
+.pd-workbench {
+  width: 73vw;
+  height: 100vh;        
+  overflow: auto;       
+  margin: 0 auto;
+  padding: 0;
+  padding-right: 2vw;
+  box-sizing: border-box;
+}
+
+.pd-section-top {
+  margin-bottom: 12px;
+}
+
+.pd-section-table {
+  margin-bottom: 12px;
+}
+
+.pd-section-bottom {
+  margin-top: 12px;
+}
