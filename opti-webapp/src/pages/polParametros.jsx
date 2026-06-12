@@ -14,6 +14,7 @@ function PolParametros() {
   const [calendar, setCalendar] = useState("Diario");
   const [loaded, setLoaded] = useState(false);
   const [monteCarloLoading, setMonteCarloLoading] = useState(false);
+  const [useMontecarlo, setUseMontecarlo] = useState(false); //
   const { user } = useAuth();
   const [userRole, setUserRole] = useState(null); // Rol del usuario
   const [rolePermissions, setRolePermissions] = useState([]); // Permisos del rol
@@ -26,12 +27,10 @@ function PolParametros() {
         const userResponse = await fetch(
           `${import.meta.env.VITE_API_URL}/api/users?AppUser=${user.AppUser}`
         );
-        
+
         if (userResponse.ok) {
           const userData = await userResponse.json();
           console.log("Datos del usuario obtenidos:", userData);
-        
-        
 
           // Buscar el documento donde aparece el usuario actual
           const matchingUserDoc = userData.find((doc) =>
@@ -54,14 +53,12 @@ function PolParametros() {
               const rolesResponse = await fetch(
                 `${import.meta.env.VITE_API_URL}/api/roles`
               );
-              
+
               if (rolesResponse.ok) {
                 const rolesData = await rolesResponse.json();
                 const roleData = rolesData.find(
                   (role) => role.name === roleName
                 );
-              
-              
 
                 if (roleData) {
                   setRolePermissions(roleData.permissions);
@@ -260,6 +257,7 @@ function PolParametros() {
   async function ejecutarMontecarloYOverride() {
     try {
       setMonteCarloLoading(true);
+      //setMonteCarloLoading(true);
 
       // Los valores necesarios para la solicitud
       const appUser = user.AppUser; // Usar el valor adecuado
@@ -285,7 +283,6 @@ function PolParametros() {
           body: JSON.stringify(requestBody),
         }
       );
-      
 
       // Verificar si la respuesta fue exitosa
       if (!response.ok) {
@@ -376,18 +373,14 @@ function PolParametros() {
     try {
       let urls = [];
       const baseUrl = import.meta.env.VITE_API_URL;
-    
+
       if (calendar === "Diario") {
         urls.push(`${baseUrl}/runProcess`);
       } else if (calendar === "Semanal") {
         urls.push(`${baseUrl}/runProcessSem`);
       } else if (calendar === "Ambos") {
-        urls.push(
-          `${baseUrl}/runProcess`,
-          `${baseUrl}/runProcessSem`
-        );
+        urls.push(`${baseUrl}/runProcess`, `${baseUrl}/runProcessSem`);
       }
-    
 
       // Ejecutar los procesos en el orden que se añadieron en el array
       for (const url of urls) {
@@ -400,6 +393,7 @@ function PolParametros() {
             appUser: user.AppUser,
             appPass: user.password,
             DBName: user.dbName,
+            useMontecarlo,
           }),
         });
 
@@ -410,7 +404,11 @@ function PolParametros() {
 
       // Si todos los procesos se ejecutan sin errores
       setLoaded(true);
-      alert("Se ejecutó correctamente la clasificación y las políticas");
+      alert(
+        useMontecarlo
+          ? "Se ejecutaron Políticas + Montecarlo (solo slow movers)."
+          : "Se ejecutó correctamente la clasificación y las políticas"
+      );
     } catch (error) {
       setLoaded(true);
       console.error("Error en la ejecución:", error);
@@ -422,7 +420,7 @@ function PolParametros() {
     async function fetchData() {
       try {
         const url = `${import.meta.env.VITE_API_URL}/showParams`;
-  
+
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -565,25 +563,32 @@ function PolParametros() {
           onClick={handleExecuteClassificationAndPolicies}
           data-permission="Politica-parametros ejecutar politica"
           texto={"Ejecutar Clasificación y Políticas"}
-          disabled={!validatePermission("Politica-parametros ejecutar politica")}
+          disabled={
+            !validatePermission("Politica-parametros ejecutar politica")
+          }
           mL=".5vw"
           height="6vh"
           mT="1vh"
           mR=".1vw"
           backColor="#3e4251"
         />
-        
-        <MyButton
-          onClick={ejecutarMontecarloYOverride}
-          data-permission="Politica-parametros aplicar montecarlo"
-          texto={"Aplicar MonteCarlo"}
-          disabled={!validatePermission("Politica-parametros aplicar montecarlo") || monteCarloLoading}
-          mL=".5vw"
-          height="6vh"
-          mT="1vh"
-          mR=".1vw"
-          backColor={monteCarloLoading ? "#808080" : "#3e4251"}
-        />
+
+        <div
+          className="switch-container"
+          style={{ marginLeft: ".5vw", marginTop: "1vh" }}
+        >
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={useMontecarlo}
+              onChange={(e) => setUseMontecarlo(e.target.checked)}
+            />
+            <span className="slider round"></span>
+          </label>
+          <span style={{ marginLeft: "10px", fontWeight: "500" }}>
+            Usar Monte Carlo para slow-movers
+          </span>
+        </div>
       </div>
 
       <div className="sub-header">
