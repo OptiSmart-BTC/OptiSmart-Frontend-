@@ -9,6 +9,8 @@ import Welcome from './pages/Welcome';
 import PolInformacion from './pages/polInformacion';
 import PolParametros from './pages/polParametros';
 import PolResultados from './pages/polResultados';
+import UsoPoliticaGuardada from './pages/UsoPoliticaGuardada';
+
 import PowerBIDashboard from './pages/PowerBIDashboard';
 import PlanArchivos from './pages/planArchivos';
 import PlanResultados from './pages/planResultados';

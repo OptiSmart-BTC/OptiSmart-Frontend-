@@ -14,10 +14,21 @@ function PolParametros() {
   const [calendar, setCalendar] = useState("Diario");
   const [loaded, setLoaded] = useState(false);
   const [monteCarloLoading, setMonteCarloLoading] = useState(false);
-  const [useMontecarlo, setUseMontecarlo] = useState(false); //
+  const [useMontecarlo, setUseMontecarlo] = useState(false);
+  const [utilizarPoliticasGuardadas, setUtilizarPoliticasGuardadas] = useState(false);
   const { user } = useAuth();
-  const [userRole, setUserRole] = useState(null); // Rol del usuario
-  const [rolePermissions, setRolePermissions] = useState([]); // Permisos del rol
+  const [userRole, setUserRole] = useState(null);
+  const [rolePermissions, setRolePermissions] = useState([]);
+
+  // DEBUG: Agregar logs para diagnosticar permisos
+  useEffect(() => {
+    console.log("=== DEBUG PERMISOS ===");
+    console.log("Usuario:", user?.AppUser);
+    console.log("Rol del usuario:", userRole);
+    console.log("Permisos disponibles:", rolePermissions);
+    console.log("¿Tiene permiso para reestablecer?", 
+      validatePermission("Politica-parametros reestablecer politicas"));
+  }, [userRole, rolePermissions]);
 
   // Función para obtener el rol y permisos del usuario al cargar el componente
   useEffect(() => {
@@ -93,12 +104,18 @@ function PolParametros() {
       }
     };
 
-    fetchUserRoleAndPermissions();
-  }, [user.AppUser]);
+    if (user?.AppUser) {
+      fetchUserRoleAndPermissions();
+    }
+  }, [user?.AppUser]);
 
   // Valida si el usuario tiene un permiso específico
   const validatePermission = (permission) => {
-    return rolePermissions.includes(permission);
+    console.log(`Validando permiso: ${permission}`);
+    console.log(`Permisos del usuario:`, rolePermissions);
+    const hasPermission = rolePermissions.includes(permission);
+    console.log(`¿Tiene permiso?:`, hasPermission);
+    return hasPermission;
   };
 
   const [inputs, setInputs] = useState({
@@ -253,6 +270,11 @@ function PolParametros() {
     });
   };
 
+  // Nuevo handler para el toggle de políticas guardadas
+  const handleUtilizarPoliticasGuardadasChange = (event) => {
+    setUtilizarPoliticasGuardadas(event.target.checked);
+  };
+
   // handle de montecarlo
   async function ejecutarMontecarloYOverride() {
     try {
@@ -374,12 +396,16 @@ function PolParametros() {
       let urls = [];
       const baseUrl = import.meta.env.VITE_API_URL;
 
-      if (calendar === "Diario") {
-        urls.push(`${baseUrl}/runProcess`);
-      } else if (calendar === "Semanal") {
-        urls.push(`${baseUrl}/runProcessSem`);
-      } else if (calendar === "Ambos") {
-        urls.push(`${baseUrl}/runProcess`, `${baseUrl}/runProcessSem`);
+      if (utilizarPoliticasGuardadas) {
+        urls.push(`${baseUrl}/runCambiosIncrementales`);
+      } else {
+        if (calendar === "Diario") {
+          urls.push(`${baseUrl}/runProcess`);
+        } else if (calendar === "Semanal") {
+          urls.push(`${baseUrl}/runProcessSem`);
+        } else if (calendar === "Ambos") {
+          urls.push(`${baseUrl}/runProcess`, `${baseUrl}/runProcessSem`);
+        }
       }
 
       // Ejecutar los procesos en el orden que se añadieron en el array
@@ -405,14 +431,73 @@ function PolParametros() {
       // Si todos los procesos se ejecutan sin errores
       setLoaded(true);
       alert(
-        useMontecarlo
-          ? "Se ejecutaron Políticas + Montecarlo (solo slow movers)."
+        utilizarPoliticasGuardadas 
+          ? "Se ejecutaron correctamente los cambios incrementales"
+          : useMontecarlo
+            ? "Se ejecutaron Políticas + Montecarlo (solo slow movers)."
           : "Se ejecutó correctamente la clasificación y las políticas"
       );
     } catch (error) {
       setLoaded(true);
       console.error("Error en la ejecución:", error);
       alert("Error en la ejecución: " + error.message);
+    }
+  };
+
+  // Función para reestablecer políticas - SIN VALIDACIÓN DE PERMISOS
+  const handleReestablecerPoliticas = async () => {
+    console.log("=== INICIANDO REESTABLECER POLÍTICAS ===");
+    console.log("Usuario actual:", user?.AppUser);
+    
+    // Agregar confirmación antes de ejecutar
+    const confirmacion = window.confirm(
+      "¿Estás seguro de que deseas reestablecer las políticas? Esta acción no se puede deshacer."
+    );
+    
+    if (!confirmacion) {
+      console.log("Usuario canceló la operación");
+      return;
+    }
+
+    setLoaded(false);
+
+    try {
+      console.log("Enviando solicitud para reestablecer políticas...");
+      console.log("Datos a enviar:", {
+        appUser: user.AppUser,
+        appPass: user.password,
+        DBName: user.dbName,
+      });
+
+      const response = await fetch("http://localhost:3000/deleteColeccionesUbisYPolitica", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          appUser: user.AppUser,
+          appPass: user.password,
+          DBName: user.dbName,
+        }),
+      });
+
+      console.log("Respuesta del servidor:", response.status, response.statusText);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error del servidor:", errorText);
+        throw new Error(`Error del servidor: ${errorText}`);
+      }
+
+      const result = await response.json();
+      console.log("Resultado exitoso:", result);
+      
+      setLoaded(true);
+      alert("Se reestablecieron las políticas correctamente");
+    } catch (error) {
+      setLoaded(true);
+      console.error("Error al reestablecer políticas:", error);
+      alert("Error al reestablecer políticas: " + error.message);
     }
   };
 
@@ -521,6 +606,20 @@ function PolParametros() {
       {monteCarloLoading && <Spinner />}
       {!loaded && <Spinner />}
       <h1 className="titulo">Parametrización</h1>
+      
+      {/* Selector de Utilizar Políticas Guardadas */}
+      <div className="politicas-guardadas-selector">
+        <label htmlFor="utilizarPoliticasGuardadas">
+          <input
+            type="checkbox"
+            id="utilizarPoliticasGuardadas"
+            checked={utilizarPoliticasGuardadas}
+            onChange={handleUtilizarPoliticasGuardadasChange}
+          />
+          <span className="checkbox-text">Utilizar Políticas Guardadas</span>
+        </label>
+      </div>
+
       <div className="historicalHorizonInput">
         <label htmlFor="historicalHorizon">Horizonte del Histórico: </label>
         <input
@@ -562,10 +661,8 @@ function PolParametros() {
         <MyButton
           onClick={handleExecuteClassificationAndPolicies}
           data-permission="Politica-parametros ejecutar politica"
-          texto={"Ejecutar Clasificación y Políticas"}
-          disabled={
-            !validatePermission("Politica-parametros ejecutar politica")
-          }
+          texto={utilizarPoliticasGuardadas ? "Ejecutar Políticas de Inventario" : "Ejecutar Clasificación y Políticas"}
+          disabled={!validatePermission("Politica-parametros ejecutar politica")}
           mL=".5vw"
           height="6vh"
           mT="1vh"
@@ -590,6 +687,33 @@ function PolParametros() {
           </span>
         </div>
       </div>
+
+      {/* Botón Reestablecer Políticas - SIN VALIDACIÓN DE PERMISOS */}
+<div className="reestablecer-container" style={{ marginTop: '20px', textAlign: 'center' }}>
+  <button
+    onClick={handleReestablecerPoliticas}
+    style={{
+      backgroundColor: '#66b2ff', // celestito base
+      color: 'white',
+      border: 'none',
+      padding: '12px 24px',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      fontSize: '14px',
+      fontWeight: 'bold',
+      transition: 'all 0.3s ease'
+    }}
+    onMouseOver={(e) => {
+      e.target.style.backgroundColor = '#99ccff'; // más claro al hacer hover
+    }}
+    onMouseOut={(e) => {
+      e.target.style.backgroundColor = '#66b2ff'; // vuelve al celeste base
+    }}
+  >
+    REESTABLECER POLITICAS
+  </button>
+</div>
+
 
       <div className="sub-header">
         <h2 className="sub-titulo">Matriz de Clasificación ABC</h2>

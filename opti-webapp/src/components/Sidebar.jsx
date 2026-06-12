@@ -12,6 +12,7 @@ const Sidebar = () => {
           <li><NavLink to="/politicas-de-inventario/informacion">Información de Políticas</NavLink></li>
           <li><NavLink to="/politicas-de-inventario/parametros">Parámetros de Políticas</NavLink></li>
           <li><NavLink to="/politicas-de-inventario/resultados">Resultados de Políticas</NavLink></li>
+
           <li><NavLink to="/plan-de-reposicion/archivos">Archivos de Reposición</NavLink></li>
           <li><NavLink to="/plan-de-reposicion/resultados">Resultados de Reposición</NavLink></li>
           <li><NavLink to="/plan-de-reposicion/dashboard">Dashboard Power BI</NavLink></li> {/* Nuevo enlace */}
